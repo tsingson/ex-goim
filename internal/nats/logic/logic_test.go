@@ -1,21 +1,22 @@
 package logic
 
+import (
+	"context"
+	"os"
+	"testing"
+
+	"github.com/tsingson/goim/internal/nats/logic/conf"
+)
+
 var (
 	lg *NatsLogic
 )
 
-//
-// func TestMain(m *testing.M) {
-// 	if err := flag.Set("conf", "../../cmd/logic/logic-example.toml"); err != nil {
-// 		panic(err)
-// 	}
-// 	flag.Parse()
-// 	if err := conf.Init(); err != nil {
-// 		panic(err)
-// 	}
-// 	lg = New(conf.Conf)
-// 	if err := lg.Ping(context.TODO()); err != nil {
-// 		panic(err)
-// 	}
-// 	os.Exit(m.Run())
-// }
+func TestMain(m *testing.M) {
+
+	lg = New(conf.Conf)
+	if err := lg.Ping(context.TODO()); err != nil {
+		panic(err)
+	}
+	os.Exit(m.Run())
+}

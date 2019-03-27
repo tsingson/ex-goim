@@ -6,7 +6,7 @@ import (
 
 	"github.com/tsingson/discovery/naming"
 
-	"github.com/tsingson/goim/internal/logic/model"
+	"github.com/tsingson/goim/internal/nats/logic/model"
 )
 
 func TestWeightedNode(t *testing.T) {

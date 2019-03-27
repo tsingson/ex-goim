@@ -129,13 +129,12 @@ func newLiftClient(cfg *conf.JobConfig) (liftbridge.Client, error) {
 
 // Subscribe  get message
 func (d *NatsJob) Subscribe(channel, channelID string) error {
-	fmt.Println("--------------------------> be call to subscribe ", time.Now())
 	ctx := context.Background()
 	if err := d.consumer.Subscribe(ctx, channel, channelID, func(msg *liftprpc.Message, err error) {
 		if err != nil {
 			return
 		}
-		fmt.Println(msg.Offset, "------------> ", string(msg.Value))
+		log.Info(msg.Offset, "--> ", string(msg.Value))
 	}); err != nil {
 		return err
 	}
@@ -146,13 +145,12 @@ func (d *NatsJob) Subscribe(channel, channelID string) error {
 
 // Consume messages, watch signals
 func (j *NatsJob) Consume() {
-	fmt.Println("--------------------------> be call to subscribe ", time.Now())
 	ctx := context.Background()
 	if err := j.consumer.Subscribe(ctx, j.c.Nats.Channel, j.c.Nats.ChannelID, func(msg *liftprpc.Message, err error) {
 		if err != nil {
 			return
 		}
-		fmt.Println(msg.Offset, "------------> ", string(msg.Value))
+		log.Info(msg.Offset, "------------> ", string(msg.Value))
 
 		// process push message
 		pushMsg := new(pb.PushMsg)
@@ -178,7 +176,6 @@ func (j *NatsJob) Consume() {
 // Close close resounces.
 func (j *NatsJob) Close() error {
 	if j.consumer != nil {
-
 		return j.consumer.Close()
 	}
 	return nil
