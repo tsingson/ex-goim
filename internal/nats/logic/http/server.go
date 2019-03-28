@@ -1,7 +1,7 @@
 package http
 
 import (
-	"github.com/tsingson/goim/internal/natslogic"
+	"github.com/tsingson/goim/internal/nats/logic"
 
 	"github.com/tsingson/goim/internal/nats/logic/conf"
 
@@ -11,11 +11,11 @@ import (
 // Server is http server.
 type Server struct {
 	engine *gin.Engine
-	logic  *natslogic.NatsLogic
+	logic  *logic.NatsLogic
 }
 
 // New new a http server.
-func New(c *conf.HTTPServer, l *natslogic.NatsLogic) *Server {
+func New(c *conf.HTTPServer, l *logic.NatsLogic) *Server {
 	engine := gin.New()
 	engine.Use(loggerHandler, recoverHandler)
 	go func() {

@@ -18,7 +18,6 @@ import (
 	"github.com/tsingson/goim/internal/nats/logic/grpc"
 	"github.com/tsingson/goim/internal/nats/logic/http"
 
-	"github.com/tsingson/goim/internal/nats/logic"
 	"github.com/tsingson/goim/internal/nats/logic/conf"
 )
 

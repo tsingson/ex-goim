@@ -7,18 +7,17 @@ import (
 	"github.com/tsingson/discovery/naming"
 )
 
-func Register(cfg *naming.Config, appid string , addrs []string ) {
+func Register(cfg *naming.Config, appid string, addrs []string) {
 
 	// dis := naming.New(cfg.Discovery)
 	// resolver.Register(dis)
-
 
 	// conf := &naming.Config{
 	// 	Nodes: []string{"127.0.0.1:7171"}, // NOTE: 配置种子节点(1个或多个)，client内部可根据/discovery/nodes节点获取全部node(方便后面增减节点)
 	// 	Zone:  "sh1",
 	// 	Env:   "test",
 	// }
-	dis := naming.New(cfg )
+	dis := naming.New(cfg)
 	ins := &naming.Instance{
 		Zone:  cfg.Zone,
 		Env:   cfg.Env,
@@ -31,6 +30,5 @@ func Register(cfg *naming.Config, appid string , addrs []string ) {
 	cancel, _ := dis.Register(ins)
 	defer cancel() // NOTE: 注意一般在进程退出的时候执行，会调用discovery的cancel接口，使实例从discovery移除
 	fmt.Println("register")
-
 
 }

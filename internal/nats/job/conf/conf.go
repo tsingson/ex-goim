@@ -15,7 +15,7 @@ var (
 	deployEnv string
 	host      string
 
-	 Conf *JobConfig
+	Conf *JobConfig
 )
 
 // func init() {

@@ -12,9 +12,8 @@ import (
 	"github.com/liftbridge-io/go-liftbridge"
 	"github.com/nats-io/go-nats"
 
-	"github.com/tsingson/goim/internal/nats/logic/conf"
-
 	pb "github.com/tsingson/goim/api/logic/grpc"
+	"github.com/tsingson/goim/internal/nats/logic/conf"
 )
 
 // NatsDao dao.

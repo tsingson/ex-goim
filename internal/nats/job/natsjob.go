@@ -55,6 +55,7 @@ func New(cfg *conf.JobConfig) *NatsJob {
 	// j.WatchComet(cfg.Discovery)
 	return j
 }
+
 // WatchComet watch commet active
 func (j *NatsJob) WatchComet(c *naming.Config) {
 	dis := naming.New(c)

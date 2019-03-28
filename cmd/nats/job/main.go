@@ -11,8 +11,6 @@ import (
 
 	"github.com/tsingson/goim/internal/nats/job/conf"
 
-	"github.com/tsingson/goim/internal/nats/job"
-
 	resolver "github.com/tsingson/discovery/naming/grpc"
 	log "github.com/tsingson/zaplogger"
 )

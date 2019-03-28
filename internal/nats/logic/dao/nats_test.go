@@ -19,5 +19,5 @@ func TestMain(m *testing.M) {
 }
 
 func TestPushMsg(t *testing.T) {
-      d.PushMsg(context.TODO(), 122, "room111", []string {"test", "tttt"}, []byte("test"))
+	d.PushMsg(context.TODO(), 122, "room111", []string{"test", "tttt"}, []byte("test"))
 }
