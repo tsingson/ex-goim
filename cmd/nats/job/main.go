@@ -1,14 +1,13 @@
 package main
 
 import (
-	"flag"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/tsingson/discovery/naming"
-	"github.com/tsingson/fastx/utils"
 
+	"github.com/tsingson/goim/internal/nats/job"
 	"github.com/tsingson/goim/internal/nats/job/conf"
 
 	resolver "github.com/tsingson/discovery/naming/grpc"
@@ -22,15 +21,16 @@ var (
 
 func main() {
 
-	path, _ := utils.GetCurrentExecDir()
-	confPath := path + "/job-config.toml"
-	flag.Parse()
+	// path, _ := utils.GetCurrentExecDir()
+	// confPath := path + "/job-config.toml"
+	// flag.Parse()
+	//
+	// cfg, err := conf.Init(confPath)
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	cfg, err := conf.Init(confPath)
-	if err != nil {
-		panic(err)
-	}
-
+	cfg = conf.Default()
 	env := &conf.Env{
 		Region:    "test",
 		Zone:      "test",
@@ -44,7 +44,7 @@ func main() {
 	dis := naming.New(cfg.Discovery)
 	resolver.Register(dis)
 	// job
-	j := natsjob.New(cfg)
+	j := job.New(cfg)
 	go j.Consume()
 	// signal
 	c := make(chan os.Signal, 1)

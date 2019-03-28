@@ -16,7 +16,7 @@ import (
 	"github.com/tsingson/goim/internal/nats/logic/conf"
 )
 
-// NatsDao dao.
+// NatsDao dao for nats
 type NatsDao struct {
 	c           *conf.NatsConfig
 	natsClient  *nats.Conn
@@ -24,7 +24,7 @@ type NatsDao struct {
 	redis       *redis.Pool
 	redisExpire int32
 }
-
+// NatsConfig configuration for nats / liftbridge queue
 type NatsConfig struct {
 	Channel   string
 	ChannelID string

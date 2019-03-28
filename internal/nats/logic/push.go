@@ -3,9 +3,9 @@ package logic
 import (
 	"context"
 
-	"github.com/tsingson/goim/internal/nats/logic/model"
-
 	log "github.com/tsingson/zaplogger"
+
+	"github.com/tsingson/goim/internal/nats/model"
 )
 
 // PushKeys push a message by keys.

@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/tsingson/goim/internal/nats/logic/model"
+	"github.com/tsingson/goim/internal/nats/model"
 )
 
 func TestDaopingRedis(t *testing.T) {

@@ -22,7 +22,7 @@ import (
 	"github.com/tsingson/goim/internal/nats/comet"
 	"github.com/tsingson/goim/internal/nats/comet/conf"
 	"github.com/tsingson/goim/internal/nats/comet/grpc"
-	md "github.com/tsingson/goim/internal/nats/logic/model"
+	md "github.com/tsingson/goim/internal/nats/model"
 	"github.com/tsingson/goim/pkg/ip"
 )
 

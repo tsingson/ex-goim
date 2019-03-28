@@ -11,7 +11,7 @@ import (
 	"github.com/tsingson/discovery/naming"
 	log "github.com/tsingson/zaplogger"
 
-	"github.com/tsingson/goim/internal/nats/logic/model"
+	"github.com/tsingson/goim/internal/nats/model"
 )
 
 const (

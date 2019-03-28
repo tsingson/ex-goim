@@ -6,9 +6,9 @@ import (
 
 	"github.com/tsingson/discovery/naming"
 
-	"github.com/tsingson/goim/internal/nats/logic/model"
-
 	"github.com/stretchr/testify/assert"
+
+	"github.com/tsingson/goim/internal/nats/model"
 )
 
 func TestNodes(t *testing.T) {

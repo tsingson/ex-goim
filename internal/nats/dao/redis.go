@@ -9,7 +9,7 @@ import (
 	"github.com/gomodule/redigo/redis"
 	log "github.com/tsingson/zaplogger"
 
-	"github.com/tsingson/goim/internal/nats/logic/model"
+	"github.com/tsingson/goim/internal/nats/model"
 
 	"github.com/zhenjl/cityhash"
 )

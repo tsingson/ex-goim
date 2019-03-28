@@ -5,9 +5,10 @@ import (
 	"net"
 	"time"
 
-	"github.com/tsingson/goim/internal/natslogic"
+ 
 
 	pb "github.com/tsingson/goim/api/logic/grpc"
+	"github.com/tsingson/goim/internal/nats/logic"
 	"github.com/tsingson/goim/internal/nats/logic/conf"
 
 	"google.golang.org/grpc"
@@ -17,7 +18,7 @@ import (
 )
 
 // New logic grpc server
-func New(c *conf.RPCServer, l *natslogic.NatsLogic) *grpc.Server {
+func New(c *conf.RPCServer, l *logic.NatsLogic) *grpc.Server {
 	keepParams := grpc.KeepaliveParams(keepalive.ServerParameters{
 		MaxConnectionIdle:     time.Duration(c.IdleTimeout),
 		MaxConnectionAgeGrace: time.Duration(c.ForceCloseWait),
@@ -40,7 +41,7 @@ func New(c *conf.RPCServer, l *natslogic.NatsLogic) *grpc.Server {
 }
 
 type server struct {
-	srv *natslogic.NatsLogic
+	srv *logic.NatsLogic
 }
 
 var _ pb.LogicServer = &server{}

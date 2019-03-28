@@ -8,7 +8,7 @@ import (
 	log "github.com/tsingson/zaplogger"
 
 	pb "github.com/tsingson/goim/api/logic/grpc"
-	"github.com/tsingson/goim/internal/nats/logic/model"
+	"github.com/tsingson/goim/internal/nats/model"
 )
 
 // NodesInstances get servers info.

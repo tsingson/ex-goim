@@ -13,7 +13,8 @@ import (
 	"github.com/tsingson/fastx/utils"
 	log "github.com/tsingson/zaplogger"
 
-	"github.com/tsingson/goim/internal/nats/logic/model"
+	"github.com/tsingson/goim/internal/nats/logic"
+	"github.com/tsingson/goim/internal/nats/model"
 
 	"github.com/tsingson/goim/internal/nats/logic/grpc"
 	"github.com/tsingson/goim/internal/nats/logic/http"
@@ -58,7 +59,7 @@ func main() {
 	// dis := naming.New(cfg.Discovery)
 	// resolver.Register(dis)
 	// logic
-	srv := natslogic.New(cfg)
+	srv := logic.New(cfg)
 	httpSrv := http.New(cfg.HTTPServer, srv)
 	rpcSrv := grpc.New(cfg.RPCServer, srv)
 	cancel := register(dis, srv)
@@ -86,7 +87,7 @@ func main() {
 	}
 }
 
-func register(dis *naming.Discovery, srv *natslogic.NatsLogic) context.CancelFunc {
+func register(dis *naming.Discovery, srv *logic.NatsLogic) context.CancelFunc {
 	env := cfg.Env
 	addr := "10.0.0.11" //  ip.InternalIP()
 	// _, port, _ := net.SplitHostPort(cfg.RPCServer.Addr)
