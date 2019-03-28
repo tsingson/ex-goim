@@ -3,6 +3,7 @@ package dao
 import (
 	"context"
 	"os"
+	"strconv"
 	"testing"
 
 	"github.com/tsingson/goim/internal/nats/logic/conf"
@@ -20,4 +21,13 @@ func TestMain(m *testing.M) {
 
 func TestPushMsg(t *testing.T) {
 	d.PushMsg(context.TODO(), 122, "room111", []string{"test", "tttt"}, []byte("test"))
+}
+
+func BenchmarkNatsDao_PushMsg(b *testing.B) {
+	// b.StopTimer()
+	//
+	// b.StartTimer()
+	for n := 0; n < b.N; n++ {
+		d.PushMsg(context.TODO(), 122, "room111", []string{strconv.Itoa(n), "tttt"}, []byte("test"))
+	}
 }

@@ -2,7 +2,6 @@ package dao
 
 import (
 	"context"
-	"fmt"
 	"strconv"
 	"sync"
 	"time"
@@ -11,9 +10,11 @@ import (
 	"github.com/gomodule/redigo/redis"
 	"github.com/liftbridge-io/go-liftbridge"
 	"github.com/nats-io/go-nats"
+	log "github.com/tsingson/zaplogger"
 
 	pb "github.com/tsingson/goim/api/logic/grpc"
 	"github.com/tsingson/goim/internal/nats/logic/conf"
+	"github.com/tsingson/goim/pkg/utils"
 )
 
 // NatsDao dao for nats
@@ -24,6 +25,7 @@ type NatsDao struct {
 	redis       *redis.Pool
 	redisExpire int32
 }
+
 // NatsConfig configuration for nats / liftbridge queue
 type NatsConfig struct {
 	Channel   string
@@ -138,15 +140,44 @@ func newNatsClient(natsAddr, liftAddr, channel, channelID string) (*nats.Conn, e
 }
 
 func (d *NatsDao) publishMessage(channel, ackInbox string, key, value []byte) error {
-	var wg sync.WaitGroup
+	// var wg sync.WaitGroup
+	// wg.Add(1)
+	// sub, err := d.natsClient.Subscribe(ackInbox, func(m *nats.Msg) {
+	// 	ack, err := liftbridge.UnmarshalAck(m.Data)
+	// 	if err != nil {
+	// 		// TODO: handel error write to log
+	// 		return
+	// 	}
+	//
+	// 	log.Info(utils.StrBuilder("ack:", ack.StreamSubject, " stream: ",  ack.StreamName, " offset: ",  strconv.FormatInt(ack.Offset,10), " msg: ",  ack.MsgSubject) )
+	// 	wg.Done()
+	// })
+	// if err != nil {
+	// 	return err
+	// }
+	// defer sub.Unsubscribe()
 
+	m := liftbridge.NewMessage(value, liftbridge.MessageOptions{Key: key, AckInbox: ackInbox})
+
+	if err := d.natsClient.Publish(channel, m); err != nil {
+		return err
+	}
+
+	// wg.Wait()
+	return nil
+}
+
+func (d *NatsDao) publishMessageSync(channel, ackInbox string, key, value []byte) error {
+	var wg sync.WaitGroup
+	wg.Add(1)
 	sub, err := d.natsClient.Subscribe(ackInbox, func(m *nats.Msg) {
 		ack, err := liftbridge.UnmarshalAck(m.Data)
 		if err != nil {
 			// TODO: handel error write to log
 			return
 		}
-		fmt.Println("ack:", ack.StreamSubject, ack.StreamName, ack.Offset, ack.MsgSubject)
+
+		log.Info(utils.StrBuilder("ack:", ack.StreamSubject, " stream: ", ack.StreamName, " offset: ", strconv.FormatInt(ack.Offset, 10), " msg: ", ack.MsgSubject))
 		wg.Done()
 	})
 	if err != nil {
