@@ -160,6 +160,36 @@ func (j *NatsJob) Consume() {
 			log.Errorf("proto.Unmarshal(%v) error(%v)", msg, err)
 			return
 		}
+		if err := j.push(context.Background(), pushMsg); err != nil {
+			log.Errorf("j.push(%v) error(%v)", pushMsg, err)
+		}
+		log.Infof("consume: %d  %s \t%+v", msg.Offset, msg.Key, pushMsg)
+
+	}); err != nil {
+		return
+	}
+
+	<-ctx.Done()
+	return
+
+}
+
+// ConsumeCheck messages, watch signals
+func (j *NatsJob) ConsumeCheck() {
+	ctx := context.Background()
+	if err := j.consumer.Subscribe(ctx, j.c.Nats.Channel, j.c.Nats.ChannelID, func(msg *liftprpc.Message, err error) {
+		if err != nil {
+			return
+		}
+		log.Info(msg.Offset, "------------> ", string(msg.Value))
+
+		// process push message
+		pushMsg := new(pb.PushMsg)
+
+		if err := proto.Unmarshal(msg.Value, pushMsg); err != nil {
+			log.Errorf("proto.Unmarshal(%v) error(%v)", msg, err)
+			return
+		}
 		// if err := j.push(context.Background(), pushMsg); err != nil {
 		// 	log.Errorf("j.push(%v) error(%v)", pushMsg, err)
 		// }

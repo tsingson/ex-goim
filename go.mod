@@ -18,7 +18,7 @@ require (
 	github.com/hashicorp/raft v1.0.0 // indirect
 	github.com/hashicorp/raft-boltdb v0.0.0-20171010151810-6e5ba93211ea // indirect
 	github.com/liftbridge-io/go-liftbridge v0.0.0-20181231191109-b4f9a50124b8
-	github.com/liftbridge-io/liftbridge v0.0.0-20190103221811-e1ccf1910d28 // indirect
+	github.com/liftbridge-io/liftbridge v0.0.0-20190328045118-ea1a979b5687 // indirect
 	github.com/liftbridge-io/nats-on-a-log v0.0.0-20180718011723-80d0727461af // indirect
 	github.com/natefinch/atomic v0.0.0-20150920032501-a62ce929ffcc // indirect
 	github.com/nats-io/gnatsd v1.4.1 // indirect
@@ -32,9 +32,9 @@ require (
 	github.com/tsingson/discovery v0.1.0
 	github.com/tsingson/fastx v0.3.1
 	github.com/tsingson/uuid v3.2.1+incompatible
-	github.com/tsingson/zaplogger v0.1.2
+	github.com/tsingson/zaplogger v0.1.3
 	github.com/zhenjl/cityhash v0.0.0-20131128155616-cdd6a94144ab
-	golang.org/x/net v0.0.0-20190327091125-710a502c58a2
+	golang.org/x/net v0.0.0-20190327214358-63eda1eb0650
 	golang.org/x/xerrors v0.0.0-20190315151331-d61658bd2e18
 	google.golang.org/grpc v1.19.1
 	launchpad.net/gocheck v0.0.0-20140225173054-000000000087 // indirect

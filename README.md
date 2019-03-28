@@ -7,16 +7,19 @@ goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息�
 
 由于修改比较大, 暂时用新的 repo 来进行代码管理, 以后看情况是否能回归到 Terry-Mao 的主线版本上. 
 
-## 主要变更
+### 主要变更
 
 1. 消息队列修改为 [nats](https://github.com/nats-io/gnatsd) + [liftbridge](https://github.com/liftbridge-io/liftbridge)  注:  [liftbridge](https://github.com/liftbridge-io/liftbridge) 替代了 [nats-streaming-server](https://github.com/nats-io/nats-streaming-server) , 相关信息参见[liftbridge介绍文章](https://bravenewgeek.com/introducing-liftbridge-lightweight-fault-tolerant-message-streams/)
 2. 日志替换为 [uber-go/zap](https://github.com/uber-go/zap), 替换原一是因为 zap 快一点, 二是个人更为熟悉这个日志库 
 
-## TODO
+### TODO
 1. 抽取 discovery / kafka 部分为 interface 
 2. 增加测试
 3. 增加修改变更说明文档
 
+###  goim guide 安装/编译/使用指南(WIP)
+参见 /goim-usage-cn.md ( chinese )
+ 
 
 goim v2.0
 ==============

@@ -17,9 +17,9 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-// func TestNatsJob_Consume(t *testing.T) {
-//  d.Consume()
-// }
+func TestNatsJob_ConsumeCheck(t *testing.T) {
+	d.ConsumeCheck()
+}
 
 // func TestNatsJob_Subscribe(t *testing.T) {
 // 	d.Subscribe(d.c.Nats.Channel, d.c.Nats.ChannelID)
