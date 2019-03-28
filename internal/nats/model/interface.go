@@ -2,8 +2,6 @@ package model
 
 import (
 	"context"
-
-
 )
 
 type Dao interface {

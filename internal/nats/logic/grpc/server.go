@@ -5,8 +5,6 @@ import (
 	"net"
 	"time"
 
- 
-
 	pb "github.com/tsingson/goim/api/logic/grpc"
 	"github.com/tsingson/goim/internal/nats/logic"
 	"github.com/tsingson/goim/internal/nats/logic/conf"

@@ -25,6 +25,6 @@ func TestMain(m *testing.M) {
 // 	d.Subscribe(d.c.Nats.Channel, d.c.Nats.ChannelID)
 // }
 
-func TestNatsJob_WatchComet(t *testing.T) {
-	d.WatchComet(d.c.Discovery)
-}
+// func TestNatsJob_WatchComet(t *testing.T) {
+// 	d.WatchComet(d.c.Discovery)
+// }
