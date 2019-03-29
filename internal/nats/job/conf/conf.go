@@ -8,6 +8,54 @@ import (
 	xtime "github.com/tsingson/goim/pkg/time"
 )
 
+// Config is job config.
+type Config struct {
+	Env       *Env
+	Nats      *Nats
+	Discovery *naming.Config
+	Comet     *Comet
+	Room      *Room
+}
+
+// JobConfig is alias of Config
+type JobConfig = Config
+
+// Room is room config.
+type Room struct {
+	Batch  int
+	Signal xtime.Duration
+	Idle   xtime.Duration
+}
+
+// Comet is comet config.
+type Comet struct {
+	RoutineChan int
+	RoutineSize int
+}
+
+// Kafka is kafka config.
+type Kafka struct {
+	Topic   string
+	Group   string
+	Brokers []string
+}
+
+// Env is env config.
+type Env struct {
+	Region    string
+	Zone      string
+	DeployEnv string
+	Host      string
+}
+
+type Nats struct {
+	Channel   string
+	ChannelID string
+	Group     string
+	NatsAddr  string
+	LiftAddr  string
+}
+
 var (
 	confPath  string
 	region    string
@@ -46,9 +94,9 @@ func init() {
 }
 
 // Default new a config with specified defualt value.
-func Default() *JobConfig {
+func Default() *Config {
 
-	return &JobConfig{
+	return &Config{
 		Nats: &Nats{
 			Channel:   "channel",
 			ChannelID: "channel-stream",
@@ -57,16 +105,16 @@ func Default() *JobConfig {
 			NatsAddr:  "localhost:4222",
 		},
 		Env: &Env{
-			Region:    "test",
-			Zone:      "test",
-			DeployEnv: "test",
+			Region:    "china",
+			Zone:      "gd",
+			DeployEnv: "dev",
 			Host:      "test_server",
 		},
 		Discovery: &naming.Config{
 			Nodes:  []string{"127.0.0.1:7171"},
-			Region: "test",
-			Zone:   "test",
-			Env:    "test",
+			Region: "china",
+			Zone:   "gd",
+			Env:    "dev",
 			Host:   "test_server",
 		},
 		Comet: &Comet{
@@ -79,49 +127,4 @@ func Default() *JobConfig {
 			Idle:   xtime.Duration(time.Minute * 15),
 		},
 	}
-}
-
-// JobConfig is job config.
-type JobConfig struct {
-	Env       *Env
-	Nats      *Nats
-	Discovery *naming.Config
-	Comet     *Comet
-	Room      *Room
-}
-
-// Room is room config.
-type Room struct {
-	Batch  int
-	Signal xtime.Duration
-	Idle   xtime.Duration
-}
-
-// Comet is comet config.
-type Comet struct {
-	RoutineChan int
-	RoutineSize int
-}
-
-// Kafka is kafka config.
-type Kafka struct {
-	Topic   string
-	Group   string
-	Brokers []string
-}
-
-// Env is env config.
-type Env struct {
-	Region    string
-	Zone      string
-	DeployEnv string
-	Host      string
-}
-
-type Nats struct {
-	Channel   string
-	ChannelID string
-	Group     string
-	NatsAddr  string
-	LiftAddr  string
 }

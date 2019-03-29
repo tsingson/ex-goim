@@ -18,7 +18,7 @@ import (
 )
 
 // NatsDao dao for nats
-type NatsDao struct {
+type Dao struct {
 	c           *conf.NatsConfig
 	natsClient  *nats.Conn
 	liftClient  liftbridge.Client
@@ -26,8 +26,10 @@ type NatsDao struct {
 	redisExpire int32
 }
 
+type NatsDao = Dao
+
 // NatsConfig configuration for nats / liftbridge queue
-type NatsConfig struct {
+type Config struct {
 	Channel   string
 	ChannelID string
 	Group     string
@@ -35,15 +37,17 @@ type NatsConfig struct {
 	LiftAddr  string
 }
 
+type NatsConfig = Config
+
 // New new a dao and return.
-func New(c *conf.NatsConfig) *NatsDao {
+func New(c *conf.NatsConfig) *Dao {
 
 	conn, err := newNatsClient(c.Nats.NatsAddr, c.Nats.LiftAddr, c.Nats.Channel, c.Nats.ChannelID)
 	if err != nil {
 		return nil
 	}
 
-	d := &NatsDao{
+	d := &Dao{
 		c:          c,
 		natsClient: conn,
 		redis:      newRedis(),
@@ -54,18 +58,18 @@ func New(c *conf.NatsConfig) *NatsDao {
 }
 
 // Close close the resource.
-func (d *NatsDao) Close() error {
+func (d *Dao) Close() error {
 	d.natsClient.Close()
 	return d.redis.Close()
 }
 
 // Ping dao ping.
-func (d *NatsDao) Ping(c context.Context) error {
+func (d *Dao) Ping(c context.Context) error {
 	return d.pingRedis(c)
 }
 
 // PushMsg push a message to databus.
-func (d *NatsDao) PushMsg(c context.Context, op int32, server string, keys []string, msg []byte) (err error) {
+func (d *Dao) PushMsg(c context.Context, op int32, server string, keys []string, msg []byte) (err error) {
 	pushMsg := &pb.PushMsg{
 		Type:      pb.PushMsg_PUSH,
 		Operation: op,
@@ -83,7 +87,7 @@ func (d *NatsDao) PushMsg(c context.Context, op int32, server string, keys []str
 }
 
 // BroadcastRoomMsg push a message to databus.
-func (d *NatsDao) BroadcastRoomMsg(c context.Context, op int32, room string, msg []byte) (err error) {
+func (d *Dao) BroadcastRoomMsg(c context.Context, op int32, room string, msg []byte) (err error) {
 	pushMsg := &pb.PushMsg{
 		Type:      pb.PushMsg_ROOM,
 		Operation: op,
@@ -100,7 +104,7 @@ func (d *NatsDao) BroadcastRoomMsg(c context.Context, op int32, room string, msg
 }
 
 // BroadcastMsg push a message to databus.
-func (d *NatsDao) BroadcastMsg(c context.Context, op, speed int32, msg []byte) (err error) {
+func (d *Dao) BroadcastMsg(c context.Context, op, speed int32, msg []byte) (err error) {
 	pushMsg := &pb.PushMsg{
 		Type:      pb.PushMsg_BROADCAST,
 		Operation: op,
@@ -139,7 +143,7 @@ func newNatsClient(natsAddr, liftAddr, channel, channelID string) (*nats.Conn, e
 
 }
 
-func (d *NatsDao) publishMessage(channel, ackInbox string, key, value []byte) error {
+func (d *Dao) publishMessage(channel, ackInbox string, key, value []byte) error {
 	// var wg sync.WaitGroup
 	// wg.Add(1)
 	// sub, err := d.natsClient.Subscribe(ackInbox, func(m *nats.Msg) {
@@ -167,7 +171,7 @@ func (d *NatsDao) publishMessage(channel, ackInbox string, key, value []byte) er
 	return nil
 }
 
-func (d *NatsDao) publishMessageSync(channel, ackInbox string, key, value []byte) error {
+func (d *Dao) publishMessageSync(channel, ackInbox string, key, value []byte) error {
 	var wg sync.WaitGroup
 	wg.Add(1)
 	sub, err := d.natsClient.Subscribe(ackInbox, func(m *nats.Msg) {

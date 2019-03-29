@@ -20,11 +20,11 @@ var (
 	offline   bool
 	debug     bool
 	// Conf  configuration for comet
-	Conf *CometConfig
+	Conf *Config
 )
 
 // CometConfig is comet config.
-type CometConfig struct {
+type Config struct {
 	Debug     bool
 	Env       *Env
 	Discovery *naming.Config
@@ -36,6 +36,8 @@ type CometConfig struct {
 	RPCServer *RPCServer
 	Whitelist *Whitelist
 }
+
+type CometConfig = Config
 
 // Env is env config.
 type Env struct {
@@ -133,7 +135,7 @@ type Whitelist struct {
 // }
 
 // Init init config.
-func Init(path string) (cfg *CometConfig, err error) {
+func Init(path string) (cfg *Config, err error) {
 	cfg = Default()
 	if len(path) > 0 {
 		_, err = toml.DecodeFile(path, &cfg)
@@ -146,8 +148,8 @@ func Init(path string) (cfg *CometConfig, err error) {
 }
 
 // Default new a config with specified defualt value.
-func Default() *CometConfig {
-	return &CometConfig{
+func Default() *Config {
+	return &Config{
 		Debug: true,
 		Env: &Env{
 			Region:    "test",
