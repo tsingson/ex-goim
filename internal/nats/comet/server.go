@@ -64,19 +64,19 @@ type Server struct {
 }
 
 // NewServer returns a new Server.
-func NewServer(c *conf.CometConfig) *Server {
+func NewServer(cfg *conf.CometConfig) *Server {
 	s := &Server{
-		c:         c,
-		round:     NewRound(c),
-		rpcClient: newLogicClient(c.RPCClient),
+		c:         cfg,
+		round:     NewRound(cfg),
+		rpcClient: newLogicClient(cfg.RPCClient),
 	}
 	// init bucket
-	s.buckets = make([]*Bucket, c.Bucket.Size)
-	s.bucketIdx = uint32(c.Bucket.Size)
-	for i := 0; i < c.Bucket.Size; i++ {
-		s.buckets[i] = NewBucket(c.Bucket)
+	s.buckets = make([]*Bucket, cfg.Bucket.Size)
+	s.bucketIdx = uint32(cfg.Bucket.Size)
+	for i := 0; i < cfg.Bucket.Size; i++ {
+		s.buckets[i] = NewBucket(cfg.Bucket)
 	}
-	s.serverID = c.Env.Host
+	s.serverID = cfg.Env.Host
 	go s.onlineproc()
 	return s
 }
