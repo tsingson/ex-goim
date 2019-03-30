@@ -32,10 +32,10 @@ func main() {
 
 	cfg = conf.Default()
 	env := &conf.Env{
-		Region:    "test",
-		Zone:      "test",
-		DeployEnv: "test",
-		Host:      "localhost",
+		Region:    "china",
+		Zone:      "gd",
+		DeployEnv: "dev",
+		Host:      "job",
 	}
 	cfg.Env = env
 

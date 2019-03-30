@@ -20,7 +20,7 @@ const (
 
 // NatsLogic struct
 type NatsLogic struct {
-	c   *conf.NatsConfig
+	c   *conf.LogicConfig
 	dis *naming.Discovery
 	dao *dao.NatsDao
 	// online
@@ -34,7 +34,7 @@ type NatsLogic struct {
 }
 
 // New init
-func New(c *conf.NatsConfig) (l *NatsLogic) {
+func New(c *conf.LogicConfig) (l *NatsLogic) {
 	l = &NatsLogic{
 		c:            c,
 		dao:          dao.New(c),

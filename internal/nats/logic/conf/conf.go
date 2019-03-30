@@ -5,50 +5,27 @@ import (
 
 	"github.com/BurntSushi/toml"
 	"github.com/tsingson/discovery/naming"
+	"golang.org/x/xerrors"
 
 	xtime "github.com/tsingson/goim/pkg/time"
 )
 
-var (
-	confPath  string
-	region    string
-	zone      string
-	deployEnv string
-	host      string
-	weight    int64
-
-	// Conf config
-	Conf *NatsConfig
-)
-
-func init() {
-	Conf = Default()
-	// 	var (
-	// 		defHost, _   = os.Hostname()
-	// 		defWeight, _ = strconv.ParseInt(os.Getenv("WEIGHT"), 10, 32)
-	// 	)
-	// 	flag.StringVar(&confPath, "conf", "logic-example.toml", "default config path")
-	// 	flag.StringVar(&region, "region", os.Getenv("REGION"), "avaliable region. or use REGION env variable, value: sh etc.")
-	// 	flag.StringVar(&zone, "zone", os.Getenv("ZONE"), "avaliable zone. or use ZONE env variable, value: sh001/sh002 etc.")
-	// 	flag.StringVar(&deployEnv, "deploy.env", os.Getenv("DEPLOY_ENV"), "deploy env. or use DEPLOY_ENV env variable, value: dev/fat1/uat/pre/prod etc.")
-	// 	flag.StringVar(&host, "host", defHost, "machine hostname. or use default machine hostname.")
-	// 	flag.Int64Var(&weight, "weight", defWeight, "load balancing weight, or use WEIGHT env variable, value: 10 etc.")
-}
-
-// NatsConfig config.
-type NatsConfig struct {
+// LogicConfig config.
+type Config struct {
 	Env        *Env
 	Discovery  *naming.Config
 	RPCClient  *RPCClient
 	RPCServer  *RPCServer
 	HTTPServer *HTTPServer
-	Kafka      *Kafka
-	Nats       *Nats
-	Redis      *Redis
-	Node       *Node
-	Backoff    *Backoff
-	Regions    map[string][]string
+	// Kafka      *Kafka
+	Nats    *Nats
+	Redis   *Redis
+	Node    *Node
+	Backoff *Backoff
+	Regions map[string][]string
 }
+
+type LogicConfig = Config
 
 // Env is env config.
 type Env struct {
@@ -107,6 +84,7 @@ type Nats struct {
 	ChannelID string //  "channel-stream"
 	AckInbox  string // "acks"
 }
+type NatsConfig = Nats
 
 // RPCClient is RPC client config.
 type RPCClient struct {
@@ -134,8 +112,34 @@ type HTTPServer struct {
 	WriteTimeout xtime.Duration
 }
 
+var (
+	confPath  string
+	region    string
+	zone      string
+	deployEnv string
+	host      string
+	weight    int64
+
+	// Conf config
+	Conf *Config
+)
+
+func init() {
+	Conf = Default()
+	// 	var (
+	// 		defHost, _   = os.Hostname()
+	// 		defWeight, _ = strconv.ParseInt(os.Getenv("WEIGHT"), 10, 32)
+	// 	)
+	// 	flag.StringVar(&confPath, "conf", "logic-example.toml", "default config path")
+	// 	flag.StringVar(&region, "region", os.Getenv("REGION"), "avaliable region. or use REGION env variable, value: sh etc.")
+	// 	flag.StringVar(&zone, "zone", os.Getenv("ZONE"), "avaliable zone. or use ZONE env variable, value: sh001/sh002 etc.")
+	// 	flag.StringVar(&deployEnv, "deploy.env", os.Getenv("DEPLOY_ENV"), "deploy env. or use DEPLOY_ENV env variable, value: dev/fat1/uat/pre/prod etc.")
+	// 	flag.StringVar(&host, "host", defHost, "machine hostname. or use default machine hostname.")
+	// 	flag.Int64Var(&weight, "weight", defWeight, "load balancing weight, or use WEIGHT env variable, value: 10 etc.")
+}
+
 // Init init config.
-func Init(path string) (cfg *NatsConfig, err error) {
+func Init(path string) (cfg *Config, err error) {
 	Conf = Default()
 	if len(path) > 0 {
 		_, err = toml.DecodeFile(path, &Conf)
@@ -145,22 +149,38 @@ func Init(path string) (cfg *NatsConfig, err error) {
 	return Conf, nil
 }
 
+// Init init config.
+func LoadToml(path string) (cfg *Config, err error) {
+	Conf = Default()
+	if len(path) == 0 {
+		return Conf, xerrors.New("no configuration")
+	}
+//
+	_, err = toml.DecodeFile(path, &Conf)
+
+	return Conf, nil
+}
+
+
+
+
+
 // Default new a config with specified defualt value.
-func Default() *NatsConfig {
-	cfg := &NatsConfig{
+func Default() *Config {
+	cfg := &Config{
 		Env: &Env{
-			Region:    "test",
-			Zone:      "test",
-			DeployEnv: "test",
-			Host:      "test_server",
+			Region:    "china",
+			Zone:      "gd",
+			DeployEnv: "dev",
+			Host:      "logic",
 			Weight:    100,
 		},
 		Discovery: &naming.Config{
 			Nodes:  []string{"127.0.0.1:7171"},
-			Region: "test",
-			Zone:   "test",
-			Env:    "test",
-			Host:   "test_server",
+			Region: "china",
+			Zone:   "gd",
+			Env:    "dev",
+			Host:   "discovery",
 		},
 		Nats: &Nats{
 			NatsAddr:  "nats://localhost:4222",

@@ -143,7 +143,6 @@ func Init(path string) (cfg *Config, err error) {
 		_, err = toml.DecodeFile(confPath, &cfg)
 	}
 	Conf = cfg
-
 	return
 }
 
@@ -152,20 +151,20 @@ func Default() *Config {
 	return &Config{
 		Debug: true,
 		Env: &Env{
-			Region:    "test",
-			Zone:      "test",
-			DeployEnv: "test",
-			Host:      "test_server",
+			Region:    "china",
+			Zone:      "gd",
+			DeployEnv: "dev",
+			Host:      "comet",
 			Weight:    100,
 			Addrs:     []string{"127.0.0.1:3101"},
 			Offline:   false,
 		},
 		Discovery: &naming.Config{
 			Nodes:  []string{"127.0.0.1:7171"},
-			Region: "test",
-			Zone:   "test",
-			Env:    "test",
-			Host:   "test_server",
+			Region: "china",
+			Zone:   "gd",
+			Env:    "dev",
+			Host:   "discovery",
 		},
 		RPCClient: &RPCClient{
 			Dial:    xtime.Duration(time.Second),

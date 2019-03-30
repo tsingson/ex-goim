@@ -19,7 +19,7 @@ import (
 
 // NatsDao dao for nats
 type Dao struct {
-	c           *conf.NatsConfig
+	c           *conf.LogicConfig
 	natsClient  *nats.Conn
 	liftClient  liftbridge.Client
 	redis       *redis.Pool
@@ -28,7 +28,7 @@ type Dao struct {
 
 type NatsDao = Dao
 
-// NatsConfig configuration for nats / liftbridge queue
+// LogicConfig configuration for nats / liftbridge queue
 type Config struct {
 	Channel   string
 	ChannelID string
@@ -40,7 +40,7 @@ type Config struct {
 type NatsConfig = Config
 
 // New new a dao and return.
-func New(c *conf.NatsConfig) *Dao {
+func New(c *conf.LogicConfig) *Dao {
 
 	conn, err := newNatsClient(c.Nats.NatsAddr, c.Nats.LiftAddr, c.Nats.Channel, c.Nats.ChannelID)
 	if err != nil {

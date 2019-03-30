@@ -7,11 +7,13 @@ require (
 	github.com/Workiva/go-datastructures v1.0.50 // indirect
 	github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da // indirect
 	github.com/boltdb/bolt v1.3.1 // indirect
+	github.com/bsm/sarama-cluster v2.1.15+incompatible
 	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/gin-gonic/gin v1.3.0
 	github.com/gogo/protobuf v1.2.1
 	github.com/golang/protobuf v1.3.1
 	github.com/gomodule/redigo v2.0.0+incompatible
+	github.com/google/uuid v1.1.1
 	github.com/hako/durafmt v0.0.0-20180520121703-7b7ae1e72ead // indirect
 	github.com/hashicorp/go-immutable-radix v1.0.0 // indirect
 	github.com/hashicorp/go-msgpack v0.5.3 // indirect
@@ -27,6 +29,7 @@ require (
 	github.com/nats-io/nuid v1.0.0 // indirect
 	github.com/nsip/gommap v0.0.0-20181229045655-f7881c3a959f // indirect
 	github.com/pascaldekloe/goe v0.1.0 // indirect
+	github.com/sanity-io/litter v1.1.0
 	github.com/sirupsen/logrus v1.4.0 // indirect
 	github.com/stretchr/testify v1.3.0
 	github.com/tsingson/discovery v0.1.0

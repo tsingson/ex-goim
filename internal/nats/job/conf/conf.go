@@ -56,6 +56,8 @@ type Nats struct {
 	LiftAddr  string
 }
 
+type NatsConfig = Nats
+
 var (
 	confPath  string
 	region    string
@@ -108,14 +110,14 @@ func Default() *Config {
 			Region:    "china",
 			Zone:      "gd",
 			DeployEnv: "dev",
-			Host:      "test_server",
+			Host:      "job",
 		},
 		Discovery: &naming.Config{
 			Nodes:  []string{"127.0.0.1:7171"},
 			Region: "china",
 			Zone:   "gd",
 			Env:    "dev",
-			Host:   "test_server",
+			Host:   "discovery",
 		},
 		Comet: &Comet{
 			RoutineChan: 1024,

@@ -48,10 +48,10 @@ func main() {
 	}
 
 	cfg.Env = &conf.Env{
-		Region:    "test",
-		Zone:      "test",
-		DeployEnv: "test",
-		Host:      "test_server",
+		Region:    "china",
+		Zone:      "gd",
+		DeployEnv: "dev",
+		Host:      "comet",
 	}
 
 	rand.Seed(time.Now().UTC().UnixNano())
@@ -64,9 +64,9 @@ func main() {
 	resolver.Register(dis)
 	// new comet server
 	srv := comet.NewServer(cfg)
-	// if err := comet.InitWhitelist(cfg.Whitelist); err != nil {
-	// 	panic(err)
-	// }
+	if err := comet.InitWhitelist(cfg.Whitelist); err != nil {
+		panic(err)
+	}
 	if err := comet.InitTCP(srv, cfg.TCP.Bind, runtime.NumCPU()); err != nil {
 		panic(err)
 	}

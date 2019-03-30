@@ -2,12 +2,13 @@ package main
 
 import (
 	"context"
-	"flag"
+	"net"
 	"os"
 	"os/signal"
 	"strconv"
 	"syscall"
 
+	"github.com/sanity-io/litter"
 	"github.com/tsingson/discovery/naming"
 	resolver "github.com/tsingson/discovery/naming/grpc"
 	"github.com/tsingson/fastx/utils"
@@ -27,37 +28,40 @@ const (
 	appid = "goim.logic"
 )
 
-var cfg *conf.NatsConfig
+var cfg *conf.LogicConfig
 
 func main() {
-
 	path, _ := utils.GetCurrentExecDir()
 	confPath := path + "/logic-config.toml"
 
-	flag.Parse()
 	var err error
-	cfg, err = conf.Init(confPath)
+	cfg, err = conf.LoadToml(confPath)
 
 	if err != nil {
 		panic(err)
 	}
 
-	env := &conf.Env{
-		Region:    "test",
-		Zone:      "test",
-		DeployEnv: "test",
-		Host:      "localhost",
+	litter.Dump( cfg )
+
+	{
+		// env := &conf.Env{
+		// 	Region:    "china",
+		// 	Zone:      "gd",
+		// 	DeployEnv: "sz",
+		// 	Host:      "logic",
+		// }
+		// cfg.Env = env
 	}
-	cfg.Env = env
 
-	// log.Infof("goim-logic [version: %s env: %+v] start", ver, cfg.Env)
-	// grpc register naming
-	dis := naming.New(cfg.Discovery)
-	resolver.Register(dis)
+	var dis *naming.Discovery
 
-	// grpc register naming
-	// dis := naming.New(cfg.Discovery)
-	// resolver.Register(dis)
+	{
+		log.Infof("goim-logic [version: %s env: %+v] start", ver, cfg.Env)
+		// grpc register naming
+		dis = naming.New(cfg.Discovery)
+		resolver.Register(dis)
+	}
+
 	// logic
 	srv := logic.New(cfg)
 	httpSrv := http.New(cfg.HTTPServer, srv)
@@ -87,11 +91,11 @@ func main() {
 	}
 }
 
-func register(dis *naming.Discovery, srv *logic.NatsLogic) context.CancelFunc {
+func register(dis *naming.Discovery, srv *logic.Logic) context.CancelFunc {
 	env := cfg.Env
-	addr := "10.0.0.11" //  ip.InternalIP()
-	// _, port, _ := net.SplitHostPort(cfg.RPCServer.Addr)
-	port := "3119"
+	addr := "127.0.0.1" //  ip.InternalIP()
+	_, port, _ := net.SplitHostPort(cfg.RPCServer.Addr)
+	// port := "3119"
 	ins := &naming.Instance{
 		Region:   env.Region,
 		Zone:     env.Zone,
