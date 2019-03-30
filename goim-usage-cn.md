@@ -69,9 +69,7 @@ discoveryd
 克隆本项目 repo 
 ```
 $ git clone https://github.com/tsingson/goim
-cd goim/cmd/nats
-go install ./...
-
+cd goim
 ```
 
 
@@ -89,6 +87,25 @@ $ cd $GOPATH/bin
 ./logic
 ./job 
 ```
+
+
+### Build
+```
+    make build
+```
+
+### Run
+```
+    make run
+    make stop
+
+    // or
+	nohup ./target/logic   2>&1 > target/logic.log &
+	nohup ./target/comet   2>&1 > target/comet.log &
+	nohup ./target/job   2>&1 > target/job.log &
+
+```
+
 
 
 
