@@ -11,6 +11,7 @@ goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息�
 
 1. 消息队列修改为 [nats](https://github.com/nats-io/gnatsd) + [liftbridge](https://github.com/liftbridge-io/liftbridge)  注:  [liftbridge](https://github.com/liftbridge-io/liftbridge) 替代了 [nats-streaming-server](https://github.com/nats-io/nats-streaming-server) , 相关信息参见[liftbridge介绍文章](https://bravenewgeek.com/introducing-liftbridge-lightweight-fault-tolerant-message-streams/)
 2. 日志替换为 [uber-go/zap](https://github.com/uber-go/zap), 替换原一是因为 zap 快一点, 二是个人更为熟悉这个日志库 
+3. 修改了三个应用程序的启动方式, 去除了所有启动参数, 改为读取指定的配置文件 ( 为将来实现 daemon 化而准备) 
 
 ### TODO
 1. [x] 抽取 discovery / kafka 部分为 interface 
