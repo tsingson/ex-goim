@@ -13,7 +13,7 @@ var (
 )
 
 // OnlineTop get the top online.
-func (l *NatsLogic) OnlineTop(c context.Context, typ string, n int) (tops []*model.Top, err error) {
+func (l *Logic) OnlineTop(c context.Context, typ string, n int) (tops []*model.Top, err error) {
 	for key, cnt := range l.roomCount {
 		if strings.HasPrefix(key, typ) {
 			_, roomID, err := model.DecodeRoomKey(key)
@@ -40,7 +40,7 @@ func (l *NatsLogic) OnlineTop(c context.Context, typ string, n int) (tops []*mod
 }
 
 // OnlineRoom get rooms online.
-func (l *NatsLogic) OnlineRoom(c context.Context, typ string, rooms []string) (res map[string]int32, err error) {
+func (l *Logic) OnlineRoom(c context.Context, typ string, rooms []string) (res map[string]int32, err error) {
 	res = make(map[string]int32, len(rooms))
 	for _, room := range rooms {
 		res[room] = l.roomCount[model.EncodeRoomKey(typ, room)]
@@ -49,6 +49,6 @@ func (l *NatsLogic) OnlineRoom(c context.Context, typ string, rooms []string) (r
 }
 
 // OnlineTotal get all online.
-func (l *NatsLogic) OnlineTotal(c context.Context) (int64, int64) {
+func (l *Logic) OnlineTotal(c context.Context) (int64, int64) {
 	return l.totalIPs, l.totalConns
 }

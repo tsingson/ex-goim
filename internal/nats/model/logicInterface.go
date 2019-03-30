@@ -1,4 +1,4 @@
-package logic
+package model
 
 import (
 	"context"
@@ -6,12 +6,11 @@ import (
 	"github.com/tsingson/discovery/naming"
 
 	"github.com/tsingson/goim/api/comet/grpc"
-	"github.com/tsingson/goim/internal/nats/model"
-
 	pb "github.com/tsingson/goim/api/logic/grpc"
 )
 
-type Logic interface {
+// Action  interface for logic
+type LogicProcess interface {
 	Connect(c context.Context, server, cookie string, token []byte) (mid int64, key, roomID string, accepts []int32, hb int64, err error)
 	Disconnect(c context.Context, mid int64, key, server string) (has bool, err error)
 	Heartbeat(c context.Context, mid int64, key, server string) (err error)
@@ -25,7 +24,7 @@ type Logic interface {
 	NodesWeighted(c context.Context, platform, clientIP string) *pb.NodesReply
 	Ping(c context.Context) (err error)
 	Close()
-	OnlineTop(c context.Context, typ string, n int) (tops []*model.Top, err error)
+	OnlineTop(c context.Context, typ string, n int) (tops []*Top, err error)
 	OnlineRoom(c context.Context, typ string, rooms []string) (res map[string]int32, err error)
 	OnlineTotal(c context.Context) (int64, int64)
 }

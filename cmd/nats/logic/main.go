@@ -41,7 +41,7 @@ func main() {
 		panic(err)
 	}
 
-	litter.Dump( cfg )
+	litter.Dump(cfg)
 
 	{
 		// env := &conf.Env{

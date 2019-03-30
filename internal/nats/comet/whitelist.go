@@ -1,8 +1,7 @@
 package comet
 
 import (
-	"log"
-	"os"
+	log "github.com/tsingson/zaplogger"
 
 	"github.com/tsingson/goim/internal/nats/comet/conf"
 )
@@ -17,18 +16,15 @@ type Whitelist struct {
 
 // InitWhitelist a whitelist struct.
 func InitWhitelist(c *conf.Whitelist) (err error) {
-	var (
-		mid int64
-		f   *os.File
-	)
-	if f, err = os.OpenFile(c.WhiteLog, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0644); err == nil {
-		whitelist = new(Whitelist)
-		whitelist.log = log.New(f, "", log.LstdFlags)
-		whitelist.list = make(map[int64]struct{})
-		for _, mid = range c.Whitelist {
-			whitelist.list[mid] = struct{}{}
-		}
+	var mid int64
+
+	whitelist = new(Whitelist)
+	whitelist.log = log.New("", true)
+	whitelist.list = make(map[int64]struct{})
+	for _, mid = range c.Whitelist {
+		whitelist.list[mid] = struct{}{}
 	}
+
 	return
 }
 

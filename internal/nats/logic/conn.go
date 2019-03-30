@@ -13,7 +13,7 @@ import (
 )
 
 // Connect connected a conn.
-func (l *NatsLogic) Connect(c context.Context, server, cookie string, token []byte) (mid int64, key, roomID string, accepts []int32, hb int64, err error) {
+func (l *Logic) Connect(c context.Context, server, cookie string, token []byte) (mid int64, key, roomID string, accepts []int32, hb int64, err error) {
 	var params struct {
 		Mid      int64   `json:"mid"`
 		Key      string  `json:"key"`
@@ -41,7 +41,7 @@ func (l *NatsLogic) Connect(c context.Context, server, cookie string, token []by
 }
 
 // Disconnect disconnect a conn.
-func (l *NatsLogic) Disconnect(c context.Context, mid int64, key, server string) (has bool, err error) {
+func (l *Logic) Disconnect(c context.Context, mid int64, key, server string) (has bool, err error) {
 	if has, err = l.dao.DelMapping(c, mid, key, server); err != nil {
 		log.Errorf("l.dao.DelMapping(%d,%s) error(%v)", mid, key, server)
 		return
@@ -51,7 +51,7 @@ func (l *NatsLogic) Disconnect(c context.Context, mid int64, key, server string)
 }
 
 // Heartbeat heartbeat a conn.
-func (l *NatsLogic) Heartbeat(c context.Context, mid int64, key, server string) (err error) {
+func (l *Logic) Heartbeat(c context.Context, mid int64, key, server string) (err error) {
 	has, err := l.dao.ExpireMapping(c, mid, key)
 	if err != nil {
 		log.Errorf("l.dao.ExpireMapping(%d,%s,%s) error(%v)", mid, key, server, err)
@@ -68,7 +68,7 @@ func (l *NatsLogic) Heartbeat(c context.Context, mid int64, key, server string) 
 }
 
 // RenewOnline renew a server online.
-func (l *NatsLogic) RenewOnline(c context.Context, server string, roomCount map[string]int32) (map[string]int32, error) {
+func (l *Logic) RenewOnline(c context.Context, server string, roomCount map[string]int32) (map[string]int32, error) {
 	online := &model.Online{
 		Server:    server,
 		RoomCount: roomCount,
@@ -81,7 +81,7 @@ func (l *NatsLogic) RenewOnline(c context.Context, server string, roomCount map[
 }
 
 // Receive receive a message.
-func (l *NatsLogic) Receive(c context.Context, mid int64, proto *grpc.Proto) (err error) {
+func (l *Logic) Receive(c context.Context, mid int64, proto *grpc.Proto) (err error) {
 	log.Infof("receive mid:%d message:%+v", mid, proto)
 	return
 }

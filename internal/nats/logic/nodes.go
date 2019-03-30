@@ -12,12 +12,12 @@ import (
 )
 
 // NodesInstances get servers info.
-func (l *NatsLogic) NodesInstances(c context.Context) (res []*naming.Instance) {
+func (l *Logic) NodesInstances(c context.Context) (res []*naming.Instance) {
 	return l.nodes
 }
 
 // NodesWeighted get node list.
-func (l *NatsLogic) NodesWeighted(c context.Context, platform, clientIP string) *pb.NodesReply {
+func (l *Logic) NodesWeighted(c context.Context, platform, clientIP string) *pb.NodesReply {
 	reply := &pb.NodesReply{
 		Domain:       l.c.Node.DefaultDomain,
 		TcpPort:      int32(l.c.Node.TCPPort),
@@ -44,7 +44,7 @@ func (l *NatsLogic) NodesWeighted(c context.Context, platform, clientIP string) 
 	return reply
 }
 
-func (l *NatsLogic) nodeAddrs(c context.Context, clientIP string) (domains, addrs []string) {
+func (l *Logic) nodeAddrs(c context.Context, clientIP string) (domains, addrs []string) {
 	var (
 		region string
 	)
@@ -57,7 +57,7 @@ func (l *NatsLogic) nodeAddrs(c context.Context, clientIP string) (domains, addr
 }
 
 // location find a geolocation of an IP address including province, region and country.
-func (l *NatsLogic) location(c context.Context, clientIP string) (province string, err error) {
+func (l *Logic) location(c context.Context, clientIP string) (province string, err error) {
 	// province: config mapping
 	return
 }

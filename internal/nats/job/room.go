@@ -26,13 +26,13 @@ var (
 // Room room.
 type Room struct {
 	c     *conf.Room
-	job   *NatsJob
+	job   *Job
 	id    string
 	proto chan *comet.Proto
 }
 
 // NewRoom new a room struct, store channel room info.
-func NewRoom(job *NatsJob, id string, c *conf.Room) (r *Room) {
+func NewRoom(job *Job, id string, c *conf.Room) (r *Room) {
 	r = &Room{
 		c:     c,
 		id:    id,
@@ -109,13 +109,13 @@ func (r *Room) pushproc(batch int, sigTime time.Duration) {
 	log.Infof("room:%s goroutine exit", r.id)
 }
 
-func (j *NatsJob) delRoom(roomID string) {
+func (j *Job) delRoom(roomID string) {
 	j.roomsMutex.Lock()
 	delete(j.rooms, roomID)
 	j.roomsMutex.Unlock()
 }
 
-func (j *NatsJob) getRoom(roomID string) *Room {
+func (j *Job) getRoom(roomID string) *Room {
 	j.roomsMutex.RLock()
 	room, ok := j.rooms[roomID]
 	j.roomsMutex.RUnlock()

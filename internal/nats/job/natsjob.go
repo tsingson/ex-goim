@@ -20,13 +20,15 @@ import (
 )
 
 // NatsJob is push job.
-type NatsJob struct {
+type Job struct {
 	c            *conf.JobConfig
 	consumer     liftbridge.Client
 	cometServers map[string]*Comet
 	rooms        map[string]*Room
 	roomsMutex   sync.RWMutex
 }
+
+type NatsJob = Job
 
 // var natsCfg *conf.Nats
 //
@@ -41,7 +43,7 @@ type NatsJob struct {
 // }
 
 // New new a push job.
-func New(cfg *conf.JobConfig) *NatsJob {
+func New(cfg *conf.JobConfig) *Job {
 	cl, err := newLiftClient(cfg)
 	if err != nil {
 		return nil
@@ -57,7 +59,7 @@ func New(cfg *conf.JobConfig) *NatsJob {
 }
 
 // WatchComet watch commet active
-func (j *NatsJob) WatchComet(c *naming.Config) {
+func (j *Job) WatchComet(c *naming.Config) {
 	dis := naming.New(c)
 	resolver := dis.Build("goim.comet")
 	event := resolver.Watch()
@@ -93,7 +95,7 @@ func (j *NatsJob) WatchComet(c *naming.Config) {
 	}()
 }
 
-func (j *NatsJob) newAddress(insMap map[string][]*naming.Instance) error {
+func (j *Job) newAddress(insMap map[string][]*naming.Instance) error {
 	ins := insMap[j.c.Env.Zone]
 	if len(ins) == 0 {
 		return fmt.Errorf("WatchComet instance is empty")
@@ -129,7 +131,7 @@ func newLiftClient(cfg *conf.JobConfig) (liftbridge.Client, error) {
 }
 
 // Subscribe  get message
-func (d *NatsJob) Subscribe(channel, channelID string) error {
+func (d *Job) Subscribe(channel, channelID string) error {
 	ctx := context.Background()
 	if err := d.consumer.Subscribe(ctx, channel, channelID, func(msg *liftprpc.Message, err error) {
 		if err != nil {
@@ -145,7 +147,7 @@ func (d *NatsJob) Subscribe(channel, channelID string) error {
 }
 
 // Consume messages, watch signals
-func (j *NatsJob) Consume() {
+func (j *Job) Consume() {
 	ctx := context.Background()
 	if err := j.consumer.Subscribe(ctx, j.c.Nats.Channel, j.c.Nats.ChannelID, func(msg *liftprpc.Message, err error) {
 		if err != nil {
@@ -175,7 +177,7 @@ func (j *NatsJob) Consume() {
 }
 
 // ConsumeCheck messages, watch signals
-func (j *NatsJob) ConsumeCheck() {
+func (j *Job) ConsumeCheck() {
 	ctx := context.Background()
 	if err := j.consumer.Subscribe(ctx, j.c.Nats.Channel, j.c.Nats.ChannelID, func(msg *liftprpc.Message, err error) {
 		if err != nil {
@@ -205,7 +207,7 @@ func (j *NatsJob) ConsumeCheck() {
 }
 
 // Close close resounces.
-func (j *NatsJob) Close() error {
+func (j *Job) Close() error {
 	if j.consumer != nil {
 		return j.consumer.Close()
 	}

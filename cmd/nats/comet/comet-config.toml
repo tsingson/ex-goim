@@ -30,8 +30,6 @@
     bind = [":3102"]
     tlsOpen = false
     tlsBind = [":3103"]
-    certFile = "../../cert.pem"
-    privateFile = "../../private.pem"
 
 [protocol]
     timer = 32
@@ -42,7 +40,7 @@
 
 [whitelist]
     Whitelist = [123]
-    WhiteLog  = "/tmp/white_list.log"
+    WhiteLog  = ""
 
 [bucket]
     size = 32

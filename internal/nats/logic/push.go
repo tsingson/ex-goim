@@ -9,7 +9,7 @@ import (
 )
 
 // PushKeys push a message by keys.
-func (l *NatsLogic) PushKeys(c context.Context, op int32, keys []string, msg []byte) (err error) {
+func (l *Logic) PushKeys(c context.Context, op int32, keys []string, msg []byte) (err error) {
 	servers, err := l.dao.ServersByKeys(c, keys)
 	if err != nil {
 		return
@@ -30,7 +30,7 @@ func (l *NatsLogic) PushKeys(c context.Context, op int32, keys []string, msg []b
 }
 
 // PushMids push a message by mid.
-func (l *NatsLogic) PushMids(c context.Context, op int32, mids []int64, msg []byte) (err error) {
+func (l *Logic) PushMids(c context.Context, op int32, mids []int64, msg []byte) (err error) {
 	keyServers, _, err := l.dao.KeysByMids(c, mids)
 	if err != nil {
 		return
@@ -52,11 +52,11 @@ func (l *NatsLogic) PushMids(c context.Context, op int32, mids []int64, msg []by
 }
 
 // PushRoom push a message by room.
-func (l *NatsLogic) PushRoom(c context.Context, op int32, typ, room string, msg []byte) (err error) {
+func (l *Logic) PushRoom(c context.Context, op int32, typ, room string, msg []byte) (err error) {
 	return l.dao.BroadcastRoomMsg(c, op, model.EncodeRoomKey(typ, room), msg)
 }
 
 // PushAll push a message to all.
-func (l *NatsLogic) PushAll(c context.Context, op, speed int32, msg []byte) (err error) {
+func (l *Logic) PushAll(c context.Context, op, speed int32, msg []byte) (err error) {
 	return l.dao.BroadcastMsg(c, op, speed, msg)
 }

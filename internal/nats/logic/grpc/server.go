@@ -39,7 +39,7 @@ func New(c *conf.RPCServer, l *logic.NatsLogic) *grpc.Server {
 }
 
 type server struct {
-	srv *logic.NatsLogic
+	srv *logic.Logic
 }
 
 var _ pb.LogicServer = &server{}

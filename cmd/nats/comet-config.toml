@@ -1,7 +1,28 @@
 # This is a TOML document. Boom
+# target/logic -conf=target/logic.toml -region=sh -zone=sh001 -deploy.env=dev -weight=10
+# target/comet -conf=target/comet.toml -region=sh -zone=sh001 -deploy.env=dev -weight=10 addrs=127.0.0.1
+# target/job -conf=target/job.toml -region=sh -zone=sh001 -deploy.env=dev
+[env]
+   #  region = ""
+   # zone = "test"
+   #   env = "test"
+Region = "china"
+  Zone = "gd"
+  Env = "dev"
+        weight = 10
+
+
 [discovery]
     nodes = ["127.0.0.1:7171"]
-
+   #  region = "test"
+   # zone = "test"
+   #   env = "dev"
+     weight = 10
+   #     host = "localhost-comet"
+  Region = "china"
+  Zone = "gd"
+  Host = "logic"
+  Env = "dev"
 [rpcServer]
     addr = ":3109"
     timeout = "1s"
@@ -25,9 +46,9 @@
 [websocket]
     bind = [":3102"]
     tlsOpen = false
-    tlsBind = [":3103"]
-    certFile = "../../cert.pem"
-    privateFile = "../../private.pem"
+    # tlsBind = [":3103"]
+    # certFile = "../../cert.pem"
+    # privateFile = "../../private.pem"
 
 [protocol]
     timer = 32

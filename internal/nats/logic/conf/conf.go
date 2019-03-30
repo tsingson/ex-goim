@@ -155,15 +155,11 @@ func LoadToml(path string) (cfg *Config, err error) {
 	if len(path) == 0 {
 		return Conf, xerrors.New("no configuration")
 	}
-//
+	//
 	_, err = toml.DecodeFile(path, &Conf)
 
 	return Conf, nil
 }
-
-
-
-
 
 // Default new a config with specified defualt value.
 func Default() *Config {

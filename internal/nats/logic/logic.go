@@ -19,7 +19,7 @@ const (
 )
 
 // NatsLogic struct
-type NatsLogic struct {
+type Logic struct {
 	c   *conf.LogicConfig
 	dis *naming.Discovery
 	dao *dao.NatsDao
@@ -33,8 +33,10 @@ type NatsLogic struct {
 	regions      map[string]string // province -> region
 }
 
+type NatsLogic = Logic
+
 // New init
-func New(c *conf.LogicConfig) (l *NatsLogic) {
+func New(c *conf.LogicConfig) (l *Logic) {
 	l = &NatsLogic{
 		c:            c,
 		dao:          dao.New(c),
@@ -50,16 +52,16 @@ func New(c *conf.LogicConfig) (l *NatsLogic) {
 }
 
 // Ping ping resources is ok.
-func (l *NatsLogic) Ping(c context.Context) (err error) {
+func (l *Logic) Ping(c context.Context) (err error) {
 	return l.dao.Ping(c)
 }
 
 // Close close resources.
-func (l *NatsLogic) Close() {
+func (l *Logic) Close() {
 	l.dao.Close()
 }
 
-func (l *NatsLogic) initRegions() {
+func (l *Logic) initRegions() {
 	for region, ps := range l.c.Regions {
 		for _, province := range ps {
 			l.regions[province] = region
@@ -67,7 +69,7 @@ func (l *NatsLogic) initRegions() {
 	}
 }
 
-func (l *NatsLogic) initNodes() {
+func (l *Logic) initNodes() {
 	res := l.dis.Build("goim.comet")
 	event := res.Watch()
 	select {
@@ -90,7 +92,7 @@ func (l *NatsLogic) initNodes() {
 	}()
 }
 
-func (l *NatsLogic) newNodes(res naming.Resolver) {
+func (l *Logic) newNodes(res naming.Resolver) {
 	if zoneIns, ok := res.Fetch(); ok {
 		var (
 			totalConns int64
@@ -130,7 +132,7 @@ func (l *NatsLogic) newNodes(res naming.Resolver) {
 	}
 }
 
-func (l *NatsLogic) onlineproc() {
+func (l *Logic) onlineproc() {
 	for {
 		time.Sleep(_onlineTick)
 		if err := l.loadOnline(); err != nil {
@@ -139,7 +141,7 @@ func (l *NatsLogic) onlineproc() {
 	}
 }
 
-func (l *NatsLogic) loadOnline() (err error) {
+func (l *Logic) loadOnline() (err error) {
 	var (
 		roomCount = make(map[string]int32)
 	)

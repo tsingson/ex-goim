@@ -7,13 +7,11 @@ require (
 	github.com/Workiva/go-datastructures v1.0.50 // indirect
 	github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da // indirect
 	github.com/boltdb/bolt v1.3.1 // indirect
-	github.com/bsm/sarama-cluster v2.1.15+incompatible
 	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/gin-gonic/gin v1.3.0
 	github.com/gogo/protobuf v1.2.1
 	github.com/golang/protobuf v1.3.1
 	github.com/gomodule/redigo v2.0.0+incompatible
-	github.com/google/uuid v1.1.1
 	github.com/hako/durafmt v0.0.0-20180520121703-7b7ae1e72ead // indirect
 	github.com/hashicorp/go-immutable-radix v1.0.0 // indirect
 	github.com/hashicorp/go-msgpack v0.5.3 // indirect
@@ -32,12 +30,12 @@ require (
 	github.com/sanity-io/litter v1.1.0
 	github.com/sirupsen/logrus v1.4.0 // indirect
 	github.com/stretchr/testify v1.3.0
-	github.com/tsingson/discovery v0.1.0
+	github.com/tsingson/discovery v0.1.1
 	github.com/tsingson/fastx v0.3.1
 	github.com/tsingson/uuid v3.2.1+incompatible
-	github.com/tsingson/zaplogger v0.1.3
+	github.com/tsingson/zaplogger v0.2.2
 	github.com/zhenjl/cityhash v0.0.0-20131128155616-cdd6a94144ab
-	golang.org/x/net v0.0.0-20190327214358-63eda1eb0650
+	golang.org/x/net v0.0.0-20190328230028-74de082e2cca
 	golang.org/x/xerrors v0.0.0-20190315151331-d61658bd2e18
 	google.golang.org/grpc v1.19.1
 	launchpad.net/gocheck v0.0.0-20140225173054-000000000087 // indirect

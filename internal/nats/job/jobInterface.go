@@ -4,7 +4,7 @@ import (
 	"github.com/tsingson/discovery/naming"
 )
 
-type Job interface {
+type JobProcess interface {
 	WatchComet(c *naming.Config)
 	Subscribe(channel, channelID string) error
 	Consume()

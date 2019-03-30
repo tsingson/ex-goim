@@ -11,9 +11,9 @@ import (
 
 func TestWeightedNode(t *testing.T) {
 	nodes := []*weightedNode{
-		&weightedNode{fixedWeight: 1, currentWeight: 1, currentConns: 1000000},
-		&weightedNode{fixedWeight: 2, currentWeight: 1, currentConns: 1000000},
-		&weightedNode{fixedWeight: 3, currentWeight: 1, currentConns: 1000000},
+		{fixedWeight: 1, currentWeight: 1, currentConns: 1000000},
+		{fixedWeight: 2, currentWeight: 1, currentConns: 1000000},
+		{fixedWeight: 3, currentWeight: 1, currentConns: 1000000},
 	}
 	for i := 0; i < 100; i++ {
 		for _, n := range nodes {
@@ -33,7 +33,7 @@ func TestWeightedNode(t *testing.T) {
 
 func TestLoadBalancer(t *testing.T) {
 	ss := []*naming.Instance{
-		&naming.Instance{
+		{
 			Region:   "bj",
 			Hostname: "01",
 			Metadata: map[string]string{
@@ -43,7 +43,7 @@ func TestLoadBalancer(t *testing.T) {
 				model.MetaAddrs:     "ip_bj",
 			},
 		},
-		&naming.Instance{
+		{
 			Region:   "sh",
 			Hostname: "02",
 			Metadata: map[string]string{
@@ -53,7 +53,7 @@ func TestLoadBalancer(t *testing.T) {
 				model.MetaAddrs:     "ip_sh",
 			},
 		},
-		&naming.Instance{
+		{
 			Region:   "gz",
 			Hostname: "03",
 			Metadata: map[string]string{

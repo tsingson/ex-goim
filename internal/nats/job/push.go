@@ -11,7 +11,7 @@ import (
 	"github.com/tsingson/goim/pkg/bytes"
 )
 
-func (j *NatsJob) push(ctx context.Context, pushMsg *pb.PushMsg) (err error) {
+func (j *Job) push(ctx context.Context, pushMsg *pb.PushMsg) (err error) {
 	switch pushMsg.Type {
 	case pb.PushMsg_PUSH:
 		err = j.pushKeys(pushMsg.Operation, pushMsg.Server, pushMsg.Keys, pushMsg.Msg)
@@ -26,7 +26,7 @@ func (j *NatsJob) push(ctx context.Context, pushMsg *pb.PushMsg) (err error) {
 }
 
 // pushKeys push a message to a batch of subkeys.
-func (j *NatsJob) pushKeys(operation int32, serverID string, subKeys []string, body []byte) (err error) {
+func (j *Job) pushKeys(operation int32, serverID string, subKeys []string, body []byte) (err error) {
 	buf := bytes.NewWriterSize(len(body) + 64)
 	p := &comet.Proto{
 		Ver:  1,
@@ -51,7 +51,7 @@ func (j *NatsJob) pushKeys(operation int32, serverID string, subKeys []string, b
 }
 
 // broadcast broadcast a message to all.
-func (j *NatsJob) broadcast(operation int32, body []byte, speed int32) (err error) {
+func (j *Job) broadcast(operation int32, body []byte, speed int32) (err error) {
 	buf := bytes.NewWriterSize(len(body) + 64)
 	p := &comet.Proto{
 		Ver:  1,
@@ -78,7 +78,7 @@ func (j *NatsJob) broadcast(operation int32, body []byte, speed int32) (err erro
 }
 
 // broadcastRoomRawBytes broadcast aggregation messages to room.
-func (j *NatsJob) broadcastRoomRawBytes(roomID string, body []byte) (err error) {
+func (j *Job) broadcastRoomRawBytes(roomID string, body []byte) (err error) {
 	args := comet.BroadcastRoomReq{
 		RoomID: roomID,
 		Proto: &comet.Proto{

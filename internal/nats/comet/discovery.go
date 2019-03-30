@@ -8,15 +8,6 @@ import (
 	log "github.com/tsingson/zaplogger"
 )
 
-// dis := naming.New(cfg.Discovery)
-// resolver.Register(dis)
-
-// conf := &naming.Config{
-// 	Nodes: []string{"127.0.0.1:7171"}, // NOTE: 配置种子节点(1个或多个)，client内部可根据/discovery/nodes节点获取全部node(方便后面增减节点)
-// 	Zone:  "sh1",
-// 	Env:   "test",
-// }
-
 // Register  register to discovery services
 func Register(cfg *naming.Config, appid string, addrs []string) (context.CancelFunc, error) {
 
