@@ -63,6 +63,35 @@ discoveryd
 
 ```
 
+## 3. running GOIM with nats 运行GOIM
+
+### 编译与配置
+克隆本项目 repo 
+```
+$ git clone https://github.com/tsingson/goim
+cd goim/cmd/nats
+go install ./...
+
+```
+
+
+复制配置示例文件
+
+在 /cmd/nats 路径下, 将三个 toml 配置文件 copy 到 $GOPATH/bin
+
+
+
+分别在三个不同的 terminal 运行程序 
+
+```
+$ cd $GOPATH/bin
+./comet
+./logic
+./job 
+```
+
+
+
 ( to be continue...   待续...) 
 
 
