@@ -13,6 +13,35 @@ goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息�
 2. 日志替换为 [uber-go/zap](https://github.com/uber-go/zap), 替换原一是因为 zap 快一点, 二是个人更为熟悉这个日志库 
 3. 修改了三个应用程序的启动方式, 去除了所有启动参数, 改为读取指定的配置文件 ( 为将来实现 daemon 化而准备) 
 
+### 文件
+修改文件如下
+
+支持 nats 的应用程序在以下路径, 每个应用下的 toml 为对应的配置
+/cmd/nats/discoveryd-config.toml 为  discovery 的配置
+
+```
+├── cmd
+│   └── nats
+│       ├── comet
+│       │   ├── comet-config.toml
+│       │   └── main.go
+│       ├── discoveryd-config.toml
+│       ├── job
+│       │   ├── job-config.toml
+│       │   └── main.go
+│       └── logic
+│           ├── logic-config.toml
+│           └── main.go
+```
+
+支持 nats 的库文件在 
+```
+/internal/nats/
+``` 
+路径下, 除配置文件以外, 所有库的调用方式与原 goim 相同
+
+
+
 ### TODO
 1. [x] 抽取 discovery / kafka 部分为 interface 
 2. [x] 增加测试
@@ -20,7 +49,7 @@ goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息�
 
 ###  goim guide 安装/编译/使用指南(WIP)
 参见 [/goim-usage-cn.md](goim-usage-cn.md) ( chinese )
- 
+
 
 goim v2.0
 ==============
