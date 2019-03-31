@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/tsingson/goim/internal/nats/job/conf"
+	"github.com/tsingson/ex-goim/internal/nats/job/conf"
 )
 
 var (

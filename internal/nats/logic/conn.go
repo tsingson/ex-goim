@@ -8,8 +8,8 @@ import (
 	"github.com/tsingson/uuid"
 	log "github.com/tsingson/zaplogger"
 
-	"github.com/tsingson/goim/api/comet/grpc"
-	"github.com/tsingson/goim/internal/nats/model"
+	"github.com/tsingson/ex-goim/api/comet/grpc"
+	"github.com/tsingson/ex-goim/internal/nats/model"
 )
 
 // Connect connected a conn.

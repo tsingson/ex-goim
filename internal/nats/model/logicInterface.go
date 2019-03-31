@@ -5,8 +5,8 @@ import (
 
 	"github.com/tsingson/discovery/naming"
 
-	"github.com/tsingson/goim/api/comet/grpc"
-	pb "github.com/tsingson/goim/api/logic/grpc"
+	"github.com/tsingson/ex-goim/api/comet/grpc"
+	pb "github.com/tsingson/ex-goim/api/logic/grpc"
 )
 
 // Action  interface for logic

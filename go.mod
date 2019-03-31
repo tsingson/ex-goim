@@ -1,4 +1,4 @@
-module github.com/tsingson/goim
+module github.com/tsingson/ex-goim
 
 go 1.12
 

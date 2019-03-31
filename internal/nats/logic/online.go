@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/tsingson/goim/internal/nats/model"
+	"github.com/tsingson/ex-goim/internal/nats/model"
 )
 
 var (

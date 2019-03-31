@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/tsingson/goim/internal/nats/logic/conf"
+	"github.com/tsingson/ex-goim/internal/nats/logic/conf"
 )
 
 var (

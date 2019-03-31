@@ -1,7 +1,7 @@
 package job
 
 import (
-	comet "github.com/tsingson/goim/api/comet/grpc"
+	comet "github.com/tsingson/ex-goim/api/comet/grpc"
 )
 
 type CometProcess interface {

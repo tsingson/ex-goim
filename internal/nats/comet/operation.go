@@ -6,9 +6,9 @@ import (
 
 	log "github.com/tsingson/zaplogger"
 
-	model "github.com/tsingson/goim/api/comet/grpc"
-	logic "github.com/tsingson/goim/api/logic/grpc"
-	"github.com/tsingson/goim/pkg/strings"
+	model "github.com/tsingson/ex-goim/api/comet/grpc"
+	logic "github.com/tsingson/ex-goim/api/logic/grpc"
+	"github.com/tsingson/ex-goim/pkg/strings"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/encoding/gzip"

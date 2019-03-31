@@ -11,8 +11,8 @@ import (
 	"google.golang.org/grpc/balancer/roundrobin"
 	"google.golang.org/grpc/keepalive"
 
-	logic "github.com/tsingson/goim/api/logic/grpc"
-	"github.com/tsingson/goim/internal/nats/comet/conf"
+	logic "github.com/tsingson/ex-goim/api/logic/grpc"
+	"github.com/tsingson/ex-goim/internal/nats/comet/conf"
 )
 
 const (

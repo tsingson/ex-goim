@@ -7,7 +7,7 @@ import (
 	"github.com/tsingson/discovery/naming"
 	"golang.org/x/xerrors"
 
-	xtime "github.com/tsingson/goim/pkg/time"
+	xtime "github.com/tsingson/ex-goim/pkg/time"
 )
 
 // LogicConfig config.

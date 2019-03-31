@@ -9,13 +9,13 @@ import (
 
 	"github.com/tsingson/discovery/naming"
 
-	"github.com/tsingson/goim/internal/nats/job/conf"
+	"github.com/tsingson/ex-goim/internal/nats/job/conf"
 
 	log "github.com/tsingson/zaplogger"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/keepalive"
 
-	comet "github.com/tsingson/goim/api/comet/grpc"
+	comet "github.com/tsingson/ex-goim/api/comet/grpc"
 )
 
 var (

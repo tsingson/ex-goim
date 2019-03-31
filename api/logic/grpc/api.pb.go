@@ -6,7 +6,7 @@ package grpc
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import grpc1 "github.com/tsingson/goim/api/comet/grpc"
+import grpc1 "github.com/tsingson/ex-goim/api/comet/grpc"
 import _ "github.com/gogo/protobuf/gogoproto"
 
 import context "golang.org/x/net/context"

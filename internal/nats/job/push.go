@@ -6,9 +6,9 @@ import (
 
 	log "github.com/tsingson/zaplogger"
 
-	comet "github.com/tsingson/goim/api/comet/grpc"
-	pb "github.com/tsingson/goim/api/logic/grpc"
-	"github.com/tsingson/goim/pkg/bytes"
+	comet "github.com/tsingson/ex-goim/api/comet/grpc"
+	pb "github.com/tsingson/ex-goim/api/logic/grpc"
+	"github.com/tsingson/ex-goim/pkg/bytes"
 )
 
 func (j *Job) push(ctx context.Context, pushMsg *pb.PushMsg) (err error) {

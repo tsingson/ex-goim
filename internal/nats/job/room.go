@@ -6,10 +6,10 @@ import (
 	log "github.com/tsingson/zaplogger"
 	"golang.org/x/xerrors"
 
-	"github.com/tsingson/goim/internal/nats/job/conf"
+	"github.com/tsingson/ex-goim/internal/nats/job/conf"
 
-	comet "github.com/tsingson/goim/api/comet/grpc"
-	"github.com/tsingson/goim/pkg/bytes"
+	comet "github.com/tsingson/ex-goim/api/comet/grpc"
+	"github.com/tsingson/ex-goim/pkg/bytes"
 )
 
 var (

@@ -10,11 +10,11 @@ import (
 	"github.com/liftbridge-io/go-liftbridge"
 	"github.com/tsingson/discovery/naming"
 
-	"github.com/tsingson/goim/internal/nats/job/conf"
+	"github.com/tsingson/ex-goim/internal/nats/job/conf"
 
 	liftprpc "github.com/liftbridge-io/go-liftbridge/liftbridge-grpc"
 
-	pb "github.com/tsingson/goim/api/logic/grpc"
+	pb "github.com/tsingson/ex-goim/api/logic/grpc"
 
 	log "github.com/tsingson/zaplogger"
 )

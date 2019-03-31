@@ -3,7 +3,7 @@ package comet
 import (
 	log "github.com/tsingson/zaplogger"
 
-	"github.com/tsingson/goim/internal/nats/comet/conf"
+	"github.com/tsingson/ex-goim/internal/nats/comet/conf"
 )
 
 var whitelist *Whitelist

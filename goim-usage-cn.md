@@ -1,4 +1,4 @@
-#  goim guide 安装/编译/使用指南(WIP)
+#  (Experimental) goim via nats  guide 安装/编译/使用指南(WIP)
 
 ## 1. dependency and run prepare 依赖与测试(运行)环境准备
 
@@ -68,7 +68,7 @@ discoveryd
 ### 编译与配置
 克隆本项目 repo 
 ```
-$ git clone https://github.com/tsingson/goim
+$ git clone https://github.com/tsingson/ex-goim goim
 cd goim
 ```
 

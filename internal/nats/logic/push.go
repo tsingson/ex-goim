@@ -5,7 +5,7 @@ import (
 
 	log "github.com/tsingson/zaplogger"
 
-	"github.com/tsingson/goim/internal/nats/model"
+	"github.com/tsingson/ex-goim/internal/nats/model"
 )
 
 // PushKeys push a message by keys.

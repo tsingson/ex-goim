@@ -3,10 +3,10 @@ package comet
 import (
 	log "github.com/tsingson/zaplogger"
 
-	"github.com/tsingson/goim/internal/nats/comet/conf"
+	"github.com/tsingson/ex-goim/internal/nats/comet/conf"
 
-	"github.com/tsingson/goim/api/comet/grpc"
-	"github.com/tsingson/goim/internal/nats/comet/errors"
+	"github.com/tsingson/ex-goim/api/comet/grpc"
+	"github.com/tsingson/ex-goim/internal/nats/comet/errors"
 )
 
 // Ring ring proto buffer.

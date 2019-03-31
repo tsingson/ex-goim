@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/tsingson/goim/pkg/bufio"
+	"github.com/tsingson/ex-goim/pkg/bufio"
 )
 
 // Request request.

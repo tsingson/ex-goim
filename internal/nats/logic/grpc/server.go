@@ -5,9 +5,9 @@ import (
 	"net"
 	"time"
 
-	pb "github.com/tsingson/goim/api/logic/grpc"
-	"github.com/tsingson/goim/internal/nats/logic"
-	"github.com/tsingson/goim/internal/nats/logic/conf"
+	pb "github.com/tsingson/ex-goim/api/logic/grpc"
+	"github.com/tsingson/ex-goim/internal/nats/logic"
+	"github.com/tsingson/ex-goim/internal/nats/logic/conf"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/keepalive"

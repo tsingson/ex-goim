@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/tsingson/goim/internal/nats/model"
+	"github.com/tsingson/ex-goim/internal/nats/model"
 )
 
 func TestNodes(t *testing.T) {

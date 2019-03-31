@@ -12,9 +12,9 @@ import (
 	"github.com/nats-io/go-nats"
 	log "github.com/tsingson/zaplogger"
 
-	pb "github.com/tsingson/goim/api/logic/grpc"
-	"github.com/tsingson/goim/internal/nats/logic/conf"
-	"github.com/tsingson/goim/pkg/utils"
+	pb "github.com/tsingson/ex-goim/api/logic/grpc"
+	"github.com/tsingson/ex-goim/internal/nats/logic/conf"
+	"github.com/tsingson/ex-goim/pkg/utils"
 )
 
 // NatsDao dao for nats

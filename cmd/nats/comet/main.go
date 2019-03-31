@@ -19,11 +19,11 @@ import (
 	"github.com/tsingson/fastx/utils"
 	log "github.com/tsingson/zaplogger"
 
-	"github.com/tsingson/goim/internal/nats/comet"
-	"github.com/tsingson/goim/internal/nats/comet/conf"
-	"github.com/tsingson/goim/internal/nats/comet/grpc"
-	md "github.com/tsingson/goim/internal/nats/model"
-	"github.com/tsingson/goim/pkg/ip"
+	"github.com/tsingson/ex-goim/internal/nats/comet"
+	"github.com/tsingson/ex-goim/internal/nats/comet/conf"
+	"github.com/tsingson/ex-goim/internal/nats/comet/grpc"
+	md "github.com/tsingson/ex-goim/internal/nats/model"
+	"github.com/tsingson/ex-goim/pkg/ip"
 )
 
 const (

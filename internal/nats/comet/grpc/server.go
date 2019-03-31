@@ -5,11 +5,11 @@ import (
 	"net"
 	"time"
 
-	"github.com/tsingson/goim/internal/nats/comet/conf"
+	"github.com/tsingson/ex-goim/internal/nats/comet/conf"
 
-	pb "github.com/tsingson/goim/api/comet/grpc"
-	"github.com/tsingson/goim/internal/nats/comet"
-	"github.com/tsingson/goim/internal/nats/comet/errors"
+	pb "github.com/tsingson/ex-goim/api/comet/grpc"
+	"github.com/tsingson/ex-goim/internal/nats/comet"
+	"github.com/tsingson/ex-goim/internal/nats/comet/errors"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/keepalive"

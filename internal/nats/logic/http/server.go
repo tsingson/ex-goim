@@ -1,9 +1,9 @@
 package http
 
 import (
-	"github.com/tsingson/goim/internal/nats/logic"
+	"github.com/tsingson/ex-goim/internal/nats/logic"
 
-	"github.com/tsingson/goim/internal/nats/logic/conf"
+	"github.com/tsingson/ex-goim/internal/nats/logic/conf"
 
 	"github.com/gin-gonic/gin"
 )

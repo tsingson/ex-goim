@@ -9,12 +9,12 @@ import (
 
 	log "github.com/tsingson/zaplogger"
 
-	"github.com/tsingson/goim/internal/nats/comet/conf"
+	"github.com/tsingson/ex-goim/internal/nats/comet/conf"
 
-	"github.com/tsingson/goim/api/comet/grpc"
-	"github.com/tsingson/goim/pkg/bufio"
-	"github.com/tsingson/goim/pkg/bytes"
-	xtime "github.com/tsingson/goim/pkg/time"
+	"github.com/tsingson/ex-goim/api/comet/grpc"
+	"github.com/tsingson/ex-goim/pkg/bufio"
+	"github.com/tsingson/ex-goim/pkg/bytes"
+	xtime "github.com/tsingson/ex-goim/pkg/time"
 )
 
 const (

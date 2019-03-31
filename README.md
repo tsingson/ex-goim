@@ -1,4 +1,4 @@
-# goim via nats
+# (Experimental) goim via nats 
 fork from [goim](https://github.com/Terry-Mao/goim)  and support nats  to replace kafka / zookeeper
 
 
@@ -6,6 +6,11 @@ fork from [goim](https://github.com/Terry-Mao/goim)  and support nats  to replac
 goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息队列) + zookeeper ( 分布式扩展) + bilibili/discovery( 服务发现与均衡) , 由于 kafka / zk 在部署上与 golang 的单一可执行文件相比, 稍复杂, 加上为简化运维, 所以, 这里 fork 了 goim 并修改为 nats
 
 由于修改比较大, 暂时用新的 repo 来进行代码管理, 以后看情况是否能回归到 Terry-Mao 的主线版本上. 
+
+同时, 与 [goim](https://github.com/Terry-Mao/goim) 有所差异的重要一点是:
+ **这个 fork 是实验性质, 请不要用于生产环境!!  this repo is NOT production ready!!**
+
+
 
 ### 主要变更
 
@@ -37,13 +42,13 @@ goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息�
 支持 nats 的库文件在 
 ```
 /internal/nats/
-``` 
+```
 路径下, 除配置文件以外, 所有库的调用方式与原 goim 相同
 
 
 
 ### TODO
-1. [x] 抽取 discovery / kafka 部分为 interface 
+1. [x] 抽取  kafka 部分为 interface 
 2. [x] 增加测试
 3. [x] 增加修改变更说明文档
 

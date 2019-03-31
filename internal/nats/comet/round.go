@@ -1,10 +1,10 @@
 package comet
 
 import (
-	"github.com/tsingson/goim/internal/nats/comet/conf"
+	"github.com/tsingson/ex-goim/internal/nats/comet/conf"
 
-	"github.com/tsingson/goim/pkg/bytes"
-	"github.com/tsingson/goim/pkg/time"
+	"github.com/tsingson/ex-goim/pkg/bytes"
+	"github.com/tsingson/ex-goim/pkg/time"
 )
 
 // RoundOptions round options.

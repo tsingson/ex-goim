@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/tsingson/goim/api/comet/grpc"
+	"github.com/tsingson/ex-goim/api/comet/grpc"
 )
 
 func TestConnect(t *testing.T) {

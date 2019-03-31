@@ -7,8 +7,8 @@ import (
 
 	"github.com/tsingson/discovery/naming"
 
-	"github.com/tsingson/goim/internal/nats/job"
-	"github.com/tsingson/goim/internal/nats/job/conf"
+	"github.com/tsingson/ex-goim/internal/nats/job"
+	"github.com/tsingson/ex-goim/internal/nats/job/conf"
 
 	resolver "github.com/tsingson/discovery/naming/grpc"
 	log "github.com/tsingson/zaplogger"

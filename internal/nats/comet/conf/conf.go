@@ -6,7 +6,7 @@ import (
 	"github.com/BurntSushi/toml"
 	"github.com/tsingson/discovery/naming"
 
-	xtime "github.com/tsingson/goim/pkg/time"
+	xtime "github.com/tsingson/ex-goim/pkg/time"
 )
 
 var (
