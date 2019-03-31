@@ -17,7 +17,7 @@ type Channel struct {
 	Next     *Channel
 	Prev     *Channel
 
-	Mid      int64
+	Mid      int64  // memberid
 	Key      string
 	IP       string
 	watchOps map[int32]struct{}
