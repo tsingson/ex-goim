@@ -9,26 +9,27 @@ goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息�
 
 
 
-同时, 与 [goim](https://github.com/Terry-Mao/goim) 有所差异的重要一点是:
+同时, 与 [goim](https://github.com/Terry-Mao/goim) 有所差异的重要一点:
 
  **这个 fork 是实验性质练手项目, 请不要用于生产环境!!  this repo personal Experimental , DO NOT use in production!!**
- 
- **这个 fork 是实验性质练手项目, 请不要用于生产环境!!  this repo personal Experimental , DO NOT use in production!!**
- 
- **这个 fork 是实验性质练手项目, 请不要用于生产环境!!  this repo personal Experimental , DO NOT use in production!!**
- 
+
+
+
 
 ### Movation 动机
 
-作为一个曾经的架构师(2005~2014, Utstarcom IPTV/OTT 事业部) 与当前自由的技术类咨询与服务从业者, 有合作伙伴询问 IM 用在视频直播中的方案, 我作了一些研究( 作为曾经的架构师/解决方案工程师/ IPTV播控产品线 release manager,  我除了技术原型的实现代码以外, 甚少参与实际撰写代码的工作 )
+作为一个曾经的架构师(2005~2014, Utstarcom IPTV/OTT 事业部) 与当前自由的技术类咨询与服务从业者, 有合作伙伴询问 IM 用在视频直播中的方案, 我作了一些学习与研究 
 
+中国 B站( BiliBili ) 的技术领军 [毛剑](https://github.com/Terry-Mao/) 是我神交以久的技术专家,   [goim](https://github.com/Terry-Mao/goim)  是一个非常成功的架构示例, 其模块拆分, 接口设计, 技术造型 , 以及部署方式, 都是一个互联网商用项目典范.  
 
+同时,  另一位技术专家 [Xin.zh](https://github.com/alexstocks) 的文章 [一套高可用实时消息系统实现](https://alexstocks.github.io/html/pubsub.html)  给我很大启发.  
 
-中国 B站( BiliBili ) 的技术领军 [毛剑](https://github.com/Terry-Mao/) 是我神交以久的技术专家, 这次就以  [goim](https://github.com/Terry-Mao/goim)  为基础进行了一些学习与扩展尝试.
+在电信/广电的几年经历, 这一次,  闲来无事, 算是满怀着在巨人肩头的感谢与敬意, 尝试写一些代码来加深学习.
 
+个人在 Utstarcom 以业务平台架构师/解决方案工程师/ IPTV播控产品线 release manager 角色有一些时间,  除了技术方案的原型代码撰写与演示以外, 甚少参与实际撰写代码的工作 ,  这次写写代码也是有趣的过程  :P
 
+欢迎指点/交流....
 
-同时,  另一位技术专家 [Xin.zh](https://github.com/alexstocks) 的文章 [一套高可用实时消息系统实现](https://alexstocks.github.io/html/pubsub.html) 以及我在电信/广电的经历, 这一次,  闲来无事, 尝试写一些代码来加深学习.
 
 
 
