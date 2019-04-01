@@ -3,7 +3,7 @@ fork from [goim](https://github.com/Terry-Mao/goim)  and support nats  to replac
 
 
 ## 0. chinese note 中文说明
-goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息队列) + zookeeper ( 分布式扩展) + bilibili/discovery( 服务发现与均衡) , 由于 kafka / zk 在部署上与 golang 的单一可执行文件相比, 稍复杂, 这里 fork 了 goim 并修改为 nats ( 并抽象 dao 为接口, 提供其他队列支持的可能性) 
+goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息队列) + zookeeper ( 扩展/均衡 ) + bilibili/discovery( 服务发现) , 由于 kafka / zk 在部署上与 golang 的单一可执行文件相比, 稍复杂, 这里 fork 了 goim 并修改为 nats ( 并抽象 dao 为接口, 提供其他队列支持的可能性) 
 
 由于修改比较大, 暂时用新的 repo 来进行代码管理, 以后看情况是否能回归到 Terry-Mao 的主线版本上. 
 
@@ -18,7 +18,7 @@ goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息�
 
 ### 1. Movation 动机
 
-作为一个曾经的架构师(2005~2014, Utstarcom IPTV/OTT 事业部) 与当前自由的技术类咨询与服务从业者, 有合作伙伴询问 IM 用在视频直播中的方案, 我作了一些学习与研究 
+作为一个曾经的架构师(2005~2014, Utstarcom IPTV/OTT 事业部) 与当前自由的技术类咨询与服务从业者, 有合作伙伴询问 IM 用在视频直播中的 IM 方案, 我作了一些学习与研究 
 
 中国 B站( BiliBili ) 的技术领军 [毛剑](https://github.com/Terry-Mao/) 是我神交以久的技术专家,   [goim](https://github.com/Terry-Mao/goim)  是一个非常成功的架构示例, 其模块拆分, 接口设计, 技术选型 ,部署方式 以及持续改进演变, 都是一个互联网商用项目典范.  
 
