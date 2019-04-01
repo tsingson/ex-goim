@@ -3,7 +3,7 @@ fork from [goim](https://github.com/Terry-Mao/goim)  and support nats  to replac
 
 
 ## chinese note 中文说明
-goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息队列) + zookeeper ( 分布式扩展) + bilibili/discovery( 服务发现与均衡) , 由于 kafka / zk 在部署上与 golang 的单一可执行文件相比, 稍复杂, 加上为简化运维, 所以, 这里 fork 了 goim 并修改为 nats
+goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息队列) + zookeeper ( 分布式扩展) + bilibili/discovery( 服务发现与均衡) , 由于 kafka / zk 在部署上与 golang 的单一可执行文件相比, 稍复杂, 这里 fork 了 goim 并修改为 nats ( 并抽象 dao 为接口, 提供其他队列支持的可能性) 
 
 由于修改比较大, 暂时用新的 repo 来进行代码管理, 以后看情况是否能回归到 Terry-Mao 的主线版本上. 
 
@@ -11,9 +11,10 @@ goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息�
 
 同时, 与 [goim](https://github.com/Terry-Mao/goim) 有所差异的重要一点是:
 
- **这个 fork 是实验性质, 请不要用于生产环境!!  this repo is NOT production ready!!**
-
-
+ **这个 fork 是实验性质练手项目, 请不要用于生产环境!!  this repo personal Experimental , DO NOT use in production!!**
+ **这个 fork 是实验性质练手项目, 请不要用于生产环境!!  this repo personal Experimental , DO NOT use in production!!**
+ **这个 fork 是实验性质练手项目, 请不要用于生产环境!!  this repo personal Experimental , DO NOT use in production!!**
+ 
 
 ### Movation 动机
 
