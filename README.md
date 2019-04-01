@@ -36,7 +36,7 @@ goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息�
 
 
 
-### 主要变更
+### 2. 主要变更
 
 ![arch](./docs/arch.png)
 
@@ -50,7 +50,7 @@ goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息�
 
 
 
-### 文件结构
+### 3. 变更文件结构
 修改文件如下示意, 支持 nats 的应用程序在以下路径, 每个应用下的 toml 为对应的配置
 /cmd/nats/discoveryd-config.toml 为  discovery 的配置
 
@@ -77,10 +77,11 @@ goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息�
 
 
 
-###  goim guide 安装/编译/使用指南(WIP)
+###  4. goim guide 安装/编译/使用指南(WIP)
 参见 [/goim-usage-cn.md](goim-usage-cn.md) ( chinese )
 
 
+____________________
 
 goim v2.0
 ==============
