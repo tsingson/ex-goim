@@ -150,7 +150,7 @@ func serveWebsocket(s *Server, conn net.Conn, r int) {
 }
 
 // ServeWebsocket serve a websocket connection.
-func (s *Server) ServeWebsocket(conn net.Conn, rp, wp *bytes.Pool, tr *xtime.Timer) {
+func (s *Server) ServeWebsocket(conn net.Conn, readPool, writePool *bytes.Pool, tr *xtime.Timer) {
 	var (
 		err     error
 		rid     string
@@ -161,7 +161,7 @@ func (s *Server) ServeWebsocket(conn net.Conn, rp, wp *bytes.Pool, tr *xtime.Tim
 		b       *Bucket
 		trd     *xtime.TimerData
 		lastHB  = time.Now()
-		rb      = rp.Get()
+		rb      = readPool.Get()
 		ch      = NewChannel(s.c.Protocol.CliProto, s.c.Protocol.SvrProto)
 		rr      = &ch.Reader
 		wr      = &ch.Writer
@@ -186,21 +186,21 @@ func (s *Server) ServeWebsocket(conn net.Conn, rp, wp *bytes.Pool, tr *xtime.Tim
 	if req, err = websocket.ReadRequest(rr); err != nil || req.RequestURI != "/sub" {
 		conn.Close()
 		tr.Del(trd)
-		rp.Put(rb)
+		readPool.Put(rb)
 		if err != io.EOF {
 			log.Errorf("http.ReadRequest(rr) error(%v)", err)
 		}
 		return
 	}
 	// writer
-	wb := wp.Get()
+	wb := writePool.Get()
 	ch.Writer.ResetBuffer(conn, wb.Bytes())
 	step = 2
 	if ws, err = websocket.Upgrade(conn, rr, wr, req); err != nil {
 		conn.Close()
 		tr.Del(trd)
-		rp.Put(rb)
-		wp.Put(wb)
+		readPool.Put(rb)
+		writePool.Put(wb)
 		if err != io.EOF {
 			log.Errorf("websocket.NewServerConn error(%v)", err)
 		}
@@ -221,8 +221,8 @@ func (s *Server) ServeWebsocket(conn net.Conn, rp, wp *bytes.Pool, tr *xtime.Tim
 	step = 4
 	if err != nil {
 		ws.Close()
-		rp.Put(rb)
-		wp.Put(wb)
+		readPool.Put(rb)
+		writePool.Put(wb)
 		tr.Del(trd)
 		if err != io.EOF && err != websocket.ErrMessageClose {
 			log.Errorf("key: %s remoteIP: %s step: %d ws handshake failed error(%v)", ch.Key, conn.RemoteAddr().String(), step, err)
@@ -237,7 +237,7 @@ func (s *Server) ServeWebsocket(conn net.Conn, rp, wp *bytes.Pool, tr *xtime.Tim
 	}
 	// hanshake ok start dispatch goroutine
 	step = 5
-	go s.dispatchWebsocket(ws, wp, wb, ch)
+	go s.dispatchWebsocket(ws, writePool, wb, ch)
 	serverHeartbeat := s.RandServerHearbeat()
 	for {
 		if p, err = ch.CliProto.Set(); err != nil {
@@ -290,7 +290,7 @@ func (s *Server) ServeWebsocket(conn net.Conn, rp, wp *bytes.Pool, tr *xtime.Tim
 	tr.Del(trd)
 	ws.Close()
 	ch.Close()
-	rp.Put(rb)
+	readPool.Put(rb)
 	if err = s.Disconnect(ctx, ch.Mid, ch.Key); err != nil {
 		log.Errorf("key: %s operator do disconnect error(%v)", ch.Key, err)
 	}

@@ -16,13 +16,13 @@ import (
 
 	"github.com/tsingson/discovery/naming"
 	resolver "github.com/tsingson/discovery/naming/grpc"
-	"github.com/tsingson/fastx/utils"
+	"github.com/tsingson/ex-goim/pkg/utils"
 	log "github.com/tsingson/zaplogger"
 
 	"github.com/tsingson/ex-goim/internal/nats/comet"
 	"github.com/tsingson/ex-goim/internal/nats/comet/conf"
 	"github.com/tsingson/ex-goim/internal/nats/comet/grpc"
-	md "github.com/tsingson/ex-goim/internal/nats/model"
+	"github.com/tsingson/ex-goim/internal/nats/model"
 	"github.com/tsingson/ex-goim/pkg/ip"
 )
 
@@ -118,9 +118,9 @@ func register(dis *naming.Discovery, srv *comet.Server) context.CancelFunc {
 			"grpc://" + addr + ":" + port,
 		},
 		Metadata: map[string]string{
-			md.MetaWeight:  strconv.FormatInt(env.Weight, 10),
-			md.MetaOffline: strconv.FormatBool(env.Offline),
-			md.MetaAddrs:   strings.Join(env.Addrs, ","),
+			model.MetaWeight:  strconv.FormatInt(env.Weight, 10),
+			model.MetaOffline: strconv.FormatBool(env.Offline),
+			model.MetaAddrs:   strings.Join(env.Addrs, ","),
 		},
 	}
 	cancel, err := dis.Register(ins)
@@ -141,8 +141,8 @@ func register(dis *naming.Discovery, srv *comet.Server) context.CancelFunc {
 				}
 				conns += bucket.ChannelCount()
 			}
-			ins.Metadata[md.MetaConnCount] = fmt.Sprint(conns)
-			ins.Metadata[md.MetaIPCount] = fmt.Sprint(len(ips))
+			ins.Metadata[model.MetaConnCount] = fmt.Sprint(conns)
+			ins.Metadata[model.MetaIPCount] = fmt.Sprint(len(ips))
 			if err = dis.Set(ins); err != nil {
 				log.Errorf("dis.Set(%+v) error(%v)", ins, err)
 				time.Sleep(time.Second)

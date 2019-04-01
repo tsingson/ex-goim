@@ -7,21 +7,44 @@ goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息�
 
 由于修改比较大, 暂时用新的 repo 来进行代码管理, 以后看情况是否能回归到 Terry-Mao 的主线版本上. 
 
+
+
 同时, 与 [goim](https://github.com/Terry-Mao/goim) 有所差异的重要一点是:
+
  **这个 fork 是实验性质, 请不要用于生产环境!!  this repo is NOT production ready!!**
+
+
+
+### Movation 动机
+
+作为一个曾经的架构师(2005~2014, Utstarcom IPTV/OTT 事业部) 与当前自由的技术类咨询与服务从业者, 有合作伙伴询问 IM 用在视频直播中的方案, 我作了一些研究( 作为曾经的架构师/解决方案工程师/ IPTV播控产品线 release manager,  我除了技术原型的实现代码以外, 甚少参与实际撰写代码的工作 )
+
+
+
+中国 B站( BiliBili ) 的技术领军 [毛剑](https://github.com/Terry-Mao/) 是我神交以久的技术专家, 这次就以  [goim](https://github.com/Terry-Mao/goim)  为基础进行了一些学习与扩展尝试.
+
+
+
+同时,  另一位技术专家 [Xin.zh](https://github.com/alexstocks) 的文章 [一套高可用实时消息系统实现](https://alexstocks.github.io/html/pubsub.html) 以及我在电信/广电的经历, 这一次,  闲来无事, 尝试写一些代码来加深学习.
 
 
 
 ### 主要变更
 
-1. 消息队列修改为 [nats](https://github.com/nats-io/gnatsd) + [liftbridge](https://github.com/liftbridge-io/liftbridge)  注:  [liftbridge](https://github.com/liftbridge-io/liftbridge) 替代了 [nats-streaming-server](https://github.com/nats-io/nats-streaming-server) , 相关信息参见[liftbridge介绍文章](https://bravenewgeek.com/introducing-liftbridge-lightweight-fault-tolerant-message-streams/)
-2. 日志替换为 [uber-go/zap](https://github.com/uber-go/zap), 替换原一是因为 zap 快一点, 二是个人更为熟悉这个日志库 
-3. 修改了三个应用程序的启动方式, 去除了所有启动参数, 改为读取指定的配置文件 ( 为将来实现 daemon 化而准备) 
+![arch](./docs/arch.png)
 
-### 文件
-修改文件如下
 
-支持 nats 的应用程序在以下路径, 每个应用下的 toml 为对应的配置
+  - [x] 消息队列修改为 [nats](https://github.com/nats-io/gnatsd) + [liftbridge](https://github.com/liftbridge-io/liftbridge)  注:  [liftbridge](https://github.com/liftbridge-io/liftbridge) 替代了 [nats-streaming-server](https://github.com/nats-io/nats-streaming-server) , 相关信息参见[liftbridge介绍文章](https://bravenewgeek.com/introducing-liftbridge-lightweight-fault-tolerant-message-streams/)
+  - [x] 日志替换为 [uber-go/zap](https://github.com/uber-go/zap), 替换原一是因为 zap 快一点, 二是个人更为熟悉这个日志库 
+  - [x] 修改了三个应用程序的启动方式, 去除了所有启动参数, 改为读取指定的 toml 配置文件( 同时, 预留接口以久将来进行读取远程配置, 及配置参数动态加载) 
+  - [ ] 深入 comet / logic 模块尽量抽象接口, 以及作一些外部对接, 以及 技术实现的替换 ,  例如, websocket 更换为 [ws](https://github.com/gobwas/ws))
+  - [ ] comet 增加 gRPC 与 rpc 接口,  tcp /websocket 等扩展增加用户注册 /发送消息/ 变更聊天室 / 查看历史消息等
+  - [ ] 增加 gRPC 拦截 ( 支持 chatbot 等), 增加支持 消息历史存储/ relay 等接口
+
+
+
+### 文件结构
+修改文件如下示意, 支持 nats 的应用程序在以下路径, 每个应用下的 toml 为对应的配置
 /cmd/nats/discoveryd-config.toml 为  discovery 的配置
 
 ```
@@ -47,17 +70,14 @@ goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息�
 
 
 
-### TODO
-1. [x] 抽取  kafka 部分为 interface 
-2. [x] 增加测试
-3. [x] 增加修改变更说明文档
-
 ###  goim guide 安装/编译/使用指南(WIP)
 参见 [/goim-usage-cn.md](goim-usage-cn.md) ( chinese )
 
 
+
 goim v2.0
 ==============
+
 [![Build Status](https://travis-ci.org/Terry-Mao/goim.svg?branch=master)](https://travis-ci.org/Terry-Mao/goim) 
 [![Go Report Card](https://goreportcard.com/badge/github.com/Terry-Mao/goim)](https://goreportcard.com/report/github.com/Terry-Mao/goim)
 [![codecov](https://codecov.io/gh/Terry-Mao/goim/branch/master/graph/badge.svg)](https://codecov.io/gh/Terry-Mao/goim)
