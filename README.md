@@ -12,7 +12,9 @@ goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息�
 同时, 与 [goim](https://github.com/Terry-Mao/goim) 有所差异的重要一点是:
 
  **这个 fork 是实验性质练手项目, 请不要用于生产环境!!  this repo personal Experimental , DO NOT use in production!!**
+ 
  **这个 fork 是实验性质练手项目, 请不要用于生产环境!!  this repo personal Experimental , DO NOT use in production!!**
+ 
  **这个 fork 是实验性质练手项目, 请不要用于生产环境!!  this repo personal Experimental , DO NOT use in production!!**
  
 
