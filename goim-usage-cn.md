@@ -82,6 +82,13 @@ discoveryd
 
 ## 3. running GOIM with nats 运行GOIM
 
+### 编译版本运行
+
+请下载 [编译好的 goim 三个应用](https://github.com/tsingson/ex-goim/releases/download/v2.0.1/goim.tar.bz2)  并用以下命令解码到 linux ( 验证环境为 cent os 7 ) 到某一路径下 
+
+分别在三个不同的 terminal 运行程序 
+
+
 ### 编译与配置
 克隆本项目 repo 
 ```
