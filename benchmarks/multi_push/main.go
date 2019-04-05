@@ -31,6 +31,7 @@ type pushsBodyMsg struct {
 }
 
 func init() {
+
 	httpTransport := &http.Transport{
 		Dial: func(netw, addr string) (net.Conn, error) {
 			deadline := time.Now().Add(30 * time.Second)
