@@ -42,13 +42,30 @@ liftbridge --raft-bootstrap-seed
 注: 关于 liftbridge 集群多例运行, 请参考原文档
 
 ### 3. discovery 运行
+
+请下载 [编译好的discoveryd用于测试](https://github.com/tsingson/discovery/releases/download/v0.1.1/discoveryd.tar.bz2)  并用以下命令解码到 linux ( 验证环境为 cent os 7 ) 到某一路径下 
+
+	注: 压缩包的打包方式 tar -cvjpf discoveryd.tar.bz2 ./discoveryd
+
+
 ```
-discovery -conf discovery-example.toml -alsologtostderr
+tar -xvjf    discoveryd.tar.bz2
+cd discoveryd
+chmod +x ./discoveryd
+ps -ef | grep discoveryd
+```
+
+ 运行, 注: 该程序为后台 daemon 运行, 用 ps -ef | grep discoveryd 查看是否成功运行
+
+```
+discoveryd
 ```
 
 
 
 ## 2. testing and running 测试与运行 
+
+分别在不同的 terminal 窗口中, 依次运行以下命令
 
 ```
 gnatsd
