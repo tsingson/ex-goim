@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package goim.comet;
 option go_package = "grpc";
+option (gogoproto.testgen_all) = true;
+option (gogoproto.benchgen_all) = true;
 
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 
