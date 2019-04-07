@@ -10,7 +10,7 @@ goim 是 非常成功的 IM 原型( 即时消息平台), 依赖项为 kafka ( �
 **重要警告**:
 
 
-**这个 fork 是实验性质练手项目, 请不要用于生产环境!!  **
+**这个 fork 是实验性质练手项目, 请不要用于生产环境!!**
 
 
 **this repo personal Experimental , DO NOT use in production!!**
