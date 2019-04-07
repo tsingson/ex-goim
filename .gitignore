@@ -9,6 +9,7 @@ vod-ts-data/
 vod-test/
 .idea/
 client/
+dist/
 vendor/
 *.swf
 *.air

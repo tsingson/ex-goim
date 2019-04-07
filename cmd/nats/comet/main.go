@@ -20,10 +20,10 @@ import (
 
 	"github.com/tsingson/ex-goim/pkg/utils"
 
-	"github.com/tsingson/ex-goim/goim-nats/nats/comet"
-	"github.com/tsingson/ex-goim/goim-nats/nats/comet/conf"
-	"github.com/tsingson/ex-goim/goim-nats/nats/comet/grpc"
-	"github.com/tsingson/ex-goim/goim-nats/nats/model"
+	"github.com/tsingson/ex-goim/goim-nats/comet"
+	"github.com/tsingson/ex-goim/goim-nats/comet/conf"
+	"github.com/tsingson/ex-goim/goim-nats/comet/grpc"
+	"github.com/tsingson/ex-goim/goim-nats/model"
 	"github.com/tsingson/ex-goim/pkg/ip"
 )
 

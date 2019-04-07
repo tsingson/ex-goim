@@ -1,0 +1,25 @@
+Nodes = ["127.0.0.1:7171"]
+
+[HTTPServer]
+  Addr = "127.0.0.1:7171"
+
+[HTTPClient]
+  Dial = "3s"
+  KeepAlive = "120s"
+
+[Env]
+  Region = "china"
+  Zone = "gd"
+  Host = "discovery"
+  DeployEnv = "dev"
+
+[Schedulers]
+  [Schedulers."discovery-dev"]
+    AppID = "discovery"
+    Env = "dev"
+    Remark = "test"
+
+    [[Schedulers."discovery-dev".Zones]]
+      Src = "gd"
+      [Schedulers."discovery-dev".Zones.Dst]
+        sz01 = 3

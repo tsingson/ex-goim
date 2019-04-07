@@ -14,13 +14,13 @@ import (
 	"github.com/tsingson/fastx/utils"
 	log "github.com/tsingson/zaplogger"
 
-	"github.com/tsingson/ex-goim/goim-nats/nats/logic"
-	"github.com/tsingson/ex-goim/goim-nats/nats/model"
+	"github.com/tsingson/ex-goim/goim-nats/logic"
+	"github.com/tsingson/ex-goim/goim-nats/model"
 
-	"github.com/tsingson/ex-goim/goim-nats/nats/logic/grpc"
-	"github.com/tsingson/ex-goim/goim-nats/nats/logic/http"
+	"github.com/tsingson/ex-goim/goim-nats/logic/grpc"
+	"github.com/tsingson/ex-goim/goim-nats/logic/http"
 
-	"github.com/tsingson/ex-goim/goim-nats/nats/logic/conf"
+	"github.com/tsingson/ex-goim/goim-nats/logic/conf"
 )
 
 const (

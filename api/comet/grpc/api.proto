@@ -48,11 +48,11 @@ message RoomsReply {
     map<string,bool> rooms = 1;
 }
 
-service Comet { 
+service Comet {
     // Ping Service 
-    rpc Ping(Empty) returns(Empty); 
+    rpc Ping(Empty) returns(Empty);
     // Close Service 
-    rpc Close(Empty) returns(Empty); 
+    rpc Close(Empty) returns(Empty);
     //PushMsg push by key or mid
     rpc PushMsg(PushMsgReq) returns (PushMsgReply);
     // Broadcast send to every enrity

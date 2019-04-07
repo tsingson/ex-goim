@@ -88,43 +88,43 @@ message ReceiveReply {
 }
 
 message NodesReq {
-	string platform = 1;
-	string clientIP = 2;
+    string platform = 1;
+    string clientIP = 2;
 }
 
 message NodesReply {
-	string domain = 1 [(gogoproto.jsontag) = "domain"];
-	int32 tcpPort = 2 [(gogoproto.jsontag) = "tcp_port"];
-	int32 wsPort = 3 [(gogoproto.jsontag) = "ws_port"];
-	int32 wssPort = 4 [(gogoproto.jsontag) = "wss_port"];
-	int32 heartbeat = 5 [(gogoproto.jsontag) = "heartbeat"];
-	repeated string nodes = 6 [(gogoproto.jsontag) = "nodes"];
-	Backoff backoff = 7 [(gogoproto.jsontag) = "backoff"];
-	int32 heartbeatMax = 8 [(gogoproto.jsontag) = "heartbeat_max"];
+    string domain = 1 [(gogoproto.jsontag) = "domain"];
+    int32 tcpPort = 2 [(gogoproto.jsontag) = "tcp_port"];
+    int32 wsPort = 3 [(gogoproto.jsontag) = "ws_port"];
+    int32 wssPort = 4 [(gogoproto.jsontag) = "wss_port"];
+    int32 heartbeat = 5 [(gogoproto.jsontag) = "heartbeat"];
+    repeated string nodes = 6 [(gogoproto.jsontag) = "nodes"];
+    Backoff backoff = 7 [(gogoproto.jsontag) = "backoff"];
+    int32 heartbeatMax = 8 [(gogoproto.jsontag) = "heartbeat_max"];
 }
 
 message Backoff {
-	int32	MaxDelay = 1 [(gogoproto.jsontag) = "max_delay"];
-	int32	BaseDelay = 2 [(gogoproto.jsontag) = "base_delay"];
-	float	Factor = 3 [(gogoproto.jsontag) = "factor"];
-	float	Jitter = 4 [(gogoproto.jsontag) = "jitter"];
+    int32 MaxDelay = 1 [(gogoproto.jsontag) = "max_delay"];
+    int32 BaseDelay = 2 [(gogoproto.jsontag) = "base_delay"];
+    float Factor = 3 [(gogoproto.jsontag) = "factor"];
+    float Jitter = 4 [(gogoproto.jsontag) = "jitter"];
 }
 
 service Logic {
     // Ping Service 
-    rpc Ping(PingReq) returns(PingReply);
+    rpc Ping (PingReq) returns (PingReply);
     // Close Service 
-    rpc Close(CloseReq) returns(CloseReply);
+    rpc Close (CloseReq) returns (CloseReply);
     // Connect
-    rpc Connect(ConnectReq) returns (ConnectReply);
+    rpc Connect (ConnectReq) returns (ConnectReply);
     // Disconnect
-    rpc Disconnect(DisconnectReq) returns (DisconnectReply);
+    rpc Disconnect (DisconnectReq) returns (DisconnectReply);
     // Heartbeat
-    rpc Heartbeat(HeartbeatReq) returns (HeartbeatReply);
+    rpc Heartbeat (HeartbeatReq) returns (HeartbeatReply);
     // RenewOnline
-    rpc RenewOnline(OnlineReq) returns (OnlineReply);
+    rpc RenewOnline (OnlineReq) returns (OnlineReply);
     // Receive
-    rpc Receive(ReceiveReq) returns (ReceiveReply);
-	//ServerList
-	rpc Nodes(NodesReq) returns (NodesReply);
+    rpc Receive (ReceiveReq) returns (ReceiveReply);
+    //ServerList
+    rpc Nodes (NodesReq) returns (NodesReply);
 }
