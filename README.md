@@ -97,14 +97,26 @@ goim 是 非常成功的 IM 原型( 即时消息平台), 依赖项为 kafka ( �
 ```
 cd ./api/comet/grpc
 
-protoc  -I=/Users/qinshen/go/src -I=/usr/local/include  -I=./ --gofast_out=plugins=grpc:.  ./*.proto
+protoc  -I=$HOME/go/src -I=/usr/local/include  -I=./ --gofast_out=plugins=grpc:.  ./*.proto
 
 cd ./api/logic/grpc
 
-protoc  -I=/Users/qinshen/go/src -I=/usr/local/include  -I=./ --gofast_out=plugins=grpc:.  ./*.proto
+protoc  -I=$HOME/go/src -I=/usr/local/include  -I=./ --gofast_out=plugins=grpc:.  ./*.proto
 
 
 ```
+
+
+
+**build 参数**
+
+```
+go install -gcflags=-trimpath=OPATH -asmflags=-trimpath=OPATH -a -tags netgo -ldflags "-w -s -extldflags '-static'" ./cmd/nats/comet/
+
+或 go build -gcflags=-trimpath=OPATH -asmflags=-trimpath=OPATH -a -tags netgo -ldflags "-w -s -extldflags '-static'" -o ./dist/linux/comet ./cmd/nats/comet/
+```
+
+
 
 
 
