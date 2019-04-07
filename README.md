@@ -81,6 +81,41 @@ goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息�
 参见 [/goim-usage-cn.md](goim-usage-cn.md) ( chinese )
 
 
+
+为简化配置, 新增 /third-party/ 将 nats / liftbridge / discovery 放在这里, 并加入到 Makefile 中, 可以在本 repo 在编译依赖
+
+
+
+请查看 [/Makefile](/Makefile) , 运行 make 
+
+**编译**
+```
+make setup
+make build
+```
+或者 
+```
+make setup
+make build-mac
+```
+
+**运行**
+```
+make run
+```
+
+
+
+**清除编译**
+
+```
+make clean
+```
+
+
+
+
+
 ____________________
 
 goim v2.0

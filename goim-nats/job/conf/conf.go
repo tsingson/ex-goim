@@ -3,7 +3,10 @@ package conf
 import (
 	"time"
 
+	"github.com/BurntSushi/toml"
+	"github.com/imdario/mergo"
 	"github.com/tsingson/discovery/naming"
+	"golang.org/x/xerrors"
 
 	xtime "github.com/tsingson/ex-goim/pkg/time"
 )
@@ -106,4 +109,26 @@ func Default() *Config {
 			Idle:   xtime.Duration(time.Minute * 15),
 		},
 	}
+}
+
+// Load init config.
+func Load(path string) (cfg *Config, err error) {
+
+	if len(path) == 0 {
+		return cfg, xerrors.New("config path is nil")
+	}
+
+	Conf = Default()
+	cfg = Default()
+
+	_, err = toml.DecodeFile(path, &cfg)
+	if err != nil {
+		return
+	}
+	err = mergo.Merge(&Conf, cfg, mergo.WithOverride)
+	if err != nil {
+		return Conf, err
+	}
+
+	return Conf, nil
 }

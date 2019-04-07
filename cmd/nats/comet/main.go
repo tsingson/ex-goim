@@ -43,7 +43,7 @@ func main() {
 
 	flag.Parse()
 	var err error
-	cfg, err = conf.Init(confPath)
+	cfg, err = conf.Load(confPath)
 	if err != nil {
 		panic(err)
 	}
