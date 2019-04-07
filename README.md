@@ -93,6 +93,21 @@ goim 是 非常成功的 IM 原型( 即时消息平台), 依赖项为 kafka ( �
 
 
 
+**proto 生成go**
+```
+cd ./api/comet/grpc
+
+protoc  -I=/Users/qinshen/go/src -I=/usr/local/include  -I=./ --gofast_out=plugins=grpc:.  ./*.proto
+
+cd ./api/logic/grpc
+
+protoc  -I=/Users/qinshen/go/src -I=/usr/local/include  -I=./ --gofast_out=plugins=grpc:.  ./*.proto
+
+
+```
+
+
+
 请查看 [/Makefile](/Makefile) , 运行 make 
 
 **编译**

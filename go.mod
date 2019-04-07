@@ -30,7 +30,6 @@ require (
 	github.com/nsip/gommap v0.0.0-20181229045655-f7881c3a959f // indirect
 	github.com/pascaldekloe/goe v0.1.0 // indirect
 	github.com/pkg/errors v0.8.1
-	github.com/sanity-io/litter v1.1.0
 	github.com/sirupsen/logrus v1.4.1 // indirect
 	github.com/spf13/afero v1.2.2
 	github.com/stretchr/testify v1.3.0

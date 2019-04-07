@@ -9,7 +9,7 @@ import (
 	"github.com/zhenjl/cityhash"
 
 	logic "github.com/tsingson/ex-goim/api/logic/grpc"
-	"github.com/tsingson/ex-goim/goim-nats/comet/client"
+
 	"github.com/tsingson/ex-goim/goim-nats/comet/conf"
 )
 
@@ -34,7 +34,7 @@ func NewServer(cfg *conf.CometConfig) *Server {
 	s := &Server{
 		c:         cfg,
 		round:     NewRound(cfg),
-		rpcClient: client.NewLogicClient(cfg.RPCClient),
+		rpcClient: NewLogicClient(cfg.RPCClient),
 	}
 	// init bucket
 	s.buckets = make([]*Bucket, cfg.Bucket.Size)

@@ -3,6 +3,8 @@ syntax = "proto3";
 package goim.logic;
 
 option go_package = "grpc";
+option (gogoproto.testgen_all) = true;
+option (gogoproto.benchgen_all) = true;
 
 import "github.com/tsingson/ex-goim/api/comet/grpc/api.proto";
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
