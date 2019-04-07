@@ -20,7 +20,6 @@ func main() {
 	runtime.MemProfileRate = 0
 	runtime.GOMAXPROCS(128)
 
-
 	/**
 	tw = timingwheel.NewTimingWheel(time.Minute, 60)
 	tw.StartCron()
@@ -50,7 +49,7 @@ func main() {
 
 	svr, cancel := discovery.New(cfg)
 
-	 http.Init(cfg, svr)
+	http.Init(cfg, svr)
 
 	// if err != nil {
 	// 	cancel()

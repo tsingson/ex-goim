@@ -109,8 +109,8 @@ type Whitelist struct {
 	WhiteLog  string
 }
 
-// Init init config.
-func Init(path string) (cfg *Config, err error) {
+// Load init config.
+func Load(path string) (cfg *Config, err error) {
 
 	if len(path) == 0 {
 		return cfg, xerrors.New("config path is nil")

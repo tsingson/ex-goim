@@ -4,13 +4,14 @@ import (
 	"time"
 
 	"github.com/BurntSushi/toml"
+	"github.com/imdario/mergo"
 	"github.com/tsingson/discovery/naming"
 	"golang.org/x/xerrors"
 
 	xtime "github.com/tsingson/ex-goim/pkg/time"
 )
 
-// LogicConfig config.
+// Config config.
 type Config struct {
 	Env        *Env
 	Discovery  *naming.Config
@@ -25,6 +26,7 @@ type Config struct {
 	Regions map[string][]string
 }
 
+// LogicConfig as alias of Config
 type LogicConfig = Config
 
 // Env is env config.
@@ -84,6 +86,8 @@ type Nats struct {
 	ChannelID string //  "channel-stream"
 	AckInbox  string // "acks"
 }
+
+// NatsConfig as alias of Nats
 type NatsConfig = Nats
 
 // RPCClient is RPC client config.
@@ -126,30 +130,32 @@ var (
 
 func init() {
 	Conf = Default()
-	// 	var (
-	// 		defHost, _   = os.Hostname()
-	// 		defWeight, _ = strconv.ParseInt(os.Getenv("WEIGHT"), 10, 32)
-	// 	)
-	// 	flag.StringVar(&confPath, "conf", "logic-example.toml", "default config path")
-	// 	flag.StringVar(&region, "region", os.Getenv("REGION"), "avaliable region. or use REGION env variable, value: sh etc.")
-	// 	flag.StringVar(&zone, "zone", os.Getenv("ZONE"), "avaliable zone. or use ZONE env variable, value: sh001/sh002 etc.")
-	// 	flag.StringVar(&deployEnv, "deploy.env", os.Getenv("DEPLOY_ENV"), "deploy env. or use DEPLOY_ENV env variable, value: dev/fat1/uat/pre/prod etc.")
-	// 	flag.StringVar(&host, "host", defHost, "machine hostname. or use default machine hostname.")
-	// 	flag.Int64Var(&weight, "weight", defWeight, "load balancing weight, or use WEIGHT env variable, value: 10 etc.")
+
 }
 
-// Init init config.
-func Init(path string) (cfg *Config, err error) {
-	Conf = Default()
-	if len(path) > 0 {
-		_, err = toml.DecodeFile(path, &Conf)
-	} else {
-		_, err = toml.DecodeFile(confPath, &Conf)
+// Load init config.
+func Load(path string) (cfg *Config, err error) {
+
+	if len(path) == 0 {
+		return cfg, xerrors.New("config path is nil")
 	}
+
+	Conf = Default()
+	cfg = Default()
+
+	_, err = toml.DecodeFile(path, &cfg)
+	if err != nil {
+		return
+	}
+	err = mergo.Merge(&Conf, cfg, mergo.WithOverride)
+	if err != nil {
+		return Conf, err
+	}
+
 	return Conf, nil
 }
 
-// Init init config.
+// LoadToml init config.
 func LoadToml(path string) (cfg *Config, err error) {
 	Conf = Default()
 	if len(path) == 0 {

@@ -5,14 +5,14 @@ import (
 
 	"github.com/spf13/afero"
 
-config 	"github.com/tsingson/discovery/conf"
+	config "github.com/tsingson/discovery/conf"
 )
 
 var ( // global variable
 	// cacheSize                int
 	// cacheTimeOut             int64
 	path, logPath string
-	cfg  *config.Config
+	cfg           *config.Config
 )
 
 func init() {

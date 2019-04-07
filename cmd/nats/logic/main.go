@@ -8,7 +8,6 @@ import (
 	"strconv"
 	"syscall"
 
-	"github.com/sanity-io/litter"
 	"github.com/tsingson/discovery/naming"
 	resolver "github.com/tsingson/discovery/naming/grpc"
 	"github.com/tsingson/fastx/utils"
@@ -35,13 +34,11 @@ func main() {
 	confPath := path + "/logic-config.toml"
 
 	var err error
-	cfg, err = conf.LoadToml(confPath)
+	cfg, err = conf.Load(confPath)
 
 	if err != nil {
 		panic(err)
 	}
-
-	litter.Dump(cfg)
 
 	{
 		// env := &conf.Env{

@@ -25,7 +25,7 @@ func main() {
 	runtime.MemProfileRate = 0
 	runtime.GOMAXPROCS(128)
 	signal := make(chan struct{})
-	s:= RunDefaultServer()
+	s := RunDefaultServer()
 	s.Start()
 	defer s.Shutdown()
 	<-signal
