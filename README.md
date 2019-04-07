@@ -113,7 +113,8 @@ protoc  -I=/Users/qinshen/go/src -I=/usr/local/include  -I=./ --gofast_out=plugi
 **编译**
 ```
 make setup
-make build
+make build-linux
+make build-mac
 ```
 或者 
 ```
@@ -123,8 +124,13 @@ make build-mac
 
 **运行**
 ```
-make run
+make run-linux
+make run-mac
 ```
+
+**注意**:
+
+由于 bilibili/discovery 中[我修改的代码代码](/third-party/discoveryd/)使用了 [https://github.com/sevlyar/go-daemon](https://github.com/sevlyar/go-daemon)  不支持 windows, 所以, 如果需要在 windows 下运行, 请自行修改 /third-party-discoveryd 去除 daemon 
 
 
 
@@ -133,6 +139,8 @@ make run
 ```
 make clean
 ```
+
+
 
 
 
