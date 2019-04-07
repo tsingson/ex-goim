@@ -7,50 +7,16 @@ import (
 
 	log "github.com/tsingson/zaplogger"
 	"github.com/zhenjl/cityhash"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/balancer/roundrobin"
-	"google.golang.org/grpc/keepalive"
 
 	logic "github.com/tsingson/ex-goim/api/logic/grpc"
+	"github.com/tsingson/ex-goim/goim-nats/comet/client"
 	"github.com/tsingson/ex-goim/goim-nats/comet/conf"
 )
 
 const (
 	minServerHeartbeat = time.Minute * 10
 	maxServerHeartbeat = time.Minute * 30
-	// grpc options
-	grpcInitialWindowSize     = 1 << 24
-	grpcInitialConnWindowSize = 1 << 24
-	grpcMaxSendMsgSize        = 1 << 24
-	grpcMaxCallMsgSize        = 1 << 24
-	grpcKeepAliveTime         = time.Second * 10
-	grpcKeepAliveTimeout      = time.Second * 3
-	grpcBackoffMaxDelay       = time.Second * 3
 )
-
-func newLogicClient(c *conf.RPCClient) logic.LogicClient {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(c.Dial))
-	defer cancel()
-	conn, err := grpc.DialContext(ctx, "discovery://default/goim.logic",
-		[]grpc.DialOption{
-			grpc.WithInsecure(),
-			grpc.WithInitialWindowSize(grpcInitialWindowSize),
-			grpc.WithInitialConnWindowSize(grpcInitialConnWindowSize),
-			grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(grpcMaxCallMsgSize)),
-			grpc.WithDefaultCallOptions(grpc.MaxCallSendMsgSize(grpcMaxSendMsgSize)),
-			grpc.WithBackoffMaxDelay(grpcBackoffMaxDelay),
-			grpc.WithKeepaliveParams(keepalive.ClientParameters{
-				Time:                grpcKeepAliveTime,
-				Timeout:             grpcKeepAliveTimeout,
-				PermitWithoutStream: true,
-			}),
-			grpc.WithBalancerName(roundrobin.Name),
-		}...)
-	if err != nil {
-		panic(err)
-	}
-	return logic.NewLogicClient(conn)
-}
 
 // Server is comet server.
 type Server struct {
@@ -68,7 +34,7 @@ func NewServer(cfg *conf.CometConfig) *Server {
 	s := &Server{
 		c:         cfg,
 		round:     NewRound(cfg),
-		rpcClient: newLogicClient(cfg.RPCClient),
+		rpcClient: client.NewLogicClient(cfg.RPCClient),
 	}
 	// init bucket
 	s.buckets = make([]*Bucket, cfg.Bucket.Size)

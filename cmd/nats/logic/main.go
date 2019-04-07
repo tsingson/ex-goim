@@ -40,18 +40,7 @@ func main() {
 		panic(err)
 	}
 
-	{
-		// env := &conf.Env{
-		// 	Region:    "china",
-		// 	Zone:      "gd",
-		// 	DeployEnv: "sz",
-		// 	Host:      "logic",
-		// }
-		// cfg.Env = env
-	}
-
 	var dis *naming.Discovery
-
 	{
 		log.Infof("goim-logic [version: %s env: %+v] start", ver, cfg.Env)
 		// grpc register naming
@@ -62,7 +51,8 @@ func main() {
 	// logic
 	srv := logic.New(cfg)
 	httpSrv := http.New(cfg.HTTPServer, srv)
-	rpcSrv := grpc.New(cfg.RPCServer, srv)
+	// grpc
+	grpcSrv := grpc.New(cfg.RPCServer, srv)
 	cancel := register(dis, srv)
 	// signal
 	c := make(chan os.Signal, 1)
@@ -77,7 +67,8 @@ func main() {
 			}
 			srv.Close()
 			httpSrv.Close()
-			rpcSrv.GracefulStop()
+			// grpc
+			grpcSrv.GracefulStop()
 			log.Infof("goim-logic [version: %s] exit", ver)
 			// log.Flush()
 			return

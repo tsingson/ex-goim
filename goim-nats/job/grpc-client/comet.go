@@ -1,4 +1,4 @@
-package job
+package grpc_client
 
 import (
 	"context"
@@ -68,8 +68,8 @@ type Comet struct {
 	roomChanNum   uint64
 	routineSize   uint64
 
-	ctx    context.Context
-	cancel context.CancelFunc
+	Ctx    context.Context
+	Cancel context.CancelFunc
 }
 
 // NewComet new a comet.
@@ -95,7 +95,7 @@ func NewComet(in *naming.Instance, c *conf.Comet) (*Comet, error) {
 	if cmt.client, err = newCometClient(grpcAddr); err != nil {
 		return nil, err
 	}
-	cmt.ctx, cmt.cancel = context.WithCancel(context.Background())
+	cmt.Ctx, cmt.Cancel = context.WithCancel(context.Background())
 
 	for i := 0; i < c.RoutineSize; i++ {
 		cmt.pushChan[i] = make(chan *comet.PushMsgReq, c.RoutineChan)
@@ -154,7 +154,7 @@ func (c *Comet) process(pushChan chan *comet.PushMsgReq, roomChan chan *comet.Br
 			if err != nil {
 				log.Errorf("c.client.PushMsg(%s, reply) serverId:%s error(%v)", pushArg, c.serverID, err)
 			}
-		case <-c.ctx.Done():
+		case <-c.Ctx.Done():
 			return
 		}
 	}
@@ -185,6 +185,6 @@ func (c *Comet) Close() (err error) {
 	case <-time.After(5 * time.Second):
 		err = fmt.Errorf("close comet(server:%s push:%d room:%d broadcast:%d) timeout", c.serverID, len(c.pushChan), len(c.roomChan), len(c.broadcastChan))
 	}
-	c.cancel()
+	c.Cancel()
 	return
 }

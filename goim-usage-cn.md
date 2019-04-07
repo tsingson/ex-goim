@@ -80,7 +80,7 @@ discoveryd
 
 ```
 
-## 3. running GOIM with nats 运行GOIM
+## 3. running GOIM  运行GOIM
 
 ### 编译版本运行
 
@@ -107,8 +107,8 @@ cd goim
 
 ```
 $ cd $GOPATH/bin
-./comet
 ./logic
+./comet
 ./job 
 ```
 

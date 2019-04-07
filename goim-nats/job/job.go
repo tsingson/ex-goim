@@ -11,6 +11,7 @@ import (
 	"github.com/tsingson/discovery/naming"
 
 	"github.com/tsingson/ex-goim/goim-nats/job/conf"
+	"github.com/tsingson/ex-goim/goim-nats/job/grpc-client"
 
 	liftprpc "github.com/liftbridge-io/go-liftbridge/liftbridge-grpc"
 
@@ -23,7 +24,7 @@ import (
 type Job struct {
 	c            *conf.JobConfig
 	consumer     liftbridge.Client
-	cometServers map[string]*Comet
+	cometServers map[string]*grpc_client.Comet
 	rooms        map[string]*Room
 	roomsMutex   sync.RWMutex
 }
@@ -100,13 +101,13 @@ func (j *Job) newAddress(insMap map[string][]*naming.Instance) error {
 	if len(ins) == 0 {
 		return fmt.Errorf("WatchComet instance is empty")
 	}
-	comets := map[string]*Comet{}
+	comets := map[string]*grpc_client.Comet{}
 	for _, in := range ins {
 		if old, ok := j.cometServers[in.Hostname]; ok {
 			comets[in.Hostname] = old
 			continue
 		}
-		c, err := NewComet(in, j.c.Comet)
+		c, err := grpc_client.NewComet(in, j.c.Comet)
 		if err != nil {
 			log.Errorf("WatchComet NewComet(%+v) error(%v)", in, err)
 			return err
@@ -116,7 +117,7 @@ func (j *Job) newAddress(insMap map[string][]*naming.Instance) error {
 	}
 	for key, old := range j.cometServers {
 		if _, ok := comets[key]; !ok {
-			old.cancel()
+			old.Cancel()
 			log.Infof("WatchComet DelComet:%s", key)
 		}
 	}
