@@ -3,15 +3,18 @@ fork from [goim](https://github.com/Terry-Mao/goim)  and support nats  to replac
 
 
 ## 0. chinese note 中文说明
-goim 是 非常成功的 IM ( 即时消息平台), 依赖项为 kafka ( 消息队列) + zookeeper ( 扩展/均衡 ) + bilibili/discovery( 服务发现) , 由于 kafka / zk 在部署上与 golang 的单一可执行文件相比, 稍复杂, 这里 fork 了 goim 并修改为 nats ( 并抽象 dao 为接口, 提供其他队列支持的可能性) 
+goim 是 非常成功的 IM 原型( 即时消息平台), 依赖项为 kafka ( 消息队列) + zookeeper ( 扩展/均衡 ) + bilibili/discovery( 服务发现) , 为简化 kafka / zk 的复杂部署参数配置与 jvm 依赖, 这里 fork 了 goim 并修改为 [nats](https://github.com/nats-io/gnatsd) + [liftbridge](https://github.com/liftbridge-io/liftbridge) , 由   [nats](https://github.com/nats-io/gnatsd) 实现 简化版的 kafka 队列功能 + zookeeper 的集群协调, 由  [liftbridge](https://github.com/liftbridge-io/liftbridge)  实现 nats 消息的持久化
 
-由于修改比较大, 暂时用新的 repo 来进行代码管理, 以后看情况是否能回归到 Terry-Mao 的主线版本上. 
+由于修改比较大, 暂时用新的 repo 来进行代码管理
 
 
+**重要警告**:
 
-同时, 与 [goim](https://github.com/Terry-Mao/goim) 有所差异的重要一点:
 
- **这个 fork 是实验性质练手项目, 请不要用于生产环境!!  this repo personal Experimental , DO NOT use in production!!**
+**这个 fork 是实验性质练手项目, 请不要用于生产环境!!  **
+
+ 
+**this repo personal Experimental , DO NOT use in production!!**
 
 
 
