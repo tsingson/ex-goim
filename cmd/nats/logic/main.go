@@ -24,7 +24,7 @@ import (
 
 const (
 	ver   = "2.0.0"
-	appid = "goim.logic"
+	appID = "goim.logic"
 )
 
 var cfg *conf.LogicConfig
@@ -89,7 +89,7 @@ func register(dis *naming.Discovery, srv *logic.Logic) context.CancelFunc {
 		Zone:     env.Zone,
 		Env:      env.DeployEnv,
 		Hostname: env.Host,
-		AppID:    appid,
+		AppID:    appID,
 		Addrs: []string{
 			"grpc://" + addr + ":" + port,
 		},

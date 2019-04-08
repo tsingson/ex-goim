@@ -26,14 +26,14 @@ func main() {
 	path, _ := utils.GetCurrentExecDir()
 	confPath := path + "/job-config.toml"
 	flag.Parse()
-
-	cfg, err := conf.Load(confPath)
+	var err error
+	cfg, err = conf.Load(confPath)
 	if err != nil {
 		panic(err)
 	}
 
 	log.Infof("goim-job [version: %s env: %+v] start", ver, cfg.Env)
-	// grpc register naming
+	// gRPC register naming
 	dis := naming.New(cfg.Discovery)
 	resolver.Register(dis)
 	// job
@@ -47,7 +47,7 @@ func main() {
 		log.Infof("goim-job get a signal %s", s.String())
 		switch s {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
-			j.Close()
+			_ = j.Close()
 			log.Infof("goim-job [version: %s] exit", ver)
 			// log.Flush()
 			return

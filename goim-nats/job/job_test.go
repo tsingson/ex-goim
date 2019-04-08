@@ -17,7 +17,7 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func TestNatsJob_ConsumeCheck(t *testing.T) {
+func TestJob_ConsumeCheck(t *testing.T) {
 	d.ConsumeCheck()
 }
 

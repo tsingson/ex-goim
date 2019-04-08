@@ -1,4 +1,4 @@
-package grpc_client
+package grpc
 
 import (
 	"context"
@@ -34,8 +34,8 @@ const (
 )
 
 func newCometClient(addr string) (comet.CometClient, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(time.Second))
-	defer cancel()
+	ctx, cancelFunc := context.WithTimeout(context.Background(), time.Duration(time.Second))
+	defer cancelFunc()
 	conn, err := grpc.DialContext(ctx, addr,
 		[]grpc.DialOption{
 			grpc.WithInsecure(),
@@ -54,7 +54,7 @@ func newCometClient(addr string) (comet.CometClient, error) {
 	if err != nil {
 		return nil, err
 	}
-	return comet.NewCometClient(conn), err
+	return comet.NewCometClient(conn), nil
 }
 
 // Comet is a comet.

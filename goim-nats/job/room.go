@@ -39,7 +39,7 @@ func NewRoom(job *Job, id string, c *conf.Room) (r *Room) {
 		job:   job,
 		proto: make(chan *comet.Proto, c.Batch*2),
 	}
-	go r.pushproc(c.Batch, time.Duration(c.Signal))
+	go r.pushProcess(c.Batch, time.Duration(c.Signal))
 	return
 }
 
@@ -58,8 +58,8 @@ func (r *Room) Push(op int32, msg []byte) (err error) {
 	return
 }
 
-// pushproc merge proto and push msgs in batch.
-func (r *Room) pushproc(batch int, sigTime time.Duration) {
+// pushProcess merge proto and push msgs in batch.
+func (r *Room) pushProcess(batch int, sigTime time.Duration) {
 	var (
 		n    int
 		last time.Time
@@ -109,24 +109,24 @@ func (r *Room) pushproc(batch int, sigTime time.Duration) {
 	log.Infof("room:%s goroutine exit", r.id)
 }
 
-func (j *Job) delRoom(roomID string) {
-	j.roomsMutex.Lock()
-	delete(j.rooms, roomID)
-	j.roomsMutex.Unlock()
+func (job *Job) delRoom(roomID string) {
+	job.roomsMutex.Lock()
+	delete(job.rooms, roomID)
+	job.roomsMutex.Unlock()
 }
 
-func (j *Job) getRoom(roomID string) *Room {
-	j.roomsMutex.RLock()
-	room, ok := j.rooms[roomID]
-	j.roomsMutex.RUnlock()
+func (job *Job) getRoom(roomID string) *Room {
+	job.roomsMutex.RLock()
+	room, ok := job.rooms[roomID]
+	job.roomsMutex.RUnlock()
 	if !ok {
-		j.roomsMutex.Lock()
-		if room, ok = j.rooms[roomID]; !ok {
-			room = NewRoom(j, roomID, j.c.Room)
-			j.rooms[roomID] = room
+		job.roomsMutex.Lock()
+		if room, ok = job.rooms[roomID]; !ok {
+			room = NewRoom(job, roomID, job.c.Room)
+			job.rooms[roomID] = room
 		}
-		j.roomsMutex.Unlock()
-		log.Infof("new a room:%s active:%d", roomID, len(j.rooms))
+		job.roomsMutex.Unlock()
+		log.Infof("new a room:%s active:%d", roomID, len(job.rooms))
 	}
 	return room
 }

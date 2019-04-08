@@ -10,10 +10,10 @@ import (
 	"github.com/liftbridge-io/go-liftbridge"
 	"github.com/tsingson/discovery/naming"
 
-	"github.com/tsingson/ex-goim/goim-nats/job/conf"
-	"github.com/tsingson/ex-goim/goim-nats/job/grpc-client"
-
 	liftprpc "github.com/liftbridge-io/go-liftbridge/liftbridge-grpc"
+
+	"github.com/tsingson/ex-goim/goim-nats/job/conf"
+	"github.com/tsingson/ex-goim/goim-nats/job/grpc"
 
 	pb "github.com/tsingson/ex-goim/api/logic/grpc"
 
@@ -24,7 +24,7 @@ import (
 type Job struct {
 	c            *conf.JobConfig
 	consumer     liftbridge.Client
-	cometServers map[string]*grpc_client.Comet
+	cometServers map[string]*grpc.Comet
 	rooms        map[string]*Room
 	roomsMutex   sync.RWMutex
 }
@@ -60,7 +60,7 @@ func New(cfg *conf.JobConfig) *Job {
 }
 
 // WatchComet watch commet active
-func (j *Job) WatchComet(c *naming.Config) {
+func (job *Job) WatchComet(c *naming.Config) {
 	dis := naming.New(c)
 	resolver := dis.Build("goim.comet")
 	event := resolver.Watch()
@@ -70,7 +70,7 @@ func (j *Job) WatchComet(c *naming.Config) {
 			panic("WatchComet init failed")
 		}
 		if ins, ok := resolver.Fetch(); ok {
-			if err := j.newAddress(ins.Instances); err != nil {
+			if err := job.newAddress(ins.Instances); err != nil {
 				panic(err)
 			}
 			log.Infof("WatchComet init newAddress:%+v", ins)
@@ -86,7 +86,7 @@ func (j *Job) WatchComet(c *naming.Config) {
 			}
 			ins, ok := resolver.Fetch()
 			if ok {
-				if err := j.newAddress(ins.Instances); err != nil {
+				if err := job.newAddress(ins.Instances); err != nil {
 					log.Errorf("WatchComet newAddress(%+v) error(%+v)", ins, err)
 					continue
 				}
@@ -96,18 +96,18 @@ func (j *Job) WatchComet(c *naming.Config) {
 	}()
 }
 
-func (j *Job) newAddress(insMap map[string][]*naming.Instance) error {
-	ins := insMap[j.c.Env.Zone]
+func (job *Job) newAddress(insMap map[string][]*naming.Instance) error {
+	ins := insMap[job.c.Env.Zone]
 	if len(ins) == 0 {
 		return fmt.Errorf("WatchComet instance is empty")
 	}
-	comets := map[string]*grpc_client.Comet{}
+	comets := map[string]*grpc.Comet{}
 	for _, in := range ins {
-		if old, ok := j.cometServers[in.Hostname]; ok {
+		if old, ok := job.cometServers[in.Hostname]; ok {
 			comets[in.Hostname] = old
 			continue
 		}
-		c, err := grpc_client.NewComet(in, j.c.Comet)
+		c, err := grpc.NewComet(in, job.c.Comet)
 		if err != nil {
 			log.Errorf("WatchComet NewComet(%+v) error(%v)", in, err)
 			return err
@@ -115,13 +115,13 @@ func (j *Job) newAddress(insMap map[string][]*naming.Instance) error {
 		comets[in.Hostname] = c
 		log.Infof("WatchComet AddComet grpc:%+v", in)
 	}
-	for key, old := range j.cometServers {
+	for key, old := range job.cometServers {
 		if _, ok := comets[key]; !ok {
 			old.Cancel()
 			log.Infof("WatchComet DelComet:%s", key)
 		}
 	}
-	j.cometServers = comets
+	job.cometServers = comets
 	return nil
 }
 
@@ -132,9 +132,9 @@ func newLiftClient(cfg *conf.JobConfig) (liftbridge.Client, error) {
 }
 
 // Subscribe  get message
-func (d *Job) Subscribe(channel, channelID string) error {
+func (job *Job) Subscribe(channel, channelID string) error {
 	ctx := context.Background()
-	if err := d.consumer.Subscribe(ctx, channel, channelID, func(msg *liftprpc.Message, err error) {
+	if err := job.consumer.Subscribe(ctx, channel, channelID, func(msg *liftprpc.Message, err error) {
 		if err != nil {
 			return
 		}
@@ -148,13 +148,13 @@ func (d *Job) Subscribe(channel, channelID string) error {
 }
 
 // Consume messages, watch signals
-func (j *Job) Consume() {
+func (job *Job) Consume() {
 	ctx := context.Background()
 
 	// process push message
 	pushMsg := new(pb.PushMsg)
 
-	if err := j.consumer.Subscribe(ctx, j.c.Nats.Channel, j.c.Nats.ChannelID, func(msg *liftprpc.Message, err error) {
+	if err := job.consumer.Subscribe(ctx, job.c.Nats.Channel, job.c.Nats.ChannelID, func(msg *liftprpc.Message, err error) {
 		if err != nil {
 			return
 		}
@@ -164,8 +164,8 @@ func (j *Job) Consume() {
 			log.Errorf("proto.Unmarshal(%v) error(%v)", msg, err)
 			return
 		}
-		if err := j.push(context.Background(), pushMsg); err != nil {
-			log.Errorf("j.push(%v) error(%v)", pushMsg, err)
+		if err := job.push(context.Background(), pushMsg); err != nil {
+			log.Errorf("job.push(%v) error(%v)", pushMsg, err)
 		}
 		log.Infof("consume: %d  %s \t%+v", msg.Offset, msg.Key, pushMsg)
 
@@ -179,9 +179,9 @@ func (j *Job) Consume() {
 }
 
 // ConsumeCheck messages, watch signals
-func (j *Job) ConsumeCheck() {
+func (job *Job) ConsumeCheck() {
 	ctx := context.Background()
-	if err := j.consumer.Subscribe(ctx, j.c.Nats.Channel, j.c.Nats.ChannelID, func(msg *liftprpc.Message, err error) {
+	if err := job.consumer.Subscribe(ctx, job.c.Nats.Channel, job.c.Nats.ChannelID, func(msg *liftprpc.Message, err error) {
 		if err != nil {
 			return
 		}
@@ -194,8 +194,8 @@ func (j *Job) ConsumeCheck() {
 			log.Errorf("proto.Unmarshal(%v) error(%v)", msg, err)
 			return
 		}
-		// if err := j.push(context.Background(), pushMsg); err != nil {
-		// 	log.Errorf("j.push(%v) error(%v)", pushMsg, err)
+		// if err := job.push(context.Background(), pushMsg); err != nil {
+		// 	log.Errorf("job.push(%v) error(%v)", pushMsg, err)
 		// }
 		log.Infof("consume: %d  %s \t%+v", msg.Offset, msg.Key, pushMsg)
 
@@ -209,9 +209,9 @@ func (j *Job) ConsumeCheck() {
 }
 
 // Close close resounces.
-func (j *Job) Close() error {
-	if j.consumer != nil {
-		return j.consumer.Close()
+func (job *Job) Close() error {
+	if job.consumer != nil {
+		return job.consumer.Close()
 	}
 	return nil
 }

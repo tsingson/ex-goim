@@ -11,14 +11,14 @@ import (
 	"github.com/tsingson/ex-goim/pkg/bytes"
 )
 
-func (j *Job) push(ctx context.Context, pushMsg *pb.PushMsg) (err error) {
+func (job *Job) push(ctx context.Context, pushMsg *pb.PushMsg) (err error) {
 	switch pushMsg.Type {
 	case pb.PushMsg_PUSH:
-		err = j.pushKeys(pushMsg.Operation, pushMsg.Server, pushMsg.Keys, pushMsg.Msg)
+		err = job.pushKeys(pushMsg.Operation, pushMsg.Server, pushMsg.Keys, pushMsg.Msg)
 	case pb.PushMsg_ROOM:
-		err = j.getRoom(pushMsg.Room).Push(pushMsg.Operation, pushMsg.Msg)
+		err = job.getRoom(pushMsg.Room).Push(pushMsg.Operation, pushMsg.Msg)
 	case pb.PushMsg_BROADCAST:
-		err = j.broadcast(pushMsg.Operation, pushMsg.Msg, pushMsg.Speed)
+		err = job.broadcast(pushMsg.Operation, pushMsg.Msg, pushMsg.Speed)
 	default:
 		err = fmt.Errorf("no match push type: %s", pushMsg.Type)
 	}
@@ -26,7 +26,7 @@ func (j *Job) push(ctx context.Context, pushMsg *pb.PushMsg) (err error) {
 }
 
 // pushKeys push a message to a batch of subkeys.
-func (j *Job) pushKeys(operation int32, serverID string, subKeys []string, body []byte) (err error) {
+func (job *Job) pushKeys(operation int32, serverID string, subKeys []string, body []byte) (err error) {
 	buf := bytes.NewWriterSize(len(body) + 64)
 	p := &comet.Proto{
 		Ver:  1,
@@ -41,17 +41,17 @@ func (j *Job) pushKeys(operation int32, serverID string, subKeys []string, body 
 		ProtoOp: operation,
 		Proto:   p,
 	}
-	if c, ok := j.cometServers[serverID]; ok {
+	if c, ok := job.cometServers[serverID]; ok {
 		if err = c.Push(&args); err != nil {
 			log.Errorf("c.Push(%v) serverID:%s error(%v)", args, serverID, err)
 		}
-		log.Infof("pushKey:%s comets:%d", serverID, len(j.cometServers))
+		log.Infof("pushKey:%s comets:%d", serverID, len(job.cometServers))
 	}
 	return
 }
 
 // broadcast broadcast a message to all.
-func (j *Job) broadcast(operation int32, body []byte, speed int32) (err error) {
+func (job *Job) broadcast(operation int32, body []byte, speed int32) (err error) {
 	buf := bytes.NewWriterSize(len(body) + 64)
 	p := &comet.Proto{
 		Ver:  1,
@@ -61,7 +61,7 @@ func (j *Job) broadcast(operation int32, body []byte, speed int32) (err error) {
 	p.WriteTo(buf)
 	p.Body = buf.Buffer()
 	p.Op = comet.OpRaw
-	comets := j.cometServers
+	comets := job.cometServers
 	speed /= int32(len(comets))
 	var args = comet.BroadcastReq{
 		ProtoOp: operation,
@@ -78,7 +78,7 @@ func (j *Job) broadcast(operation int32, body []byte, speed int32) (err error) {
 }
 
 // broadcastRoomRawBytes broadcast aggregation messages to room.
-func (j *Job) broadcastRoomRawBytes(roomID string, body []byte) (err error) {
+func (job *Job) broadcastRoomRawBytes(roomID string, body []byte) (err error) {
 	args := comet.BroadcastRoomReq{
 		RoomID: roomID,
 		Proto: &comet.Proto{
@@ -87,7 +87,7 @@ func (j *Job) broadcastRoomRawBytes(roomID string, body []byte) (err error) {
 			Body: body,
 		},
 	}
-	comets := j.cometServers
+	comets := job.cometServers
 	for serverID, c := range comets {
 		if err = c.BroadcastRoom(&args); err != nil {
 			log.Errorf("c.BroadcastRoom(%v) roomID:%s serverID:%s error(%v)", args, roomID, serverID, err)

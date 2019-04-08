@@ -140,13 +140,13 @@ func Load(path string) (cfg *Config, err error) {
 		return cfg, xerrors.New("config path is nil")
 	}
 
-	Conf = Default()
 	cfg = Default()
 
 	_, err = toml.DecodeFile(path, &cfg)
 	if err != nil {
 		return
 	}
+
 	err = mergo.Merge(&Conf, cfg, mergo.WithOverride)
 	if err != nil {
 		return Conf, err
