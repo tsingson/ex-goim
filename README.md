@@ -1,17 +1,31 @@
-# (Experimental) goim via nats 
+# (Experimental) goim via nats (试验结束)
 fork from [goim](https://github.com/Terry-Mao/goim)  and support nats  to replace kafka / zookeeper
 
 
+
+
 ## 0. chinese note 中文说明
+```
+*****************************************
+*                                       *
+*   更换 kafka 目标达成, 本项目暂时冻结      *
+*                                       *
+*****************************************
+```
+
 goim 是 非常成功的 IM 原型( 即时消息平台), 依赖项为 kafka ( 消息队列) + zookeeper ( 扩展/均衡 ) + bilibili/discovery( 服务发现) , 为简化 kafka / zk 的复杂部署参数配置与 jvm 依赖, 这里 fork 了 goim 并修改为 [nats](https://github.com/nats-io/gnatsd) + [liftbridge](https://github.com/liftbridge-io/liftbridge) , 由   [nats](https://github.com/nats-io/gnatsd) 实现 简化版的 kafka 队列功能 + zookeeper 的集群协调, 由  [liftbridge](https://github.com/liftbridge-io/liftbridge)  实现 nats 消息的持久化
 
 由于修改比较大, 暂时用新的 repo 来进行代码管理
 
-**重要警告**:
 
 
+<<<<<<< HEAD
 **这个 fork 是实验性质练手项目, 请不要用于生产环境!!**
+=======
+**重要警告**:
+>>>>>>> dev-3.0
 
+**这个 fork 是实验性质练手项目, 请不要用于生产环境!!  **
 
 **this repo personal Experimental , DO NOT use in production!!**
 
@@ -50,10 +64,8 @@ goim 是 非常成功的 IM 原型( 即时消息平台), 依赖项为 kafka ( �
 
   - [x] 消息队列修改为 [nats](https://github.com/nats-io/gnatsd) + [liftbridge](https://github.com/liftbridge-io/liftbridge)  注:  [liftbridge](https://github.com/liftbridge-io/liftbridge) 替代了 [nats-streaming-server](https://github.com/nats-io/nats-streaming-server) , 相关信息参见[liftbridge介绍文章](https://bravenewgeek.com/introducing-liftbridge-lightweight-fault-tolerant-message-streams/)
   - [x] 日志替换为 [uber-go/zap](https://github.com/uber-go/zap), 替换原一是因为 zap 快一点, 二是个人更为熟悉这个日志库 
-  - [x] 修改了三个应用程序的启动方式, 去除了所有启动参数, 改为读取指定的 toml 配置文件( 同时, 预留接口以久将来进行读取远程配置, 及配置参数动态加载) 
-  - [ ] 深入 comet / logic 模块尽量抽象接口, 以及作一些外部对接, 以及 技术实现的替换 ,  例如, websocket 更换为 [ws](https://github.com/gobwas/ws))
-  - [ ] comet 增加 gRPC 与 rpc 接口,  tcp /websocket 等扩展增加用户注册 /发送消息/ 变更聊天室 / 查看历史消息等
-  - [ ] 增加 gRPC 拦截 ( 支持 chatbot 等), 增加支持 消息历史存储/ relay 等接口
+  - [x] 修改了三个应用程序的启动方式, 去除了所有启动参数, 改为读取指定的 toml 配置文件 
+  - [x] 修改 Makefile 并增加依赖程序/库的编译 /启动 
 
 
 
