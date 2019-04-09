@@ -6,12 +6,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gogo/protobuf/proto"
 	"github.com/liftbridge-io/go-liftbridge"
 	"github.com/nats-io/go-nats"
 	log "github.com/tsingson/zaplogger"
 
-	pb "github.com/tsingson/ex-goim/api/logic/grpc"
 	"github.com/tsingson/ex-goim/goim-nats/logic/conf"
 	"github.com/tsingson/ex-goim/pkg/utils"
 )
@@ -43,61 +41,6 @@ func (d *Dao) Close() error {
 // Ping dao ping.
 func (d *Dao) Ping(c context.Context) error {
 	return d.pingRedis(c)
-}
-
-// PushMsg push a message to databus.
-func (d *Dao) PushMsg(c context.Context, op int32, server string, keys []string, msg []byte) (err error) {
-	pushMsg := &pb.PushMsg{
-		Type:      pb.PushMsg_PUSH,
-		Operation: op,
-		Server:    server,
-		Keys:      keys,
-		Msg:       msg,
-	}
-	b, err := proto.Marshal(pushMsg)
-	if err != nil {
-		return
-	}
-
-	_ = d.publishMessage(d.c.Nats.Channel, d.c.Nats.AckInbox, []byte(keys[0]), b)
-	return
-}
-
-// BroadcastRoomMsg push a message to databus.
-func (d *Dao) BroadcastRoomMsg(c context.Context, op int32, room string, msg []byte) (err error) {
-	pushMsg := &pb.PushMsg{
-		Type:      pb.PushMsg_ROOM,
-		Operation: op,
-		Room:      room,
-		Msg:       msg,
-	}
-	b, err := proto.Marshal(pushMsg)
-	if err != nil {
-		return
-	}
-
-	_ = d.publishMessage(d.c.Nats.Channel, d.c.Nats.AckInbox, []byte(room), b)
-	return
-}
-
-// BroadcastMsg push a message to databus.
-func (d *Dao) BroadcastMsg(c context.Context, op, speed int32, msg []byte) (err error) {
-	pushMsg := &pb.PushMsg{
-		Type:      pb.PushMsg_BROADCAST,
-		Operation: op,
-		Speed:     speed,
-		Msg:       msg,
-	}
-	b, err := proto.Marshal(pushMsg)
-	if err != nil {
-		return
-	}
-
-	key := strconv.FormatInt(int64(op), 10)
-
-	_ = d.publishMessage(d.c.Nats.Channel, d.c.Nats.AckInbox, []byte(key), b)
-
-	return
 }
 
 func newNatsClient(natsAddr, liftAddr, channel, channelID string) (*nats.Conn, error) {

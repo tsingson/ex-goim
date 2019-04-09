@@ -2,54 +2,15 @@ package dao
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"strconv"
 
 	"github.com/gomodule/redigo/redis"
 	log "github.com/tsingson/zaplogger"
-
-	"github.com/tsingson/ex-goim/goim-nats/logic/conf"
-	"github.com/tsingson/ex-goim/goim-nats/model"
-
 	"github.com/zhenjl/cityhash"
+
+	"github.com/tsingson/ex-goim/goim-nats/model"
 )
-
-const (
-	_prefixMidServer    = "mid_%d" // mid -> key:server
-	_prefixKeyServer    = "key_%s" // key -> server
-	_prefixServerOnline = "ol_%s"  // server -> online
-)
-
-func newRedis(c *conf.Redis) *redis.Pool {
-	// var c *conf.Redis
-	// c.Network = "tcp"
-	// c.Addr = "127.0.0.1:6379"
-	// c.Active = 60000
-	// c.Idle = 1024
-	// c.DialTimeout = 200 * time.Second
-	// c.ReadTimeout = 500 * time.Microsecond
-	// c.WriteTimeout = 500 * time.Microsecond
-	// c.IdleTimeout = 120 * time.Second
-	// c.Expire = 30 * time.Minute
-
-	return &redis.Pool{
-		// MaxIdle:   c.Idle,
-		// MaxActive: c.Active,
-		// IdleTimeout: time.Duration(c.IdleTimeout),
-		Dial: func() (redis.Conn, error) {
-			conn, err := redis.Dial("tcp", c.Addr) // redis.DialConnectTimeout(time.Duration(c.DialTimeout)),
-			// redis.DialReadTimeout(time.Duration(c.ReadTimeout)),
-			// redis.DialWriteTimeout(time.Duration(c.WriteTimeout)),
-			// redis.DialPassword(c.Auth),
-
-			if err != nil {
-				return nil, err
-			}
-			return conn, nil
-		},
-	}
-}
 
 func keyMidServer(mid int64) string {
 	return fmt.Sprintf(_prefixMidServer, mid)
@@ -63,19 +24,11 @@ func keyServerOnline(key string) string {
 	return fmt.Sprintf(_prefixServerOnline, key)
 }
 
-// pingRedis check redis connection.
-func (d *NatsDao) pingRedis(c context.Context) (err error) {
-	conn := d.redis.Get()
-	_, err = conn.Do("SET", "PING", "PONG")
-	conn.Close()
-	return
-}
-
 // AddMapping add a mapping.
 // Mapping:
 // 	mid -> key_server
 // 	key -> server
-func (d *NatsDao) AddMapping(c context.Context, mid int64, key, server string) (err error) {
+func (d *Dao) AddMapping(c context.Context, mid int64, key, server string) (err error) {
 	conn := d.redis.Get()
 	defer conn.Close()
 	var n = 2
@@ -112,7 +65,7 @@ func (d *NatsDao) AddMapping(c context.Context, mid int64, key, server string) (
 }
 
 // ExpireMapping expire a mapping.
-func (d *NatsDao) ExpireMapping(c context.Context, mid int64, key string) (has bool, err error) {
+func (d *Dao) ExpireMapping(c context.Context, mid int64, key string) (has bool, err error) {
 	conn := d.redis.Get()
 	defer conn.Close()
 	var n = 1
@@ -141,7 +94,7 @@ func (d *NatsDao) ExpireMapping(c context.Context, mid int64, key string) (has b
 }
 
 // DelMapping del a mapping.
-func (d *NatsDao) DelMapping(c context.Context, mid int64, key, server string) (has bool, err error) {
+func (d *Dao) DelMapping(c context.Context, mid int64, key, server string) (has bool, err error) {
 	conn := d.redis.Get()
 	defer conn.Close()
 	n := 1
@@ -170,7 +123,7 @@ func (d *NatsDao) DelMapping(c context.Context, mid int64, key, server string) (
 }
 
 // ServersByKeys get a server by key.
-func (d *NatsDao) ServersByKeys(c context.Context, keys []string) (res []string, err error) {
+func (d *Dao) ServersByKeys(c context.Context, keys []string) (res []string, err error) {
 	conn := d.redis.Get()
 	defer conn.Close()
 	var args []interface{}
@@ -184,7 +137,7 @@ func (d *NatsDao) ServersByKeys(c context.Context, keys []string) (res []string,
 }
 
 // KeysByMids get a key server by mid.
-func (d *NatsDao) KeysByMids(c context.Context, mids []int64) (ress map[string]string, olMids []int64, err error) {
+func (d *Dao) KeysByMids(c context.Context, mids []int64) (ress map[string]string, olMids []int64, err error) {
 	conn := d.redis.Get()
 	defer conn.Close()
 	ress = make(map[string]string)
@@ -217,7 +170,7 @@ func (d *NatsDao) KeysByMids(c context.Context, mids []int64) (ress map[string]s
 }
 
 // AddServerOnline add a server online.
-func (d *NatsDao) AddServerOnline(c context.Context, server string, online *model.Online) (err error) {
+func (d *Dao) AddServerOnline(c context.Context, server string, online *model.Online) (err error) {
 	roomsMap := map[uint32]map[string]int32{}
 	for room, count := range online.RoomCount {
 		rMap := roomsMap[cityhash.CityHash32([]byte(room), uint32(len(room)))%64]
@@ -237,33 +190,8 @@ func (d *NatsDao) AddServerOnline(c context.Context, server string, online *mode
 	return
 }
 
-func (d *NatsDao) addServerOnline(c context.Context, key string, hashKey string, online *model.Online) (err error) {
-	conn := d.redis.Get()
-	defer conn.Close()
-	b, _ := json.Marshal(online)
-	if err = conn.Send("HSET", key, hashKey, b); err != nil {
-		log.Errorf("conn.Send(SET %s,%s) error(%v)", key, hashKey, err)
-		return
-	}
-	if err = conn.Send("EXPIRE", key, d.redisExpire); err != nil {
-		log.Errorf("conn.Send(EXPIRE %s) error(%v)", key, err)
-		return
-	}
-	if err = conn.Flush(); err != nil {
-		log.Errorf("conn.Flush() error(%v)", err)
-		return
-	}
-	for i := 0; i < 2; i++ {
-		if _, err = conn.Receive(); err != nil {
-			log.Errorf("conn.Receive() error(%v)", err)
-			return
-		}
-	}
-	return
-}
-
 // ServerOnline get a server online.
-func (d *NatsDao) ServerOnline(c context.Context, server string) (online *model.Online, err error) {
+func (d *Dao) ServerOnline(c context.Context, server string) (online *model.Online, err error) {
 	online = &model.Online{RoomCount: map[string]int32{}}
 	key := keyServerOnline(server)
 	for i := 0; i < 64; i++ {
@@ -281,31 +209,7 @@ func (d *NatsDao) ServerOnline(c context.Context, server string) (online *model.
 	return
 }
 
-func (d *NatsDao) serverOnline(c context.Context, key string, hashKey string) (online *model.Online, err error) {
-	conn := d.redis.Get()
-	defer conn.Close()
-	b, err := redis.Bytes(conn.Do("HGET", key, hashKey))
-	if err != nil {
-		if err != redis.ErrNil {
-			log.Errorf("conn.Do(HGET %s %s) error(%v)", key, hashKey, err)
-		}
-		return
-	}
-	online = new(model.Online)
-	if err = json.Unmarshal(b, online); err != nil {
-		log.Errorf("serverOnline json.Unmarshal(%s) error(%v)", b, err)
-		return
-	}
-	return
-}
-
 // DelServerOnline del a server online.
-func (d *NatsDao) DelServerOnline(c context.Context, server string) (err error) {
-	conn := d.redis.Get()
-	defer conn.Close()
-	key := keyServerOnline(server)
-	if _, err = conn.Do("DEL", key); err != nil {
-		log.Errorf("conn.Do(DEL %s) error(%v)", key, err)
-	}
-	return
+func (d *Dao) DelServerOnline(c context.Context, server string) (err error) {
+	return d.delServerOnline(c, server)
 }
