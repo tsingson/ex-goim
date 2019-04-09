@@ -9,6 +9,7 @@ import (
 	"github.com/gomodule/redigo/redis"
 	log "github.com/tsingson/zaplogger"
 
+	"github.com/tsingson/ex-goim/goim-nats/logic/conf"
 	"github.com/tsingson/ex-goim/goim-nats/model"
 
 	"github.com/zhenjl/cityhash"
@@ -20,7 +21,7 @@ const (
 	_prefixServerOnline = "ol_%s"  // server -> online
 )
 
-func newRedis() *redis.Pool {
+func newRedis(c *conf.Redis) *redis.Pool {
 	// var c *conf.Redis
 	// c.Network = "tcp"
 	// c.Addr = "127.0.0.1:6379"
@@ -37,7 +38,7 @@ func newRedis() *redis.Pool {
 		// MaxActive: c.Active,
 		// IdleTimeout: time.Duration(c.IdleTimeout),
 		Dial: func() (redis.Conn, error) {
-			conn, err := redis.Dial("tcp", "127.0.0.1:6379") // redis.DialConnectTimeout(time.Duration(c.DialTimeout)),
+			conn, err := redis.Dial("tcp", c.Addr) // redis.DialConnectTimeout(time.Duration(c.DialTimeout)),
 			// redis.DialReadTimeout(time.Duration(c.ReadTimeout)),
 			// redis.DialWriteTimeout(time.Duration(c.WriteTimeout)),
 			// redis.DialPassword(c.Auth),

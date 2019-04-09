@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/gogo/protobuf/proto"
-	"github.com/gomodule/redigo/redis"
 	"github.com/liftbridge-io/go-liftbridge"
 	"github.com/nats-io/go-nats"
 	log "github.com/tsingson/zaplogger"
@@ -16,28 +15,6 @@ import (
 	"github.com/tsingson/ex-goim/goim-nats/logic/conf"
 	"github.com/tsingson/ex-goim/pkg/utils"
 )
-
-// NatsDao dao for nats
-type Dao struct {
-	c           *conf.LogicConfig
-	natsClient  *nats.Conn
-	liftClient  liftbridge.Client
-	redis       *redis.Pool
-	redisExpire int32
-}
-
-type NatsDao = Dao
-
-// LogicConfig configuration for nats / liftbridge queue
-type Config struct {
-	Channel   string
-	ChannelID string
-	Group     string
-	NatsAddr  string
-	LiftAddr  string
-}
-
-type NatsConfig = Config
 
 // New new a dao and return.
 func New(c *conf.LogicConfig) *Dao {
@@ -50,7 +27,7 @@ func New(c *conf.LogicConfig) *Dao {
 	d := &Dao{
 		c:          c,
 		natsClient: conn,
-		redis:      newRedis(),
+		redis:      newRedis(c.Redis),
 		// TODO: handler redis expire
 		redisExpire: int32(time.Duration(c.Redis.Expire) / time.Second),
 	}
@@ -82,7 +59,7 @@ func (d *Dao) PushMsg(c context.Context, op int32, server string, keys []string,
 		return
 	}
 
-	d.publishMessage(d.c.Nats.Channel, d.c.Nats.AckInbox, []byte(keys[0]), b)
+	_ = d.publishMessage(d.c.Nats.Channel, d.c.Nats.AckInbox, []byte(keys[0]), b)
 	return
 }
 
@@ -99,7 +76,7 @@ func (d *Dao) BroadcastRoomMsg(c context.Context, op int32, room string, msg []b
 		return
 	}
 
-	d.publishMessage(d.c.Nats.Channel, d.c.Nats.AckInbox, []byte(room), b)
+	_ = d.publishMessage(d.c.Nats.Channel, d.c.Nats.AckInbox, []byte(room), b)
 	return
 }
 
@@ -118,7 +95,7 @@ func (d *Dao) BroadcastMsg(c context.Context, op, speed int32, msg []byte) (err 
 
 	key := strconv.FormatInt(int64(op), 10)
 
-	d.publishMessage(d.c.Nats.Channel, d.c.Nats.AckInbox, []byte(key), b)
+	_ = d.publishMessage(d.c.Nats.Channel, d.c.Nats.AckInbox, []byte(key), b)
 
 	return
 }

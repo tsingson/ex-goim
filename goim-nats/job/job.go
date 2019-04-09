@@ -20,7 +20,7 @@ import (
 	log "github.com/tsingson/zaplogger"
 )
 
-// NatsJob is push job.
+// Job is push job.
 type Job struct {
 	c            *conf.JobConfig
 	consumer     liftbridge.Client
