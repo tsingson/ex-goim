@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"syscall"
 
+	"github.com/tsingson/discovery/lib/file"
 	"github.com/tsingson/discovery/naming"
 	resolver "github.com/tsingson/discovery/naming/grpc"
 	log "github.com/tsingson/zaplogger"
@@ -30,6 +31,8 @@ var cfg *conf.LogicConfig
 
 func main() {
 	cfg = conf.Default()
+
+	_= file.SaveToml(cfg, "/Users/qinshen/go/bin/logic-config.toml")
 
 	var dis *naming.Discovery
 	{

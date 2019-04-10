@@ -168,8 +168,8 @@ func LoadToml(path string) (cfg *Config, err error) {
 }
 
 // Default new a config with specified defualt value.
-func Default() *Config {
-	cfg := &Config{
+func Default() *LogicConfig {
+	cfg := &LogicConfig{
 		Env: &Env{
 			Region:    "china",
 			Zone:      "gd",
@@ -229,6 +229,10 @@ func Default() *Config {
 		},
 	}
 	cfg.Regions = make(map[string][]string, 0)
+	cfg.Regions["gz"] = []string{"广东","福建","广西","海南","湖南","四川","贵州","云南","西藏","香港","澳门"}
+
+
+
 
 	return cfg
 }

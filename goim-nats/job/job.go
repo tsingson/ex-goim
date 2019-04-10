@@ -10,7 +10,7 @@ import (
 	"github.com/liftbridge-io/go-liftbridge"
 	"github.com/tsingson/discovery/naming"
 
-	liftprpc "github.com/liftbridge-io/go-liftbridge/liftbridge-grpc"
+	lift "github.com/liftbridge-io/go-liftbridge/liftbridge-grpc"
 
 	"github.com/tsingson/ex-goim/goim-nats/job/conf"
 	"github.com/tsingson/ex-goim/goim-nats/job/grpc"
@@ -134,7 +134,7 @@ func newLiftClient(cfg *conf.JobConfig) (liftbridge.Client, error) {
 // Subscribe  get message
 func (job *Job) Subscribe(channel, channelID string) error {
 	ctx := context.Background()
-	if err := job.consumer.Subscribe(ctx, channel, channelID, func(msg *liftprpc.Message, err error) {
+	if err := job.consumer.Subscribe(ctx, channel, channelID, func(msg *lift.Message, err error) {
 		if err != nil {
 			return
 		}
@@ -154,12 +154,12 @@ func (job *Job) Consume() {
 	// process push message
 	pushMsg := new(pb.PushMsg)
 
-	if err := job.consumer.Subscribe(ctx, job.c.Nats.Channel, job.c.Nats.ChannelID, func(msg *liftprpc.Message, err error) {
+	if err := job.consumer.Subscribe(ctx, job.c.Nats.Channel, job.c.Nats.ChannelID, func(msg *lift.Message, err error) {
 		if err != nil {
 			return
 		}
-		log.Info(msg.Offset, "------------> ", string(msg.Value))
-
+		// log.Info(msg.Offset, "------------> ", string(msg.Value))
+fmt.Println(msg.Offset)
 		if err := proto.Unmarshal(msg.Value, pushMsg); err != nil {
 			log.Errorf("proto.Unmarshal(%v) error(%v)", msg, err)
 			return
@@ -181,7 +181,7 @@ func (job *Job) Consume() {
 // ConsumeCheck messages, watch signals
 func (job *Job) ConsumeCheck() {
 	ctx := context.Background()
-	if err := job.consumer.Subscribe(ctx, job.c.Nats.Channel, job.c.Nats.ChannelID, func(msg *liftprpc.Message, err error) {
+	if err := job.consumer.Subscribe(ctx, job.c.Nats.Channel, job.c.Nats.ChannelID, func(msg *lift.Message, err error) {
 		if err != nil {
 			return
 		}

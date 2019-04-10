@@ -1,19 +1,17 @@
 package main
 
 import (
-	"flag"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/tsingson/discovery/naming"
 
-	"github.com/tsingson/ex-goim/goim-nats/job"
-	"github.com/tsingson/ex-goim/goim-nats/job/conf"
-	"github.com/tsingson/ex-goim/pkg/utils"
-
 	resolver "github.com/tsingson/discovery/naming/grpc"
 	log "github.com/tsingson/zaplogger"
+
+	"github.com/tsingson/ex-goim/goim-nats/job"
+	"github.com/tsingson/ex-goim/goim-nats/job/conf"
 )
 
 var (
@@ -23,14 +21,15 @@ var (
 
 func main() {
 
-	path, _ := utils.GetCurrentExecDir()
-	confPath := path + "/job-config.toml"
-	flag.Parse()
-	var err error
-	cfg, err = conf.Load(confPath)
-	if err != nil {
-		panic(err)
-	}
+	// path, _ := utils.GetCurrentExecDir()
+	// confPath := path + "/job-config.toml"
+	// flag.Parse()
+	// var err error
+	// cfg, err = conf.Load(confPath)
+	// if err != nil {
+	// 	panic(err)
+	// }
+ cfg = conf.Default()
 
 	log.Infof("goim-job [version: %s env: %+v] start", ver, cfg.Env)
 	// gRPC register naming
