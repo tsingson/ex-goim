@@ -1,6 +1,6 @@
 package main
 
-// Start Command eg : ./push_rooms 0 20000 localhost:7172 40
+// Start Command eg : ./push_rooms 0 20000 localhost:3111 40
 // param 1 : the start of room number
 // param 2 : the end of room number
 // param 3 : comet server tcp address

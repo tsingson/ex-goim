@@ -10,7 +10,6 @@ import (
 
 	"github.com/tsingson/discovery/naming"
 	resolver "github.com/tsingson/discovery/naming/grpc"
-	"github.com/tsingson/fastx/utils"
 	log "github.com/tsingson/zaplogger"
 
 	"github.com/tsingson/ex-goim/goim-nats/logic"
@@ -30,15 +29,7 @@ const (
 var cfg *conf.LogicConfig
 
 func main() {
-	path, _ := utils.GetCurrentExecDir()
-	confPath := path + "/logic-config.toml"
-
-	var err error
-	cfg, err = conf.Load(confPath)
-
-	if err != nil {
-		panic(err)
-	}
+	cfg = conf.Default()
 
 	var dis *naming.Discovery
 	{

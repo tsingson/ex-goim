@@ -194,5 +194,9 @@ func Default() *Config {
 			RoutineAmount: 32,
 			RoutineSize:   1024,
 		},
+		Whitelist: &Whitelist{
+			Whitelist: []int64{123},
+			WhiteLog:  "/tmp/white_list.log",
+		},
 	}
 }

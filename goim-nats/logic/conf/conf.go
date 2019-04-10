@@ -187,13 +187,13 @@ func Default() *Config {
 		Nats: &Nats{
 			NatsAddr:  "nats://localhost:4222",
 			LiftAddr:  "localhost:9292", // address for lift-bridge
-			Channel:   "channel",
-			ChannelID: "channel-stream",
+			Channel:   "goim-push-topic",
+			ChannelID: "goim-push-topic-stream",
 			AckInbox:  "acks",
 		},
 		HTTPServer: &HTTPServer{
 			Network:      "tcp",
-			Addr:         "3111",
+			Addr:         "127.0.0.1:3111",
 			ReadTimeout:  xtime.Duration(time.Second),
 			WriteTimeout: xtime.Duration(time.Second),
 		},
@@ -203,7 +203,7 @@ func Default() *Config {
 		},
 		RPCServer: &RPCServer{
 			Network:           "tcp",
-			Addr:              "3119",
+			Addr:              "127.0.0.1:3119",
 			Timeout:           xtime.Duration(time.Second),
 			IdleTimeout:       xtime.Duration(time.Second * 60),
 			MaxLifeTime:       xtime.Duration(time.Hour * 2),

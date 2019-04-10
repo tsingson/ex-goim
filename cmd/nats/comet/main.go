@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"math/rand"
 	"net"
@@ -17,8 +16,6 @@ import (
 	"github.com/tsingson/discovery/naming"
 	discovery "github.com/tsingson/discovery/naming/grpc"
 	log "github.com/tsingson/zaplogger"
-
-	"github.com/tsingson/ex-goim/pkg/utils"
 
 	"github.com/tsingson/ex-goim/goim-nats/comet"
 	"github.com/tsingson/ex-goim/goim-nats/comet/conf"
@@ -38,23 +35,24 @@ var (
 
 func main() {
 
-	path, _ := utils.GetCurrentExecDir()
-	confPath := path + "/comet-config.toml"
+	// path, _ := utils.GetCurrentExecDir()
+	// confPath := path + "/comet-config.toml"
+	//
+	// flag.Parse()
+	// var err error
+	// cfg, err = conf.Load(confPath)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	//
+	// cfg.Env = &conf.Env{
+	// 	Region:    "china",
+	// 	Zone:      "gd",
+	// 	DeployEnv: "dev",
+	// 	Host:      "comet",
+	// }
 
-	flag.Parse()
-	var err error
-	cfg, err = conf.Load(confPath)
-	if err != nil {
-		panic(err)
-	}
-
-	cfg.Env = &conf.Env{
-		Region:    "china",
-		Zone:      "gd",
-		DeployEnv: "dev",
-		Host:      "comet",
-	}
-
+	cfg = conf.Default()
 	rand.Seed(time.Now().UTC().UnixNano())
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	println(cfg.Debug)

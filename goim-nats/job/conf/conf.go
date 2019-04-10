@@ -80,8 +80,8 @@ func Default() *Config {
 
 	return &Config{
 		Nats: &Nats{
-			Channel:   "channel",
-			ChannelID: "channel-stream",
+			Channel:   "goim-push-topic",
+			ChannelID: "goim-push-topic-stream",
 			Group:     "group",
 			LiftAddr:  "localhost:9292", // address for lift-bridge
 			NatsAddr:  "localhost:4222",
