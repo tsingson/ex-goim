@@ -29,7 +29,7 @@ func main() {
 	// if err != nil {
 	// 	panic(err)
 	// }
- cfg = conf.Default()
+	cfg = conf.Default()
 
 	log.Infof("goim-job [version: %s env: %+v] start", ver, cfg.Env)
 	// gRPC register naming

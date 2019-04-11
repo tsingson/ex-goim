@@ -159,7 +159,7 @@ func (job *Job) Consume() {
 			return
 		}
 		// log.Info(msg.Offset, "------------> ", string(msg.Value))
-fmt.Println(msg.Offset)
+		fmt.Println(msg.Offset)
 		if err := proto.Unmarshal(msg.Value, pushMsg); err != nil {
 			log.Errorf("proto.Unmarshal(%v) error(%v)", msg, err)
 			return

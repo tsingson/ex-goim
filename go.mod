@@ -9,8 +9,8 @@ require (
 	github.com/boltdb/bolt v1.3.1 // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/gin-gonic/gin v1.3.0
-	github.com/go-redis/redis v6.15.2+incompatible
 	github.com/gogo/protobuf v1.2.1
+	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/golang/protobuf v1.3.1
 	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/hako/durafmt v0.0.0-20180520121703-7b7ae1e72ead // indirect
@@ -27,16 +27,14 @@ require (
 	github.com/nats-io/gnatsd v1.4.1
 	github.com/nats-io/go-nats v1.7.2
 	github.com/nats-io/nkeys v0.0.2 // indirect
-	github.com/nats-io/nuid v1.0.0 // indirect
+	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/nsip/gommap v0.0.0-20181229045655-f7881c3a959f // indirect
 	github.com/pascaldekloe/goe v0.1.0 // indirect
 	github.com/pkg/errors v0.8.1
-	github.com/sanity-io/litter v1.1.0
 	github.com/sirupsen/logrus v1.4.1 // indirect
 	github.com/spf13/afero v1.2.2
 	github.com/stretchr/testify v1.3.0
 	github.com/tsingson/discovery v0.1.2
-	github.com/tsingson/fastx v0.3.1
 	github.com/tsingson/go-daemon v0.1.5
 	github.com/tsingson/uuid v3.2.0+incompatible
 	github.com/tsingson/zaplogger v0.2.2
@@ -45,6 +43,6 @@ require (
 	go.uber.org/zap v1.9.1
 	golang.org/x/net v0.0.0-20190328230028-74de082e2cca
 	golang.org/x/xerrors v0.0.0-20190315151331-d61658bd2e18
-	google.golang.org/grpc v1.19.1
+	google.golang.org/grpc v1.20.0
 	launchpad.net/gocheck v0.0.0-20140225173054-000000000087 // indirect
 )

@@ -229,10 +229,7 @@ func Default() *LogicConfig {
 		},
 	}
 	cfg.Regions = make(map[string][]string, 0)
-	cfg.Regions["gz"] = []string{"广东","福建","广西","海南","湖南","四川","贵州","云南","西藏","香港","澳门"}
-
-
-
+	cfg.Regions["gz"] = []string{"广东", "福建", "广西", "海南", "湖南", "四川", "贵州", "云南", "西藏", "香港", "澳门"}
 
 	return cfg
 }

@@ -32,7 +32,7 @@ var cfg *conf.LogicConfig
 func main() {
 	cfg = conf.Default()
 
-	_= file.SaveToml(cfg, "/Users/qinshen/go/bin/logic-config.toml")
+	_ = file.SaveToml(cfg, "/Users/qinshen/go/bin/logic-config.toml")
 
 	var dis *naming.Discovery
 	{

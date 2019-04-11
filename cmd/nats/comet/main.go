@@ -66,12 +66,15 @@ func main() {
 	if err := comet.InitWhitelist(cfg.Whitelist); err != nil {
 		panic(err)
 	}
+	// tcp
 	if err := comet.InitTCP(srv, cfg.TCP.Bind, runtime.NumCPU()); err != nil {
 		panic(err)
 	}
+	//
 	if err := comet.InitWebsocket(srv, cfg.Websocket.Bind, runtime.NumCPU()); err != nil {
 		panic(err)
 	}
+	//
 	if cfg.Websocket.TLSOpen {
 		if err := comet.InitWebsocketWithTLS(srv, cfg.Websocket.TLSBind, cfg.Websocket.CertFile, cfg.Websocket.PrivateFile, runtime.NumCPU()); err != nil {
 			panic(err)

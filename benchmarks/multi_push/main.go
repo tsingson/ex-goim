@@ -1,6 +1,6 @@
 package main
 
-// Start Command eg : ./multi_push 0 20000 localhost:7172 60
+// Start Command eg : ./multi_push 0 20000 127.0.0.1:3111 60
 
 import (
 	"bytes"
