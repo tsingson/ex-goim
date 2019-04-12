@@ -1,4 +1,4 @@
-package grpc
+package logicgrpc
 
 import (
 	"context"
@@ -16,7 +16,7 @@ import (
 )
 
 // New logic grpc server
-func New(c *conf.RPCServer, l *logic.NatsLogic) *grpc.Server {
+func New(c *conf.RPCServer, l *logic.LogicServer) *grpc.Server {
 	keepParams := grpc.KeepaliveParams(keepalive.ServerParameters{
 		MaxConnectionIdle:     time.Duration(c.IdleTimeout),
 		MaxConnectionAgeGrace: time.Duration(c.ForceCloseWait),

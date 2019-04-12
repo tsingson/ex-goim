@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	lg *NatsLogic
+	lg *Logic
 )
 
 func TestMain(m *testing.M) {

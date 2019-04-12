@@ -33,11 +33,11 @@ type Logic struct {
 	regions      map[string]string // province -> region
 }
 
-type NatsLogic = Logic
+type LogicServer = Logic
 
 // New init
 func New(c *conf.LogicConfig) (l *Logic) {
-	l = &NatsLogic{
+	l = &LogicServer{
 		c:            c,
 		dao:          dao.New(c),
 		dis:          naming.New(c.Discovery),

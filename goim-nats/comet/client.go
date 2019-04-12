@@ -47,3 +47,27 @@ func NewLogicClient(c *conf.RPCClient) logic.LogicClient {
 	}
 	return logic.NewLogicClient(conn)
 }
+
+// NewLogicClient  grpc client for logic
+func NewLogicClientRaw(c *conf.RPCClient) logic.LogicClient {
+	address := ":3119"
+	conn, err := grpc.Dial(address,
+		[]grpc.DialOption{
+			grpc.WithInsecure(),
+			grpc.WithInitialWindowSize(grpcInitialWindowSize),
+			grpc.WithInitialConnWindowSize(grpcInitialConnWindowSize),
+			grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(grpcMaxCallMsgSize)),
+			grpc.WithDefaultCallOptions(grpc.MaxCallSendMsgSize(grpcMaxSendMsgSize)),
+			grpc.WithBackoffMaxDelay(grpcBackoffMaxDelay),
+			grpc.WithKeepaliveParams(keepalive.ClientParameters{
+				Time:                grpcKeepAliveTime,
+				Timeout:             grpcKeepAliveTimeout,
+				PermitWithoutStream: true,
+			}),
+			grpc.WithBalancerName(roundrobin.Name),
+		}...)
+	if err != nil {
+		panic(err)
+	}
+	return logic.NewLogicClient(conn)
+}

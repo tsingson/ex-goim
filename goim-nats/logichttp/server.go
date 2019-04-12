@@ -1,4 +1,4 @@
-package http
+package logichttp
 
 import (
 	"github.com/tsingson/ex-goim/goim-nats/logic"
@@ -11,11 +11,11 @@ import (
 // Server is http server.
 type Server struct {
 	engine *gin.Engine
-	logic  *logic.NatsLogic
+	logic  *logic.LogicServer
 }
 
 // New new a http server.
-func New(c *conf.HTTPServer, l *logic.NatsLogic) *Server {
+func New(c *conf.HTTPServer, l *logic.LogicServer) *Server {
 	engine := gin.New()
 	engine.Use(loggerHandler, recoverHandler)
 	go func() {

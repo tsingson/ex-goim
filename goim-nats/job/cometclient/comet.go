@@ -1,4 +1,4 @@
-package grpc
+package cometclient
 
 import (
 	"context"
@@ -91,6 +91,39 @@ func NewComet(in *naming.Instance, c *conf.Comet) (*Comet, error) {
 	if grpcAddr == "" {
 		return nil, fmt.Errorf("invalid grpc address:%v", in.Addrs)
 	}
+	var err error
+	if cmt.client, err = newCometClient(grpcAddr); err != nil {
+		return nil, err
+	}
+	cmt.Ctx, cmt.Cancel = context.WithCancel(context.Background())
+
+	for i := 0; i < c.RoutineSize; i++ {
+		cmt.pushChan[i] = make(chan *comet.PushMsgReq, c.RoutineChan)
+		cmt.roomChan[i] = make(chan *comet.BroadcastRoomReq, c.RoutineChan)
+		go cmt.process(cmt.pushChan[i], cmt.roomChan[i], cmt.broadcastChan)
+	}
+	return cmt, nil
+}
+
+// NewComet new a comet.
+func NewCometRaw(in *naming.Instance, c *conf.Comet) (*Comet, error) {
+	cmt := &Comet{
+		serverID:      in.Hostname,
+		pushChan:      make([]chan *comet.PushMsgReq, c.RoutineSize),
+		roomChan:      make([]chan *comet.BroadcastRoomReq, c.RoutineSize),
+		broadcastChan: make(chan *comet.BroadcastReq, c.RoutineSize),
+		routineSize:   uint64(c.RoutineSize),
+	}
+	var grpcAddr string = ":3109"
+	// for _, addrs := range in.Addrs {
+	// 	u, err := url.Parse(addrs)
+	// 	if err == nil && u.Scheme == "grpc" {
+	// 		grpcAddr = u.Host
+	// 	}
+	// }
+	// if grpcAddr == "" {
+	// 	return nil, fmt.Errorf("invalid grpc address:%v", in.Addrs)
+	// }
 	var err error
 	if cmt.client, err = newCometClient(grpcAddr); err != nil {
 		return nil, err

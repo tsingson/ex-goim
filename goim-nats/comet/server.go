@@ -9,7 +9,6 @@ import (
 	"github.com/zhenjl/cityhash"
 
 	logic "github.com/tsingson/ex-goim/api/logic/grpc"
-
 	"github.com/tsingson/ex-goim/goim-nats/comet/conf"
 )
 
@@ -29,9 +28,12 @@ type Server struct {
 	rpcClient logic.LogicClient
 }
 
-// NewServer returns a new Server.
-func NewServer(cfg *conf.CometConfig) *Server {
-	s := &Server{
+// CometServer alias name of comet server
+type CometServer = Server
+
+// New returns a new Server.
+func New(cfg *conf.CometConfig) *CometServer {
+	s := &CometServer{
 		c:         cfg,
 		round:     NewRound(cfg),
 		rpcClient: NewLogicClient(cfg.RPCClient),

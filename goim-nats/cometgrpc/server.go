@@ -1,5 +1,5 @@
 // comet grpc server
-package grpc
+package cometgrpc
 
 import (
 	"context"
@@ -27,12 +27,14 @@ func New(c *conf.RPCServer, s *comet.Server) *grpc.Server {
 	})
 	srv := grpc.NewServer(keepParams)
 	pb.RegisterCometServer(srv, &Server{s})
-	lis, err := net.Listen(c.Network, c.Addr)
+	var ln net.Listener
+	var err error
+	ln, err = net.Listen(c.Network, c.Addr)
 	if err != nil {
 		panic(err)
 	}
 	go func() {
-		if err := srv.Serve(lis); err != nil {
+		if err := srv.Serve(ln); err != nil {
 			panic(err)
 		}
 	}()

@@ -12,8 +12,8 @@ import (
 
 	lift "github.com/liftbridge-io/go-liftbridge/liftbridge-grpc"
 
+	"github.com/tsingson/ex-goim/goim-nats/job/cometclient"
 	"github.com/tsingson/ex-goim/goim-nats/job/conf"
-	"github.com/tsingson/ex-goim/goim-nats/job/grpc"
 
 	pb "github.com/tsingson/ex-goim/api/logic/grpc"
 
@@ -24,11 +24,12 @@ import (
 type Job struct {
 	c            *conf.JobConfig
 	consumer     liftbridge.Client
-	cometServers map[string]*grpc.Comet
+	cometServers map[string]*cometclient.Comet
 	rooms        map[string]*Room
 	roomsMutex   sync.RWMutex
 }
 
+// NatsJob alias name of job
 type NatsJob = Job
 
 // var natsCfg *conf.Nats
@@ -101,13 +102,13 @@ func (job *Job) newAddress(insMap map[string][]*naming.Instance) error {
 	if len(ins) == 0 {
 		return fmt.Errorf("WatchComet instance is empty")
 	}
-	comets := map[string]*grpc.Comet{}
+	comets := map[string]*cometclient.Comet{}
 	for _, in := range ins {
 		if old, ok := job.cometServers[in.Hostname]; ok {
 			comets[in.Hostname] = old
 			continue
 		}
-		c, err := grpc.NewComet(in, job.c.Comet)
+		c, err := cometclient.NewComet(in, job.c.Comet)
 		if err != nil {
 			log.Errorf("WatchComet NewComet(%+v) error(%v)", in, err)
 			return err
@@ -158,8 +159,8 @@ func (job *Job) Consume() {
 		if err != nil {
 			return
 		}
-		// log.Info(msg.Offset, "------------> ", string(msg.Value))
-		fmt.Println(msg.Offset)
+		log.Info(msg.Offset, "------------> ", string(msg.Value))
+		// fmt.Println(msg.Offset)
 		if err := proto.Unmarshal(msg.Value, pushMsg); err != nil {
 			log.Errorf("proto.Unmarshal(%v) error(%v)", msg, err)
 			return
