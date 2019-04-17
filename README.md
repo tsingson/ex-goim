@@ -13,13 +13,26 @@ fork from [goim](https://github.com/Terry-Mao/goim)  and support nats  to replac
 *****************************************
 ```
 
+
+
+--------------
+ 请转到  [github.com/tsingson/goim](https://github.com/tsingson/goim) 获取最新更新
+ 
+ please check out  [github.com/tsingson/goim](https://github.com/tsingson/goim) for new update 
+
+------------
+
+
+
+
+
 goim 是 非常成功的 IM 原型( 即时消息平台), 依赖项为 kafka ( 消息队列) + zookeeper ( 扩展/均衡 ) + bilibili/discovery( 服务发现) , 为简化 kafka / zk 的复杂部署参数配置与 jvm 依赖, 这里 fork 了 goim 并修改为 [nats](https://github.com/nats-io/gnatsd) + [liftbridge](https://github.com/liftbridge-io/liftbridge) , 由   [nats](https://github.com/nats-io/gnatsd) 实现 简化版的 kafka 队列功能 + zookeeper 的集群协调, 由  [liftbridge](https://github.com/liftbridge-io/liftbridge)  实现 nats 消息的持久化
 
 由于修改比较大, 暂时用新的 repo 来进行代码管理
 
 
 
-**重要警告**: 
+**重要警告**:
 
 **这个 fork 是实验性质练手项目, 请不要用于生产环境!!  **
 
@@ -60,8 +73,10 @@ goim 是 非常成功的 IM 原型( 即时消息平台), 依赖项为 kafka ( �
 
   - [x] 消息队列修改为 [nats](https://github.com/nats-io/gnatsd) + [liftbridge](https://github.com/liftbridge-io/liftbridge)  注:  [liftbridge](https://github.com/liftbridge-io/liftbridge) 替代了 [nats-streaming-server](https://github.com/nats-io/nats-streaming-server) , 相关信息参见[liftbridge介绍文章](https://bravenewgeek.com/introducing-liftbridge-lightweight-fault-tolerant-message-streams/)
   - [x] 日志替换为 [uber-go/zap](https://github.com/uber-go/zap), 替换原一是因为 zap 快一点, 二是个人更为熟悉这个日志库 
-  - [x] 修改了三个应用程序的启动方式, 去除了所有启动参数, 改为读取指定的 toml 配置文件 
-  - [x] 修改 Makefile 并增加依赖程序/库的编译 /启动 
+  - [x] 修改了三个应用程序的启动方式, 去除了所有启动参数, 改为读取指定的 toml 配置文件( 同时, 预留接口以久将来进行读取远程配置, 及配置参数动态加载) 
+  - [ ] 深入 comet / logic 模块尽量抽象接口, 以及作一些外部对接, 以及 技术实现的替换 ,  例如, websocket 更换为 [ws](https://github.com/gobwas/ws))
+  - [ ] comet 增加 gRPC 与 rpc 接口,  tcp /websocket 等扩展增加用户注册 /发送消息/ 变更聊天室 / 查看历史消息等
+  - [ ] 增加 gRPC 拦截 ( 支持 chatbot 等), 增加支持 消息历史存储/ relay 等接口
 
 
 
@@ -94,6 +109,36 @@ goim 是 非常成功的 IM 原型( 即时消息平台), 依赖项为 kafka ( �
 
 ###  4. goim guide 安装/编译/使用指南(WIP)
 参见 [/goim-usage-cn.md](goim-usage-cn.md) ( chinese )
+
+
+
+# Change Plan 变更计划
+
+有几位朋友私信沟通闲聊, 想要一个同时支持 kafka / nats , 以便能 merge 回这里的主线, 我 fork 了一个 repo 来尝试实现这个想法, 这里 https://github.com/tsingson/goim, 在将来几天内处理完成
+
+计划变更如下:
+  - [ ] 在 internal/logic/conf 与 internal/job/conf 中增加 nats 的连接配置项, 与 选择 kafka ( 默认) 或 nats 的开关配置项
+  - [ ] 把 internal/logic/dao 抽象为 interface , 同时支持 kafka / nats ( 仅是 nats )
+  - [ ] 把 internal/job 中 func (j *Job) Consume() 函数拆分为  func (j *Job) Consume() 支持 kafka / func (j *Job) ConsumeNats()  支持 nats
+
+除以上变更外, 所有代码尽量保持不变
+
+以上, 祝愉快.
+
+----------------
+
+Some friends ask to [https://github.com/Terry-Mao/goim](https://github.com/Terry-Mao/goim) support the kafka / nats. 
+I forked a repo to try to implement this idea, here https://github.com/tsingson/goim, Completed in the next few days
+
+The plan changes are:
+
+   - [ ] Add nats connection configuration in internal/logic/conf and internal/job/conf, and switch configuration for kafka (default) or nats
+   - [ ] Abstract internal/logic/dao as interface to support kafka / nats (only nats, no liftbridge )
+   - [ ] Split the func (j *Job) Consume() function in internal/job into func (j *Job) Consume() Support kafka ( default) / func (j *Job) ConsumeNats() Support nats
+
+it's all.
+
+ps, wish you happiness.
 
 
 
