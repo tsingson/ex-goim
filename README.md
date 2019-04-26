@@ -74,9 +74,6 @@ goim 是 非常成功的 IM 原型( 即时消息平台), 依赖项为 kafka ( �
   - [x] 消息队列修改为 [nats](https://github.com/nats-io/gnatsd) + [liftbridge](https://github.com/liftbridge-io/liftbridge)  注:  [liftbridge](https://github.com/liftbridge-io/liftbridge) 替代了 [nats-streaming-server](https://github.com/nats-io/nats-streaming-server) , 相关信息参见[liftbridge介绍文章](https://bravenewgeek.com/introducing-liftbridge-lightweight-fault-tolerant-message-streams/)
   - [x] 日志替换为 [uber-go/zap](https://github.com/uber-go/zap), 替换原一是因为 zap 快一点, 二是个人更为熟悉这个日志库 
   - [x] 修改了三个应用程序的启动方式, 去除了所有启动参数, 改为读取指定的 toml 配置文件( 同时, 预留接口以久将来进行读取远程配置, 及配置参数动态加载) 
-  - [ ] 深入 comet / logic 模块尽量抽象接口, 以及作一些外部对接, 以及 技术实现的替换 ,  例如, websocket 更换为 [ws](https://github.com/gobwas/ws))
-  - [ ] comet 增加 gRPC 与 rpc 接口,  tcp /websocket 等扩展增加用户注册 /发送消息/ 变更聊天室 / 查看历史消息等
-  - [ ] 增加 gRPC 拦截 ( 支持 chatbot 等), 增加支持 消息历史存储/ relay 等接口
 
 
 
@@ -117,9 +114,9 @@ goim 是 非常成功的 IM 原型( 即时消息平台), 依赖项为 kafka ( �
 有几位朋友私信沟通闲聊, 想要一个同时支持 kafka / nats , 以便能 merge 回这里的主线, 我 fork 了一个 repo 来尝试实现这个想法, 这里 https://github.com/tsingson/goim, 在将来几天内处理完成
 
 计划变更如下:
-  - [ ] 在 internal/logic/conf 与 internal/job/conf 中增加 nats 的连接配置项, 与 选择 kafka ( 默认) 或 nats 的开关配置项
-  - [ ] 把 internal/logic/dao 抽象为 interface , 同时支持 kafka / nats ( 仅是 nats )
-  - [ ] 把 internal/job 中 func (j *Job) Consume() 函数拆分为  func (j *Job) Consume() 支持 kafka / func (j *Job) ConsumeNats()  支持 nats
+  - [x] 在 internal/logic/conf 与 internal/job/conf 中增加 nats 的连接配置项, 与 选择 kafka ( 默认) 或 nats 的开关配置项
+  - [x] 把 internal/logic/dao 抽象为 interface , 同时支持 kafka / nats ( 仅是 nats )
+  - [x] 把 internal/job 中 func (j *Job) Consume() 函数拆分为  func (j *Job) Consume() 支持 kafka / func (j *Job) ConsumeNats()  支持 nats
 
 除以上变更外, 所有代码尽量保持不变
 
